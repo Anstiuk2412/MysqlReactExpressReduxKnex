@@ -1,0 +1,11 @@
+{
+  "name": "wiseframework",
+  "version": "1.0.0",
+  "description": "*by Anastiuk*",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "author": "",
+  "license": "ISC"
+}
