@@ -13,9 +13,9 @@ async function getUsers(req, res) {
 // /users  POST
 async function createUser(req, res) {
     // get the database sent along
-    let users_data = await Authenticate(req);
+    // let users_data = await Authenticate(req);
     // create the user
-    let user = await new User.create(JSON.parse(users_data));
+    let user = await new User.create(req.user_id);
     // set the status code and content-type
     res.writeHead(200, {"Content-Type": "application/json"});
     //send the user
@@ -23,7 +23,7 @@ async function createUser(req, res) {
 }
 
 // /users/id   PUT
-async function updateUser(req, res, id) {
+const updateUser = async (req, res, id) => {
     try {
         // update user
         let message = await new User.update(id);

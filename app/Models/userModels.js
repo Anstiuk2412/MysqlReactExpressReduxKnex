@@ -28,6 +28,11 @@ function update(id) {
     });
 }
 
+function removeUser(id) {
+    baseModel.useTable = 'users';
+    baseModel.remove(id)
+}
+
 function remove(id) {
     return new Promise((resolve, reject) => {
         // get the user by id

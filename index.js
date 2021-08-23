@@ -2,7 +2,12 @@ const http = require("http"); // Use Node.js http
 const {getUsers, createUser, updateUser, deleteUser} = require('./app/Http/Controllers/UserController')// Use userController
 const PORT = 3000;// Set port 3000
 
+import { addRoute } from 'lib/router.js';
+
 const server = http.createServer(async (req, res) => {
+
+    runMiddwares(req, res);
+    parseRoute(req, res);
 
     // Router /users   GET
     if (req.url === "/users" && req.method === "GET") {
@@ -34,6 +39,19 @@ const server = http.createServer(async (req, res) => {
         res.end(JSON.stringify({message: "Route not found"}));
     }
 });
+
+
+addMiddlware(req, (req) => {
+    req['user_id'] = req.body.user_id;
+});
+
+addMiddlware(req, accesLog);
+
+addRoute('GET', '/users', getUsers);
+
+handleError((message) => {
+    throw message;
+})
 
 //Start server
 server.listen(PORT, () => {
