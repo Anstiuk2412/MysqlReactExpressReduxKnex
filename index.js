@@ -1,57 +1,19 @@
 const http = require("http"); // Use Node.js http
-const {getUsers, createUser, updateUser, deleteUser} = require('./app/Http/Controllers/UserController')// Use userController
-const PORT = 3000;// Set port 3000
+const config = require("config");//Config file
+const {addRoute, routes, parseRoute} = require("./lib/Router/router")//Use Router
+const {getUsers, createUser, updateUser, deleteUser} = require('./app/Http/Controllers/UserController')
+// Use userController
+const PORT = config.get("PORT");// Set port 3000
 
-import { addRoute } from 'lib/router.js';
-
-const server = http.createServer(async (req, res) => {
-
-    runMiddwares(req, res);
-    parseRoute(req, res);
-
-    // Router /users   GET
-    if (req.url === "/users" && req.method === "GET") {
-        await getUsers(req, res)
-    }
-
-    // Router /users/  POST
-    else if (req.url === "/users" && req.method === "POST") {
-        await createUser(req, res)
-    }
-
-    // Router /user/:id PUT
-    else if (req.url.match(/\/users\/([0-9]+)/) && req.method === "PUT") {
-        // get the id from url
-        const id = req.url.split("/")[2];
-        await updateUser(req, res, id)
-    }
-
-    // Router /users/:id   DELETE
-    else if (req.url.match(/\/users\/([0-9]+)/) && req.method === "DELETE") {
-        // get the id from url
-        const id = req.url.split("/")[2];
-        await  deleteUser(req,res, id)
-    }
-
-    // Error route
-    else {
-        res.writeHead(404, {"Content-Type": "application/json"});
-        res.end(JSON.stringify({message: "Route not found"}));
-    }
+const server = http.createServer(async (req, res) => { //Create Server
+    await parseRoute(req, res, routes);//Start  routing
 });
 
+addRoute("GET", "/users", getUsers)//Router Get
+addRoute("POST", "/users", createUser)//Router Post
+addRoute("PUT", /\/users\/([0-9a-z]+)/, updateUser)//Router PUT
+addRoute("DELETE", /\/users\/([0-9a-z]+)/, deleteUser)//Router Delete
 
-addMiddlware(req, (req) => {
-    req['user_id'] = req.body.user_id;
-});
-
-addMiddlware(req, accesLog);
-
-addRoute('GET', '/users', getUsers);
-
-handleError((message) => {
-    throw message;
-})
 
 //Start server
 server.listen(PORT, () => {

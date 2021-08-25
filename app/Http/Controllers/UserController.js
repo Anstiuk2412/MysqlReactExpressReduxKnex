@@ -1,5 +1,5 @@
 const User = require('../../Models/userModels')
-const {Authenticate} = require("../Middleware/Authenticate");
+const {Authenticate} = require("../../../lib/Helpers/Authenticate");
 
 // /users   GET
 async function getUsers(req, res) {

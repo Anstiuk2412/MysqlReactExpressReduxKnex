@@ -1,0 +1,3 @@
+BaseModel = function () {
+
+}
