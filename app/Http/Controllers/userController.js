@@ -1,8 +1,8 @@
-const User = require('../../Models/userModels')
-const {Authenticate} = require("../../../lib/Helpers/Authenticate");
+import * as User from '../../Models/userModels.js'
+import {Authenticate} from "../../../lib/helpers/Authenticate.js";
 
 // /users   GET
-async function getUsers(req, res) {
+export async function getUsers(req, res) {
     const users = await new User.findAll();
     // set the status code, and content-type
     res.writeHead(200, {"Content-Type": "application/json"});
@@ -11,11 +11,11 @@ async function getUsers(req, res) {
 }
 
 // /users  POST
-async function createUser(req, res) {
-    // get the database sent along
-    // let users_data = await Authenticate(req);
+export async function createUser(req, res) {
     // create the user
-    let user = await new User.create(req.user_id);
+    let users_data = await Authenticate(req);
+    // create the user
+    let user = await new User.create(JSON.parse(users_data));
     // set the status code and content-type
     res.writeHead(200, {"Content-Type": "application/json"});
     //send the user
@@ -23,7 +23,7 @@ async function createUser(req, res) {
 }
 
 // /users/id   PUT
-const updateUser = async (req, res, id) => {
+export const updateUser = async (req, res, id) => {
     try {
         // update user
         let message = await new User.update(id);
@@ -40,7 +40,7 @@ const updateUser = async (req, res, id) => {
 }
 
 // /users/id   Delete
-async function deleteUser(req, res, id) {
+export async function deleteUser(req, res, id) {
     try {
         // delete user
         let message = await new User.remove(id);
@@ -54,11 +54,4 @@ async function deleteUser(req, res, id) {
         // send the error
         res.end(JSON.stringify({message: error}));
     }
-}
-
-module.exports = {
-    getUsers,
-    createUser,
-    updateUser,
-    deleteUser
 }
