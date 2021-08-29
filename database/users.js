@@ -1,5 +1,5 @@
 //Abstract Database Users
-const users = [
+export const data = [
     {
         id: 1,
         name: "Daniil"
@@ -13,4 +13,3 @@ const users = [
         name: "Svetlana"
     },
 ];
-module.exports = users;

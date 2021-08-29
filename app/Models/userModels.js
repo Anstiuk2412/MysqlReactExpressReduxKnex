@@ -1,11 +1,13 @@
-const data = require("../../database/users");// Use Data about users
+import {data} from "../../database/users.js";
+import * as baseModel from "./baseModel.js";
 
-function findAll() {
+
+export function findAll() {
     // return all users
     return new Promise((resolve) => resolve(data));
 }
 
-function create(user) {
+export function create(user) {
     return new Promise((resolve) => {
         let newUser = {
             ...user
@@ -15,40 +17,18 @@ function create(user) {
     });
 }
 
-function update(id) {
+export function update(id) {
+    //update user by id
     return new Promise((resolve, reject) => {
-        // get the user by id.
-        let user = data.find((user) => user.id === parseInt(id));
-        // if no find user, return an error
-        if (!user) {
-            reject(`No user with id ${id} found`);
-        }
-        // return the updated user
-        resolve(user);
+        let user = baseModel.useTable(id)
+        baseModel.update(user, id, resolve, reject)
     });
 }
 
-function removeUser(id) {
-    baseModel.useTable = 'users';
-    baseModel.remove(id)
-}
-
-function remove(id) {
+export function remove(id) {
+    //remove user by id
     return new Promise((resolve, reject) => {
-        // get the user by id
-        let user = data.find((user) => user.id === parseInt(id));
-        // if no find user, return an error
-        if (!user) {
-            reject(`No user with id ${id} found`);
-        }
-        // else, return a success message
-        resolve(`User deleted successfully`);
+        let user = baseModel.useTable(id)
+        baseModel.remove(user, id, resolve, reject)
     });
-}
-
-module.exports = {
-    findAll,
-    create,
-    update,
-    remove,
 }

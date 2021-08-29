@@ -1,21 +1,25 @@
-const http = require("http"); // Use Node.js http
-const config = require("config");//Config file
-const {addRoute, routes, parseRoute} = require("./lib/Router/router")//Use Router
-const {getUsers, createUser, updateUser, deleteUser} = require('./app/Http/Controllers/UserController')
-// Use userController
-const PORT = config.get("PORT");// Set port 3000
+import server from './lib/server/server.js';//add server
+import config from 'config';//add config
+import {createUser, deleteUser, getUsers, updateUser} from "./app/Http/Controllers/userController.js";
+import {Authenticate} from "./lib/helpers/authenticate.js";
 
-const server = http.createServer(async (req, res) => { //Create Server
-    await parseRoute(req, res, routes);//Start  routing
+export const PORT = config.get("PORT");
+const app = server;
+
+app.createServer();//create server
+
+/*Routers*/
+app.get('/users', getUsers);
+app.post('/users', createUser);
+app.delete(/\/users\/([0-9a-z]+)/, deleteUser);
+app.put(/\/users\/([0-9a-z]+)/, updateUser);
+app.addMiddlware(Authenticate)
+
+app.errorHandler((error) => {
+    console.log(error)
 });
 
-addRoute("GET", "/users", getUsers)//Router Get
-addRoute("POST", "/users", createUser)//Router Post
-addRoute("PUT", /\/users\/([0-9a-z]+)/, updateUser)//Router PUT
-addRoute("DELETE", /\/users\/([0-9a-z]+)/, deleteUser)//Router Delete
-
-
-//Start server
-server.listen(PORT, () => {
-    console.log(`server started on port: ${PORT}`);
+/*Listen port*/
+app.listen(PORT, () => {
+    console.log("Server start")
 });

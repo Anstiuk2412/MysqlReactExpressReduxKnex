@@ -1,5 +1,5 @@
 import * as User from '../../Models/userModels.js'
-import {Authenticate} from "../../../lib/helpers/Authenticate.js";
+import {Authenticate} from "../../../lib/helpers/authenticate.js";
 
 // /users   GET
 export async function getUsers(req, res) {
@@ -30,7 +30,7 @@ export const updateUser = async (req, res, id) => {
         // set the status code and content-type
         res.writeHead(200, {"Content-Type": "application/json"});
         // send the message
-        res.end(JSON.stringify(message));
+        res.end(JSON.stringify({message}));
     } catch (error) {
         // set the status code and content type
         res.writeHead(404, {"Content-Type": "application/json"});
