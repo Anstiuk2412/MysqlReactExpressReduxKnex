@@ -2,6 +2,7 @@ import server from './lib/server/server.js';//add server
 import config from 'config';//add config
 import {createUser, deleteUser, getUsers, updateUser} from "./app/Http/Controllers/userController.js";
 import {accessMiddleware} from "./lib/middleware/accessMiddleware.js";
+import {addMiddlware} from "./lib/middleware/middleware.js";
 
 export const PORT = config.get("PORT");
 const app = server;
@@ -15,10 +16,11 @@ app.delete(/\/users\/([0-9a-z]+)/, deleteUser);
 app.put(/\/users\/([0-9a-z]+)/, updateUser);
 
 /*New middleware*/
-app.addMiddlware(accessMiddleware)
+addMiddlware(accessMiddleware)
 
 /*ErrorHandler*/
 app.errorHandler((error) => {
+    let err = new Error(error);
     console.log(error)
 });
 
