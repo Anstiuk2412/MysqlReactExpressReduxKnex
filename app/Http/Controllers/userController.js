@@ -15,7 +15,8 @@ export async function createUser(req, res) {
     // create the user
     let users_data = await Authenticate(req);
     // create the user
-    let user = await new User.create(JSON.parse(users_data));
+    let user = await new User.create(JSON.parse(users_data));// add validation
+    console.log(user)
     // set the status code and content-type
     res.writeHead(200, {"Content-Type": "application/json"});
     //send the user
@@ -26,7 +27,7 @@ export async function createUser(req, res) {
 export const updateUser = async (req, res, id) => {
     try {
         // update user
-        let message = await new User.update(id);
+        let message = await new User.update(id);//add validation
         // set the status code and content-type
         res.writeHead(200, {"Content-Type": "application/json"});
         // send the message

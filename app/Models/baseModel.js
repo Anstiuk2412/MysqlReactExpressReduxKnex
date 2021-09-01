@@ -8,18 +8,21 @@ export function useTable(id) {
 }
 
 export function remove(user, id, resolve, reject) {
-    //remuve by id
+    //remove by id
     if (!user) {
         resolve(`No user with id ${id} found`);
     }
     reject(`User deleted successfully`);
 }
 
-export function update(user, id, resolve, reject) {
+export function update(id, resolve, reject) {
     //update by id
+    let user = data.find((user) => user.id === parseInt(id));
+    // if no find user, return an error
     if (!user) {
-        errorHandler(`No user with id ${id} found`)
-        resolve(`No user with id ${id} found`);
+        reject(`No user with id ${id} found`);
     }
-    reject(`User update successfully`);
+    // return the updated user
+    resolve(user);
+
 }

@@ -3,6 +3,7 @@ import config from 'config';//add config
 import {createUser, deleteUser, getUsers, updateUser} from "./app/Http/Controllers/userController.js";
 import {accessMiddleware} from "./lib/middleware/accessMiddleware.js";
 import {addMiddlware} from "./lib/middleware/middleware.js";
+import {logging} from "./lib/logger/levelLogger.js";
 
 export const PORT = config.get("PORT");
 const app = server;
@@ -20,11 +21,8 @@ addMiddlware(accessMiddleware)
 
 /*ErrorHandler*/
 app.errorHandler((error) => {
-    let err = new Error(error);
-    console.log(error)
+    logging('ERROR',error)
 });
 
 /*Listen port*/
-app.listen(PORT, () => {
-    console.log("Server start")
-});
+app.listen(PORT, () => {});
