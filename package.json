@@ -1,0 +1,19 @@
+{
+  "name": "wiseframework",
+  "version": "1.0.0",
+  "description": "*by Anastiuk*",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^3.3.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
+  "type": "module"
+}
