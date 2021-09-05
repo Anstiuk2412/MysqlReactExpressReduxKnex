@@ -1,6 +1,4 @@
 import {data} from "../../database/users.js";
-import {errorHandler} from "../../lib/server/server.js";
-
 
 export function useTable(id) {
     //find user by id
