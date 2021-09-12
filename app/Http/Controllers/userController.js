@@ -1,6 +1,6 @@
 import * as User from '../../Models/userModels.js'
 import {validation} from "../../../lib/validation/validation.js";
-import {schema} from "../../../database/users.js";
+import {schema} from "../../shemas/shemas.js";
 
 // /users   GET
 export async function getUsers(req, res) {
@@ -60,7 +60,7 @@ export async function deleteUser(req, res, id) {
         res.writeHead(200, {"Content-Type": "application/json"});
         // send the message
         res.end(JSON.stringify({message}));
-    } catch (error) {"+380951002478"
+    } catch (error) {
         // set the status code and content-type
         res.writeHead(404, {"Content-Type": "application/json"});
         // send the error
