@@ -4,7 +4,7 @@ import {createUser, deleteUser, getUsers, updateUser} from "./app/Http/Controlle
 import {accessMiddleware} from "./lib/middleware/accessMiddleware.js";
 import {addMiddlware} from "./lib/middleware/middleware.js";
 import {logging} from "./lib/logger/levelLogger.js";
-import fs from 'fs';
+import {render} from "./lib/helpers/renderWebPage.js";
 
 export const PORT = config.get("PORT");
 const app = server;
@@ -18,8 +18,8 @@ app.delete(/\/users\/([0-9a-z]+)/, deleteUser);
 app.put(/\/users\/([0-9a-z]+)/, updateUser);
 
 /*Router of web page*/
-app.get('/', (req, res) =>{
-        fs.createReadStream('client/src/index.html').pipe(res);
+app.get('/', (req, res) => {
+        render(res, 'index.html')
     }
 )
 
