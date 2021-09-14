@@ -19,9 +19,12 @@ app.put(/\/users\/([0-9a-z]+)/, updateUser);
 
 /*Router of web page*/
 app.get('/', (req, res) => {
-        render(res, 'index.html')
-    }
-)
+    render(res, './client/build/index.html')
+});
+
+app.get('/main.js', (req, res) => {
+    render(res, './client/build/main.js')
+});
 
 /*New middleware*/
 addMiddlware(accessMiddleware)

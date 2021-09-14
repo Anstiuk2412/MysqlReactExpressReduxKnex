@@ -9,7 +9,7 @@ module.exports = {
         main: ['@babel/polyfill',path.resolve('client/src/index.js')],
     },
     output: {
-        filename: '[name].[contenthash].js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'client/build')
     },
     plugins: [
