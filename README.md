@@ -1,5 +1,4 @@
-# Simple Abstract Framework by Node JS
-
+# Simple Abstract API Framework and frontend reactive library
 *by Anastiuk*
 
 ### At first you need install correct version node.js
@@ -12,7 +11,7 @@ if use asdf
 Command for start server by:
 > node index
 
-### 2)In this abstract Framework I add CRUD operation
+### 2)In this abstract API Framework I add CRUD operation
 
 We have:
 - getUsers /users

@@ -1,8 +1,17 @@
 import h from 'virtual-dom/h.js';
-import { render } from "../lib/react.js";
+import {render} from "../lib/react.js";
 
-const Button = (props) => {
-    return h('button', {type: props.type}, [props.title]);
+let initialState = {title: 'Sing in'}
+
+const Button = (props, state) => {
+    return h('button', {
+            type: props.type,
+            title: props.title,
+            onclick: () => {
+                state.title = "test";
+            }
+        },
+        [initialState.title]);
 };
 
-export default render(Button);
+export default render(Button, initialState);
