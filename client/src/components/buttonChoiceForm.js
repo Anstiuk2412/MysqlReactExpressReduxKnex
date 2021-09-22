@@ -1,17 +1,15 @@
 import h from 'virtual-dom/h.js';
 import {render} from "../lib/react.js";
 
-const initialState = {title: 'Sing in'}
-
-const Button = (props, state) => {
+const buttonChoiceForm = (props, state) => {
     return h('button', {
             type: props.type,
             title: props.title,
             onclick: () => {
-                state.title = "test";
+                state.changeFormType=props.changeFormType()
             }
         },
-        [initialState.title]);
+        [props.title]);
 };
 
-export default render(Button, initialState);
+export default render(buttonChoiceForm);

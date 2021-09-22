@@ -33,7 +33,7 @@ const observeState = ({target, listener}) => {
     return observable;
 }
 
-export const updateDom = () => {
+const updateDom = () => {
     const newTree = app();
     const patches = diff(oldTree, newTree);
     oldTree = newTree;

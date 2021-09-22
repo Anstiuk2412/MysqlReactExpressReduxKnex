@@ -5,7 +5,7 @@ const Input = (props, _state) => {
     return h('input', {
         type: props.type,
         name: props.name,
-        style: props.style,
+        className: props.className,
         placeholder: props.placeholder
     });
 };
