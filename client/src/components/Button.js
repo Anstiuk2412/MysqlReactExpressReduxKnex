@@ -1,8 +1,6 @@
 import h from 'virtual-dom/h.js';
 import {render} from "../lib/react.js";
 
-const initialState = {title: 'Sing in'}
-
 const Button = (props, state) => {
     return h('button', {
             type: props.type,
@@ -11,7 +9,7 @@ const Button = (props, state) => {
                 state.title = "test";
             }
         },
-        [initialState.title]);
+        [props.title]);
 };
 
-export default render(Button, initialState);
+export default render(Button);
