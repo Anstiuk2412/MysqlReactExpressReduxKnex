@@ -9,14 +9,15 @@ const LoginForm = (props, state) => {
     return h('div', {}, [
         Div(
             Input({
+                type: 'text',
                 name: 'email',
                 placeholder: 'Email',
                 className: 'inputIndent'
             })),
         Div(
             Input({
-                name: 'password',
                 type: 'password',
+                name: 'password',
                 placeholder: 'Password',
                 className: 'inputIndentSecond'
             })),

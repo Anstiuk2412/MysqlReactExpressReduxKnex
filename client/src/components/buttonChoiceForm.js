@@ -12,4 +12,9 @@ const buttonChoiceForm = (props, state) => {
         [props.title]);
 };
 
+buttonChoiceForm.propsTypes={
+    type: (value) => typeof value === 'string',
+    title: (value) => typeof value === 'string'
+}
+
 export default render(buttonChoiceForm);

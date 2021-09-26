@@ -40,10 +40,21 @@ const updateDom = () => {
     rootNode = patch(rootNode, patches);
 }
 
+const observeProps = (props, component) => {
+    if (component.propsTypes) {
+        for (const [key, value] of Object.entries(component.propsTypes)) {
+            if(value(props+key)===false){
+                console.log(`${component.name} have not correct type at ${key}`)
+            }
+        }
+    }
+}
+
 export const render = (component, initialState = {}) => {
     const observableState = observeState({
         target: initialState,
         listener: updateDom
     })
-    return (props) => component(props, observableState)
+    return (props) => (observeProps(props, component),
+        component(props, observableState))
 }

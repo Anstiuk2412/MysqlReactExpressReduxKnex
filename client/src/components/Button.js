@@ -12,4 +12,9 @@ const Button = (props, state) => {
         [props.title]);
 };
 
+Button.propsTypes ={
+    type: (value) => typeof value === 'string',
+    title: (value) => typeof value === 'string',
+}
+
 export default render(Button);

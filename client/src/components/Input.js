@@ -10,4 +10,11 @@ const Input = (props, _state) => {
     });
 };
 
+Input.propsTypes ={
+    type: (value) => typeof value === 'string',
+    name: (value) => typeof value === 'string',
+    className: (value) => typeof value === 'string',
+    placeholder: (value) => typeof value === 'string'
+}
+
 export default render(Input);

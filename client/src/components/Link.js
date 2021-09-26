@@ -9,4 +9,9 @@ const Link = (props, _state) => {
         [props.title]);
 };
 
+Link.propsTypes ={
+    className: (value) => typeof value === 'string',
+    href: (value) => typeof value === 'string'
+}
+
 export default render(Link);

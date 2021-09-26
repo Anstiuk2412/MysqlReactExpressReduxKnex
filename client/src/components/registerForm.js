@@ -9,18 +9,21 @@ const registerForm = (props, state) => {
         Div(
             Input({
                 name: 'email',
+                type: 'text',
                 placeholder: 'Email',
                 className: 'inputIndent'
             })),
         Div(
             Input({
                 name: 'name',
+                type: 'text',
                 placeholder: 'Name',
                 className: 'inputIndentSecond'
             })),
         Div(
             Input({
                 name: 'Surname',
+                type: 'text',
                 placeholder: 'Surname',
                 className: 'inputIndentSecond'
             })),

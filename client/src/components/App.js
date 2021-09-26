@@ -17,7 +17,7 @@ export let renderLogIn = () => {
 }
 
 export default render((props, state) => {
-        const Form = (state.formType === 'login') ? loginForm() : registerForm()
+    const Form = (state.formType === 'login') ? loginForm() : registerForm()
         return h('div', {}, [
             buttonChoiceForm({
                 title: 'Log in',
