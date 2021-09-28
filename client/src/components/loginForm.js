@@ -1,38 +1,57 @@
 import h from 'virtual-dom/h.js';
 import {render} from "../lib/react.js";
-import Div from "./Div.js";
 import Input from "./Input.js";
 import Link from "./Link.js";
-import Button from "./Button.js";
+import ButtonAuth from "./ButtonAuth.js";
+
+const initialState = {email: '', password: ''}
+
+const handleInputChange = (state, key) => (e) => {
+    state[key] = e.target.value;
+    console.log(e)
+}
+
+const handleButtonAuth = (state, key, keySecond) =>()=>{
+    let authenticate = {
+        email: state[key],
+        password: state[keySecond],
+    }
+    console.log(authenticate)
+}
 
 const LoginForm = (props, state) => {
     return h('div', {}, [
-        Div(
+        h('div', {}, [
             Input({
                 type: 'text',
                 name: 'email',
                 placeholder: 'Email',
-                className: 'inputIndent'
-            })),
-        Div(
+                className: 'inputIndent',
+                value: state.email,
+                onchange: handleInputChange(state, 'email')
+            })]),
+        h('div', {}, [
             Input({
                 type: 'password',
                 name: 'password',
                 placeholder: 'Password',
-                className: 'inputIndentSecond'
-            })),
-        Div([
+                className: 'inputIndentSecond',
+                value: state.password,
+                onchange: handleInputChange(state, 'password')
+            })]),
+        h('div', {}, [
             Link({
                 className: 'indent',
                 title: 'Forgot Password',
                 href: 'google.com'
             }),
-            Button({
+            ButtonAuth({
                 title: 'Sing in',
-                type: 'submit'
+                type: 'submit',
+                onclick: handleButtonAuth(state, 'email', 'password')
             })
         ])
-    ]);
+    ])
 };
 
-export default render(LoginForm);
+export default render(LoginForm, initialState);

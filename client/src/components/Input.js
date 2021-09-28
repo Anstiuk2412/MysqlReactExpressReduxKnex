@@ -6,11 +6,13 @@ const Input = (props, _state) => {
         type: props.type,
         name: props.name,
         className: props.className,
-        placeholder: props.placeholder
+        placeholder: props.placeholder,
+        value: props.value,
+        onchange: (e) => props.onchange(e)
     });
 };
 
-Input.propsTypes ={
+Input.propsTypes = {
     type: (value) => typeof value === 'string',
     name: (value) => typeof value === 'string',
     className: (value) => typeof value === 'string',

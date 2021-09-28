@@ -41,13 +41,29 @@ const updateDom = () => {
 }
 
 const observeProps = (props, component) => {
-    if (component.propsTypes) {
-        for (const [key, value] of Object.entries(component.propsTypes)) {
-            if(value(props+key)===false){
-                console.log(`${component.name} have not correct type at ${key}`)
+    let observable;
+
+    const set = (target, name,value ) => {
+        if (component.propsTypes) {
+            for (const [key, value] of Object.entries(component.propsTypes)) {
+                if(value(props+key)===false){
+                    throw new Error(`${component.name} have not correct type at ${key}`)
+                }
             }
         }
-    }
+        target[name] = value;
+        return true;
+    };
+
+    const handler = {
+        set
+    };
+
+    observable = new Proxy({},handler);
+     for(const prop in props){
+         observable[prop]=props[prop]
+     }
+    return observable;
 }
 
 export const render = (component, initialState = {}) => {
@@ -55,6 +71,5 @@ export const render = (component, initialState = {}) => {
         target: initialState,
         listener: updateDom
     })
-    return (props) => (observeProps(props, component),
-        component(props, observableState))
+    return (props) => component(observeProps(props, component), observableState)
 }
