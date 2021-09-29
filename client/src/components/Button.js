@@ -16,7 +16,7 @@ const Button = (props, state) => {
 Button.propsTypes = {
     type: (value) => typeof value === 'string',
     title: (value) => typeof value === 'string',
-    onclick: (value) => typeof value === 'string',
+    onclick: (value) => typeof value === 'function',
 }
 
 export default render(Button);

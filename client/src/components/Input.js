@@ -17,6 +17,8 @@ Input.propsTypes = {
     name: (value) => typeof value === 'string',
     className: (value) => typeof value === 'string',
     placeholder: (value) => typeof value === 'string',
+    value: (value) => typeof value === 'string',
+    onchange: (value) => typeof value === 'function',
 }
 
 export default render(Input);

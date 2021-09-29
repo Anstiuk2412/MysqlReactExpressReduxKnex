@@ -44,14 +44,9 @@ const observeProps = (props, component) => {
     let observable;
 
     const set = (target, name,value) => {
-        /*if (component.propsTypes ) {
-            for (const [key, value] of Object.entries(component.propsTypes)) {
-                console.log(component.propsTypes)
-                if(value(props+key)===false){
-                    throw new Error(`${component.name} have not correct type at ${key}`)
-                }
-            }
-        }*/
+        if (!component.propsTypes[name](value)) {
+            throw new Error(`${component.name} have not correct type at ${value}`);
+        }
         target[name] = value;
         return true;
     };
