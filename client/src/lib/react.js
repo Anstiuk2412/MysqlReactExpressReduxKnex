@@ -43,14 +43,15 @@ const updateDom = () => {
 const observeProps = (props, component) => {
     let observable;
 
-    const set = (target, name,value ) => {
-        if (component.propsTypes) {
+    const set = (target, name,value) => {
+        /*if (component.propsTypes ) {
             for (const [key, value] of Object.entries(component.propsTypes)) {
+                console.log(component.propsTypes)
                 if(value(props+key)===false){
                     throw new Error(`${component.name} have not correct type at ${key}`)
                 }
             }
-        }
+        }*/
         target[name] = value;
         return true;
     };

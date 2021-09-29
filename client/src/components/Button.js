@@ -6,7 +6,7 @@ const Button = (props, state) => {
             type: props.type,
             title: props.title,
             onclick: () => {
-                state.changeFormType = props.changeFormType();
+                props.onclick();
             },
 
         },
@@ -16,6 +16,7 @@ const Button = (props, state) => {
 Button.propsTypes = {
     type: (value) => typeof value === 'string',
     title: (value) => typeof value === 'string',
+    onclick: (value) => typeof value === 'string',
 }
 
 export default render(Button);

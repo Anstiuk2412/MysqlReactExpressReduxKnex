@@ -2,21 +2,17 @@ import h from 'virtual-dom/h.js';
 import {render} from "../lib/react.js";
 import Input from "./Input.js";
 import Link from "./Link.js";
-import ButtonAuth from "./ButtonAuth.js";
+import Button from "./Button.js";
 
 const initialState = {email: '', password: ''}
 
-const handleInputChange = (state, key) => (e) => {
+export const handleInputChange = (state, key) => (e) => {
     state[key] = e.target.value;
     console.log(e)
 }
 
-const handleButtonAuth = (state, key, keySecond) =>()=>{
-    let authenticate = {
-        email: state[key],
-        password: state[keySecond],
-    }
-    console.log(authenticate)
+export const handleButtonAuth = (state) =>()=>{
+    console.log(state)
 }
 
 const LoginForm = (props, state) => {
@@ -45,10 +41,10 @@ const LoginForm = (props, state) => {
                 title: 'Forgot Password',
                 href: 'google.com'
             }),
-            ButtonAuth({
+            Button({
                 title: 'Sing in',
                 type: 'submit',
-                onclick: handleButtonAuth(state, 'email', 'password')
+                onclick: handleButtonAuth(state)
             })
         ])
     ])

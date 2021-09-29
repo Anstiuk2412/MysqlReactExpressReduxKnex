@@ -9,7 +9,7 @@ const Link = (props, _state) => {
         [props.title]);
 };
 
-Link.propsTypes ={
+Link.propsTypes = {
     className: (value) => typeof value === 'string',
     href: (value) => typeof value === 'string'
 }

@@ -2,7 +2,7 @@ import h from 'virtual-dom/h.js';
 import {render} from "../lib/react.js";
 import Input from "./Input.js";
 import Button from "./Button.js";
-import Link from "./Link.js";
+import {handleButtonAuth, handleInputChange} from "./loginForm.js";
 
 const registerForm = (props, state) => {
     return h('div', {}, [
@@ -10,7 +10,8 @@ const registerForm = (props, state) => {
             name: 'email',
             type: 'text',
             placeholder: 'Email',
-            className: 'inputIndent'
+            className: 'inputIndent',
+            onchange: handleInputChange(state, 'email')
         }),
         h('div', {}, [
             h('div', {}, [
@@ -18,27 +19,31 @@ const registerForm = (props, state) => {
                     name: 'name',
                     type: 'text',
                     placeholder: 'Name',
-                    className: 'inputIndentSecond'
+                    className: 'inputIndentSecond',
+                    onchange: handleInputChange(state, 'name')
                 }),
             ]),
             h('div', {}, [
                 Input({
-                    name: 'Surname',
+                    name: 'surname',
                     type: 'text',
                     placeholder: 'Surname',
-                    className: 'inputIndentSecond'
+                    className: 'inputIndentSecond',
+                    onchange: handleInputChange(state, 'surname')
                 })]),
             h('div', {}, [
                 Input({
                     name: 'password',
                     type: 'password',
                     placeholder: 'Password',
-                    className: 'inputIndentSecond'
+                    className: 'inputIndentSecond',
+                    onchange: handleInputChange(state, 'password')
                 })]),
             h('div', {}, [
                 Button({
                     title: 'Sing in',
-                    type: 'submit'
+                    type: 'submit',
+                    onclick: handleButtonAuth(state)
                 })
             ])
         ])
