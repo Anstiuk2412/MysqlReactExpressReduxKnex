@@ -40,10 +40,32 @@ const updateDom = () => {
     rootNode = patch(rootNode, patches);
 }
 
+const observeProps = (props, component) => {
+    let observable;
+
+    const set = (target, name,value) => {
+        if (!component.propsTypes[name](value)) {
+            throw new Error(`${component.name} have not correct type at ${value}`);
+        }
+        target[name] = value;
+        return true;
+    };
+
+    const handler = {
+        set
+    };
+
+    observable = new Proxy({},handler);
+     for(const prop in props){
+         observable[prop]=props[prop]
+     }
+    return observable;
+}
+
 export const render = (component, initialState = {}) => {
     const observableState = observeState({
         target: initialState,
         listener: updateDom
     })
-    return (props) => component(props, observableState)
+    return (props) => component(observeProps(props, component), observableState)
 }

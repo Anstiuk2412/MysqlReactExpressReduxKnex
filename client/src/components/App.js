@@ -2,32 +2,28 @@ import h from 'virtual-dom/h.js'
 import {render} from '../lib/react.js'
 import loginForm from "./loginForm.js";
 import registerForm from "./registerForm.js";
-import buttonChoiceForm from "./buttonChoiceForm.js";
+import Button from "./Button.js";
 
 const initialState = {
     formType: 'login'
 };
 
-export let renderRegister = () => {
-    initialState.formType = 'register'
-}
-
-export let renderLogIn = () => {
-    initialState.formType = 'login'
+const renderForm = (state, stateType) => () => {
+    state.formType = stateType
 }
 
 export default render((props, state) => {
         const Form = (state.formType === 'login') ? loginForm() : registerForm()
         return h('div', {}, [
-            buttonChoiceForm({
+            Button({
                 title: 'Log in',
                 type: 'submit',
-                changeFormType: renderLogIn
+                onclick: renderForm(state, 'login')
             }),
-            buttonChoiceForm({
+            Button({
                 title: 'Register',
                 type: 'submit',
-                changeFormType: renderRegister
+                onclick: renderForm(state, 'register')
             }), Form
         ])
     }, initialState
