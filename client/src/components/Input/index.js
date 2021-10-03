@@ -1,10 +1,9 @@
 import h from 'virtual-dom/h.js';
 import {render} from "lib/react.js";
 
-//Styles of Input component
 import './style.css'
 
-const Input = (props, _state) => {
+const Index = (props, _state) => {
     return h('input', {
         type: props.type,
         name: props.name,
@@ -15,7 +14,7 @@ const Input = (props, _state) => {
     });
 };
 
-Input.propsTypes = {
+Index.propsTypes = {
     type: (value) => typeof value === 'string',
     name: (value) => typeof value === 'string',
     className: (value) => typeof value === 'string',
@@ -24,4 +23,4 @@ Input.propsTypes = {
     onchange: (value) => typeof value === 'function',
 }
 
-export default render(Input);
+export default render(Index);

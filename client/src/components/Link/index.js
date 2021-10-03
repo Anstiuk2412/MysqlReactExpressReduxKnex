@@ -2,7 +2,7 @@ import h from 'virtual-dom/h.js';
 import {render} from "lib/react.js";
 import {typeOfProps} from "lib/propsTypeValidation.js";
 
-const Link = (props, _state) => {
+const Index = (props, _state) => {
     return h('a', {
             className: props.className,
             href: props.href
@@ -10,10 +10,10 @@ const Link = (props, _state) => {
         [props.title]);
 };
 
-Link.propsTypes = {
+Index.propsTypes = {
     className: typeOfProps('string'),
     href: typeOfProps('string'),
     title: typeOfProps('string'),
 }
 
-export default render(Link);
+export default render(Index);
