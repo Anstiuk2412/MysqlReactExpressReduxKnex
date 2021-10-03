@@ -1,5 +1,6 @@
 import h from 'virtual-dom/h.js';
-import {render} from "../lib/react.js";
+import {render} from "lib/react.js";
+import {typeOfProps} from "lib/propsTypeValidation.js";
 
 const Button = (props, state) => {
     return h('button', {
@@ -14,9 +15,9 @@ const Button = (props, state) => {
 };
 
 Button.propsTypes = {
-    type: (value) => typeof value === 'string',
-    title: (value) => typeof value === 'string',
-    onclick: (value) => typeof value === 'function',
+    type: typeOfProps('string'),
+    title: typeOfProps('string'),
+    onclick: typeOfProps('function'),
 }
 
 export default render(Button);

@@ -1,8 +1,8 @@
 import h from 'virtual-dom/h.js'
-import {render} from '../lib/react.js'
-import loginForm from "./loginForm.js";
-import registerForm from "./registerForm.js";
-import Button from "./Button.js";
+import {render} from './lib/react.js'
+import loginForm from "components/loginForm";
+import registerForm from "components/registerForm";
+import Button from "components/Button";
 
 const initialState = {
     formType: 'login'
