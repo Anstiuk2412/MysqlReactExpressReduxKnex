@@ -2,11 +2,11 @@ import h from 'virtual-dom/h.js';
 import {render} from "lib/react.js";
 import Input from "components/Input";
 import Button from "components/Button";
-import {handleButtonAuth, handleInputChange} from "components/loginForm";
+import {handleButtonAuth, handleInputChange} from "components/LoginForm";
 
 const initialState = {email: '', name: '', password: '', surname: ''};
 
-const index = (props, state) => {
+const RegisterForm = (props, state) => {
     return h('div', {}, [
         h('div', {}, [
             Input({
@@ -57,4 +57,4 @@ const index = (props, state) => {
     ])
 };
 
-export default render(index, initialState);
+export default render(RegisterForm, initialState);

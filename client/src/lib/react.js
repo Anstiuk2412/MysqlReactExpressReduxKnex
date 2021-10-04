@@ -40,10 +40,12 @@ const updateDom = () => {
     rootNode = patch(rootNode, patches);
 }
 
+//Observer pattern for observe propsTypes of component
 const observeProps = (props, component) => {
     let observable;
 
     const set = (target, name,value) => {
+        //validation of propsTypes
         if (!component.propsTypes[name](value)) {
             throw new Error(`${component.name} have not correct type at ${value}`);
         }
@@ -55,8 +57,10 @@ const observeProps = (props, component) => {
         set
     };
 
+//By Proxy object we can observe observable
     observable = new Proxy({},handler);
      for(const prop in props){
+         //we enter consistent values
          observable[prop]=props[prop]
      }
     return observable;

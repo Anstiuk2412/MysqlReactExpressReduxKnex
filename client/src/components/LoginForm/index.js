@@ -17,7 +17,7 @@ export const handleButtonAuth = (state) => () => {
     console.log(state)
 }
 
-const Index = (props, state) => {
+const LoginForm = (props, state) => {
     return h('div', {}, [
         h('div', {}, [
             Input({
@@ -53,4 +53,4 @@ const Index = (props, state) => {
     ])
 };
 
-export default render(Index, initialState);
+export default render(LoginForm, initialState);
