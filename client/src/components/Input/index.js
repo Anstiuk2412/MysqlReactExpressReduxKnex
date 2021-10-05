@@ -1,5 +1,8 @@
 import h from 'virtual-dom/h.js';
-import {render} from "../lib/react.js";
+import {render} from "lib/react.js";
+
+//Styles of Input component
+import './style.css'
 
 const Input = (props, _state) => {
     return h('input', {

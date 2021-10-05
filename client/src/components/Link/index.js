@@ -1,5 +1,6 @@
 import h from 'virtual-dom/h.js';
-import {render} from "../lib/react.js";
+import {render} from "lib/react.js";
+import {typeOfProps} from "lib/propsTypeValidation.js";
 
 const Link = (props, _state) => {
     return h('a', {
@@ -10,9 +11,9 @@ const Link = (props, _state) => {
 };
 
 Link.propsTypes = {
-    className: (value) => typeof value === 'string',
-    href: (value) => typeof value === 'string',
-    title: (value) => typeof value === 'string',
+    className: typeOfProps('string'),
+    href: typeOfProps('string'),
+    title: typeOfProps('string'),
 }
 
 export default render(Link);

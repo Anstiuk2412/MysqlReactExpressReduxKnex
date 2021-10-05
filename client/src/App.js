@@ -1,10 +1,11 @@
 import h from 'virtual-dom/h.js'
-import {render} from '../lib/react.js'
-import loginForm from "./loginForm.js";
-import registerForm from "./registerForm.js";
-import Button from "./Button.js";
+import {render} from './lib/react.js'
+import loginForm from "components/LoginForm";
+import registerForm from "components/RegisterForm";
+import Button from "components/Button";
 
-const initialState = {
+// variables of start state of Form
+const initialFormState = {
     formType: 'login'
 };
 
@@ -13,6 +14,7 @@ const renderForm = (state, stateType) => () => {
 }
 
 export default render((props, state) => {
+    //We create variable Form to assign it state
         const Form = (state.formType === 'login') ? loginForm() : registerForm()
         return h('div', {}, [
             Button({
@@ -26,5 +28,5 @@ export default render((props, state) => {
                 onclick: renderForm(state, 'register')
             }), Form
         ])
-    }, initialState
+    }, initialFormState
 );

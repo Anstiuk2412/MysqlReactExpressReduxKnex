@@ -1,17 +1,19 @@
 import h from 'virtual-dom/h.js';
-import {render} from "../lib/react.js";
-import Input from "./Input.js";
-import Link from "./Link.js";
-import Button from "./Button.js";
+import {render} from "lib/react.js";
+import Input from "components/Input/";
+import Link from "components/Link";
+import Button from "components/Button";
 
 const initialState = {email: '', password: ''}
 
-export const handleInputChange = (state, key) => (e) => {
-    state[key] = e.target.value;
-    console.log(e)
+export const handleInputChange = (state, key) => {
+    return (e) => {
+        state[key] = e.target.value;
+        console.log(e)
+    }
 }
 
-export const handleButtonAuth = (state) =>()=>{
+export const handleButtonAuth = (state) => () => {
     console.log(state)
 }
 
@@ -33,7 +35,8 @@ const LoginForm = (props, state) => {
                 placeholder: 'Password',
                 className: 'inputIndentSecond',
                 value: state.password,
-                onchange: handleInputChange(state, 'password')
+                onchange:(e)=>{state['password']= e.target.value;
+                console.log(e)}
             })]),
         h('div', {}, [
             Link({
