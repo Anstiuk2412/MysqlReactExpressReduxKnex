@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
-dotenv.config({path:__dirname+'/./../.env'});
+import * as path from 'path';
+dotenv.config({ path: path.resolve('./.env') });
 
 const config ={
     development: {
