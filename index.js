@@ -1,40 +1,22 @@
-import server from './lib/server/server.js';//add server
-import config from 'config';//add config
-import {createUser, deleteUser, getUsers, updateUser} from "./app/Http/Controllers/userController.js";
-import {accessMiddleware} from "./lib/middleware/accessMiddleware.js";
-import {addMiddlware} from "./lib/middleware/middleware.js";
-import {logging} from "./lib/logger/levelLogger.js";
-import {render} from "./lib/helpers/renderWebPage.js";
-import { findUserWhere } from './database/models/userModel.js';
+import express from 'express';
+import config from 'config';
+import path from 'path';
 
-export const PORT = config.get("PORT");
-const app = server;
+const PORT = config.get('PORT');
 
-app.createServer();//create server
+const app = express();
 
-/*Routers of api*/
-app.get('/users', getUsers);
-app.post('/users', createUser);
-app.delete(/\/users\/([0-9a-z]+)/, deleteUser);
-app.put(/\/users\/([0-9a-z]+)/, updateUser);
-
-/*Router of web page*/
+/* Router of web page */
 app.get('/', (req, res) => {
-    render(res, './client/build/index.html')
+  res.sendFile(path.resolve('./client/build/index.html'));
 });
 
 app.get('/main.js', (req, res) => {
-    render(res, './client/build/main.js')
+  res.sendFile(path.resolve('./client/build/main.js'));
 });
 
-/*New middleware*/
-addMiddlware(accessMiddleware)
-findUserWhere('name', 'Daniil')
-/*ErrorHandler*/
-app.errorHandler((error) => {
-    logging('ERROR', error)
-});
-
-/*Listen port*/
+/* Listen port */
 app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Server start at http://localhost:${PORT}`);
 });
