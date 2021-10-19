@@ -8,7 +8,7 @@
     "nodemon": "nodemon start",
     "webpack-dev": "webpack --mode development --watch",
     "webpack-build": "webpack --mode production",
-    "dev": "npm run webpack-dev & npm run nodemon & knex migrate:latest --knexfile database/knexfile.js --esm",
+    "dev": "npm run nodemon & knex migrate:latest --knexfile database/knexfile.js --esm",
     "migrate-latest": "knex migrate:latest --knexfile database/knexfile.js --esm",
     "migrate-up": "knex migrate:up --knexfile database/knexfile.js --esm",
     "migrate-down": "knex migrate:down --knexfile database/knexfile.js --esm",
@@ -32,6 +32,8 @@
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.6",
     "babel-loader": "^8.2.2",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.3.0",
     "dotenv": "^10.0.0",
@@ -44,14 +46,11 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "html-webpack-plugin": "^5.3.2",
     "husky": "^7.0.2",
     "lint-staged": "^11.2.3",
     "nodemon": "^2.0.12",
     "prettier": "2.4.1",
-    "style-loader": "^3.3.0",
-    "webpack": "^5.52.1",
-    "webpack-cli": "^4.8.0"
+    "style-loader": "^3.3.0"
   },
   "husky": {
     "hooks": {
