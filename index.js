@@ -5,6 +5,7 @@ import {accessMiddleware} from "./lib/middleware/accessMiddleware.js";
 import {addMiddlware} from "./lib/middleware/middleware.js";
 import {logging} from "./lib/logger/levelLogger.js";
 import {render} from "./lib/helpers/renderWebPage.js";
+import { findUserWhere } from './database/models/userModel.js';
 
 export const PORT = config.get("PORT");
 const app = server;
@@ -28,7 +29,7 @@ app.get('/main.js', (req, res) => {
 
 /*New middleware*/
 addMiddlware(accessMiddleware)
-
+findUserWhere('name', 'Daniil')
 /*ErrorHandler*/
 app.errorHandler((error) => {
     logging('ERROR', error)
