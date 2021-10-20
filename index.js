@@ -1,7 +1,7 @@
 import express from 'express';
 import config from 'config';
 import bodyParser from 'body-parser';
-import { login, register } from './lib/auth/auth.js';
+import { login, register } from './app/Http/Controllers/user.js';
 
 const PORT = config.get('PORT');
 
@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 /* Routers Auth */
 app.get('/user/login', (req, res) => {
-  login(req, res, '', 'users');
+  login(req, res);
 });
 app.post('/user/registration', (req, res) => {
   register(req, res);

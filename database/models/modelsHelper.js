@@ -1,7 +1,7 @@
 import knex from 'knex';
 import config from '../knexfile.js';
 
-export const Where = (select, table, query) => {
+export const where = (select, table, query) => {
   knex(config['development'])
     .select(select)
     .from(table)
@@ -12,11 +12,25 @@ export const Where = (select, table, query) => {
     });
 };
 
-export const Insert = (table, whereKey, whereValue, then) => {
+export const insert = (table, insertValue, res) => {
+  knex(config['development'])
+    .insert(insertValue)
+    .into(table)
+    .then(() => {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify('All Done!'));
+    })
+    .catch((err) => {
+      res.writeHead(401, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(err));
+    });
+};
+
+export const selectFirst = (table, insertValue, then) => {
   knex(config['development'])
     .select()
     .from(table)
-    .where({ [whereKey]: whereValue })
+    .where(insertValue)
     .first()
     .then(then);
 };
