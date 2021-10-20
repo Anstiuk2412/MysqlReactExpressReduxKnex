@@ -26,6 +26,7 @@
     "knex": "^0.95.11",
     "mysql2": "^2.3.0",
     "passport-jwt": "^4.0.0",
+    "validate.js": "^0.13.1",
     "virtual-dom": "^2.1.1"
   },
   "type": "module",
@@ -47,6 +48,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "express-validator": "^6.13.0",
     "husky": "^7.0.2",
     "lint-staged": "^11.2.3",
     "nodemon": "^2.0.12",
