@@ -9,12 +9,9 @@ const app = express();
 app.use(bodyParser.json());
 
 /* Routers Auth */
-app.get('/user/login', (req, res) => {
-  login(req, res);
-});
-app.post('/user/registration', (req, res) => {
-  register(req, res);
-});
+app.get('/user/login', login);
+
+app.post('/user/registration', register);
 
 /* Listen port */
 app.listen(PORT, () => {

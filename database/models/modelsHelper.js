@@ -12,18 +12,20 @@ export const where = (select, table, query) => {
     });
 };
 
-export const insert = (table, insertValue, res) => {
+export const insert = (table, insertValue) => {
+  knex(config['development']).insert(insertValue).into(table).then();
+};
+
+export const update = (table, InsertValue) => {
   knex(config['development'])
-    .insert(insertValue)
-    .into(table)
-    .then(() => {
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify('All Done!'));
+    .where({ email: InsertValue.email })
+    .update({
+      name: InsertValue.name,
+      surname: InsertValue.surname,
+      password: InsertValue.password,
     })
-    .catch((err) => {
-      res.writeHead(401, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(err));
-    });
+    .from(table)
+    .then();
 };
 
 export const selectFirst = (table, insertValue, then) => {
