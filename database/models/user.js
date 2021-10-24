@@ -7,17 +7,11 @@ export const findUser = (column, value) => {
 };
 
 export const saveUser = (insertValue) => {
-  selectFirst('users', { email: insertValue.email }, (result) => {
-    if (!result) {
-      insert('users', insertValue);
-    } else {
-      updateUser(insertValue);
-    }
-  });
-};
-
-export const updateUser = (insertValue) => {
-  update('users', insertValue);
+  if (!insertValue.id) {
+    insert('users', insertValue, 'id');
+  } else {
+    update('users', insertValue);
+  }
 };
 
 export const userLogin = (insertValue) => {
@@ -26,7 +20,7 @@ export const userLogin = (insertValue) => {
       // eslint-disable-next-line no-console
       console.log('User not found');
     } else {
-      comparePass(insertValue, user);
+      comparePass(insertValue.password, user.password);
     }
   };
   selectFirst('users', { email: insertValue.email }, then);

@@ -18,12 +18,8 @@ export const insert = (table, insertValue) => {
 
 export const update = (table, InsertValue) => {
   knex(config['development'])
-    .where({ email: InsertValue.email })
-    .update({
-      name: InsertValue.name,
-      surname: InsertValue.surname,
-      password: InsertValue.password,
-    })
+    .where({ id: InsertValue.id })
+    .update(InsertValue)
     .from(table)
     .then();
 };

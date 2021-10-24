@@ -1,4 +1,4 @@
-import { hashPassAndAuthToken } from '../../../lib/auth/auth.js';
+import { createHash } from '../../../lib/auth/auth.js';
 import { saveUser, userLogin } from '../../../database/models/user.js';
 
 export const login = (req, res) => {
@@ -13,10 +13,13 @@ export const login = (req, res) => {
   }
 };
 
-export const register = (req, res) => {
+export const register = async (req, res) => {
   try {
     const userData = req.body;
-    hashPassAndAuthToken(userData, saveUser);
+    userData.password = await createHash(userData.password);
+    // eslint-disable-next-line camelcase
+    userData.confirm_user = await createHash(userData.confirm_user);
+    saveUser(userData);
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify('All Done!'));
   } catch {
