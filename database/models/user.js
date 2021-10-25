@@ -14,14 +14,17 @@ export const saveUser = (insertValue) => {
   }
 };
 
-export const userLogin = (insertValue) => {
-  const then = (user) => {
-    if (!user) {
-      // eslint-disable-next-line no-console
-      console.log('User not found');
-    } else {
-      comparePass(insertValue.password, user.password);
-    }
-  };
-  selectFirst('users', { email: insertValue.email }, then);
+export const userLogin = async (insertValue) => {
+  const userFirst = await selectFirst('users', { email: insertValue.email });
+  if (!userFirst) {
+    return new Promise((resolve, reject) => {
+      reject('User didnt register');
+    });
+  }
+  const validPass = await comparePass(insertValue.password, userFirst.password);
+  if (!validPass) {
+    return new Promise((resolve, reject) => {
+      reject('Password wrong');
+    });
+  }
 };

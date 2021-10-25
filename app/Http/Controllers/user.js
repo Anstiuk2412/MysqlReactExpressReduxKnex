@@ -1,15 +1,15 @@
 import { createHash } from '../../../lib/auth/auth.js';
 import { saveUser, userLogin } from '../../../database/models/user.js';
 
-export const login = (req, res) => {
+export const login = async (req, res) => {
   try {
     const insertValue = req.body;
-    userLogin(insertValue);
+    await userLogin(insertValue);
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify('All Done!'));
-  } catch {
-    res.writeHead(401, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify('Something went wrong'));
+    res.end(JSON.stringify('User Login!'));
+  } catch (error) {
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(error));
   }
 };
 

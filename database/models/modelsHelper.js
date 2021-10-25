@@ -24,11 +24,10 @@ export const update = (table, InsertValue) => {
     .then();
 };
 
-export const selectFirst = (table, insertValue, then) => {
-  knex(config['development'])
+export const selectFirst = (table, insertValue) => {
+  return knex(config['development'])
     .select()
     .from(table)
     .where(insertValue)
-    .first()
-    .then(then);
+    .first();
 };
