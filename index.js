@@ -1,19 +1,17 @@
 import express from 'express';
 import config from 'config';
-import path from 'path';
+import bodyParser from 'body-parser';
+import { login, register } from './app/Http/Controllers/user.js';
 
 const PORT = config.get('PORT');
 
 const app = express();
+app.use(bodyParser.json());
 
-/* Router of web page */
-app.get('/', (req, res) => {
-  res.sendFile(path.resolve('./client/build/index.html'));
-});
+/* Routers Auth */
+app.get('/user/login', login);
 
-app.get('/main.js', (req, res) => {
-  res.sendFile(path.resolve('./client/build/main.js'));
-});
+app.post('/user/registration', register);
 
 /* Listen port */
 app.listen(PORT, () => {

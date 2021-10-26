@@ -1,15 +1,15 @@
-import { Where } from './modelsHelper.js';
+import { where } from './modelsHelper.js';
 import knex from 'knex';
 import config from '../knexfile.js';
 
 export const getFolder = (folderId) => {
   const query = { id: folderId };
-  Where('', 'folders', query);
+  where('', 'folders', query);
 };
 
 export const getFolderByName = (folderName) => {
   const query = { name: folderName };
-  Where('', 'folders', query);
+  where('', 'folders', query);
 };
 
 export const openFolder = (folderId) => {
