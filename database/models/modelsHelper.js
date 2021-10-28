@@ -4,14 +4,18 @@ export const where = (table, query) => {
   return myKnex(table).select().where(query);
 };
 
-export const insert = (table, insertValue) => {
-  return myKnex(table).insert(insertValue);
+export const insert = (table, conditions) => {
+  return myKnex(table).insert(conditions);
 };
 
-export const update = (table, InsertValue) => {
-  return myKnex(table).where({ id: InsertValue.id }).update(InsertValue);
+export const update = (table, conditions) => {
+  return myKnex(table).where({ id: conditions.id }).update(conditions);
 };
 
-export const selectFirst = (table, insertValue) => {
-  return myKnex(table).select().where(insertValue).first();
+export const selectFirst = (table, conditions) => {
+  return myKnex(table).select().where(conditions).first();
+};
+
+export const onConflict = (table, conditions, onConflict, merge) => {
+  return myKnex(table).insert(conditions).onConflict(onConflict).merge([merge]);
 };
