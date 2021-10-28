@@ -15,16 +15,21 @@ export const saveUser = (insertValue) => {
 };
 
 export const userLogin = async (insertValue) => {
-  const userFirst = await selectFirst('users', { email: insertValue.email });
-  if (!userFirst) {
-    return new Promise((resolve, reject) => {
-      reject('User didnt register');
-    });
+  const message = {};
+  const accessUser = await where('users', {
+    email: insertValue.email,
+  }).then(async (usersValues) => {
+    for (let i = 0; i < usersValues.length; ++i) {
+      if (await comparePass(insertValue.password, usersValues[i].password)) {
+        return await selectFirst('users', usersValues[i]);
+      }
+    }
+  });
+  if (accessUser) {
+    //create JWT
+  } else {
+    message.error = 'User not found';
   }
-  const validPass = await comparePass(insertValue.password, userFirst.password);
-  if (!validPass) {
-    return new Promise((resolve, reject) => {
-      reject('Password wrong');
-    });
-  }
+  message.success = 'User login';
+  return message;
 };
