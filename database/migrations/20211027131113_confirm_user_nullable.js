@@ -5,5 +5,5 @@ export const up = (knex) => {
 };
 
 export const down = (knex) => {
-  return knex.schema.dropTable('users');
+  return knex.schema.dropNullable('confirm_user');
 };
