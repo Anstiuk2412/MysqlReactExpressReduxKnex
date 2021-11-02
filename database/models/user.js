@@ -1,4 +1,10 @@
-import { insert, selectFirst, update, where } from './modelsHelper.js';
+import {
+  insert,
+  onConflict,
+  selectFirst,
+  update,
+  where,
+} from './modelsHelper.js';
 import { comparePass } from '../../lib/auth/auth.js';
 
 export const findUser = (column, value) => {
@@ -6,25 +12,54 @@ export const findUser = (column, value) => {
   where('', 'users', query);
 };
 
-export const saveUser = (insertValue) => {
-  if (!insertValue.id) {
-    insert('users', insertValue, 'id');
+export const registerOrUpdateToken = async (reqData) => {
+  const message = {};
+  const macthedUsers = await selectFirst('users', { email: reqData.email });
+  if (macthedUsers) {
+    /*If user exist checked confirm token*/
+    if (!macthedUsers.is_active) {
+      /*For return current data to Controller update current select userValues*/
+      macthedUsers.confirm_user = reqData.confirm_user;
+      message.data = macthedUsers;
+      /*Update confirmUser token*/
+      await onConflict('users', reqData, 'email', 'confirm_user');
+    } else {
+      //if active user
+      message.error = 'User already active';
+    }
   } else {
-    update('users', insertValue);
+    /*If user not exist do registration*/
+    message.data = reqData;
+    await insert('users', reqData);
   }
+  return message;
 };
 
-export const userLogin = async (insertValue) => {
-  const userFirst = await selectFirst('users', { email: insertValue.email });
-  if (!userFirst) {
-    return new Promise((resolve, reject) => {
-      reject('User didnt register');
-    });
+export const updateUser = async (reqData) => {
+  const message = {};
+  await update('users', reqData).catch(() => {
+    message.error = 'Something went wrong';
+  });
+  message.data = 'Update successfully';
+  return message;
+};
+
+export const userLogin = async (reqData) => {
+  const message = {};
+  const accessUser = await where('users', {
+    email: reqData.email,
+  }).then(async (usersValues) => {
+    for (let i = 0; i < usersValues.length; ++i) {
+      if (await comparePass(reqData.password, usersValues[i].password)) {
+        return usersValues[i];
+      }
+    }
+  });
+  if (accessUser) {
+    message.data = accessUser;
+    //create JWT
+  } else {
+    message.error = 'User not found';
   }
-  const validPass = await comparePass(insertValue.password, userFirst.password);
-  if (!validPass) {
-    return new Promise((resolve, reject) => {
-      reject('Password wrong');
-    });
-  }
+  return message;
 };

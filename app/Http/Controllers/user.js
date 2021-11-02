@@ -1,29 +1,40 @@
 import { createHash } from '../../../lib/auth/auth.js';
-import { saveUser, userLogin } from '../../../database/models/user.js';
+import {
+  registerOrUpdateToken,
+  updateUser,
+  userLogin,
+} from '../../../database/models/user.js';
 
 export const login = async (req, res) => {
-  try {
-    const insertValue = req.body;
-    await userLogin(insertValue);
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify('User Login!'));
-  } catch (error) {
+  const insertValue = req.body;
+  const { error, data } = await userLogin(insertValue);
+  if (error) {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(error));
+  } else {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(data));
   }
 };
 
 export const register = async (req, res) => {
-  try {
-    const userData = req.body;
-    userData.password = await createHash(userData.password);
-    // eslint-disable-next-line camelcase
-    userData.confirm_user = await createHash(userData.confirm_user);
-    saveUser(userData);
+  const userData = req.body;
+  userData.password = await createHash(userData.password);
+  // eslint-disable-next-line camelcase
+  userData.confirm_user = await createHash(userData.confirm_user);
+  const some = async () => {
+    if (!userData.id) {
+      return await registerOrUpdateToken(userData);
+    } else {
+      return await updateUser(userData);
+    }
+  };
+  const { error, data } = await some();
+  if (error) {
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(error));
+  } else {
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify('All Done!'));
-  } catch {
-    res.writeHead(401, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify('Something went wrong'));
+    res.end(JSON.stringify(data));
   }
 };
