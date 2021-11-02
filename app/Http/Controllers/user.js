@@ -1,6 +1,5 @@
-import { createHash } from '../../../lib/auth/auth.js';
-import { saveUniqueUser, userLogin } from '../../../database/models/user.js';
-import { selectFirst } from '../../../database/models/modelsHelper.js';
+import { comparePass, createHash } from '../../../lib/auth/auth.js';
+import { saveUniqueUser, user } from '../../../database/models/user.js';
 
 export const register = async (req, res) => {
   const insertValue = req.body;
@@ -8,7 +7,7 @@ export const register = async (req, res) => {
   // eslint-disable-next-line camelcase
   insertValue.confirm_user = await createHash(insertValue.confirm_user);
   // eslint-disable-next-line camelcase
-  const activeUser = await selectFirst('users', {
+  const activeUser = await user.selectFirst({
     email: insertValue.email,
     is_active: 1,
   });
@@ -24,11 +23,15 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   const insertValue = req.body;
-  const authUser = await selectFirst('users', { email: insertValue.email });
+  const authUser = await user.selectFirst({ email: insertValue.email });
   if (authUser) {
     // check password, generate token, successfully logged in
-    const valid = await userLogin(insertValue, authUser);
-    if (valid) {
+    const accessUser = await comparePass(
+      insertValue.password,
+      authUser.password,
+    );
+    if (accessUser) {
+      /*Create JWT token*/
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(authUser));
     } else {
