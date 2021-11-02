@@ -1,10 +1,4 @@
-import {
-  insert,
-  onConflict,
-  selectFirst,
-  update,
-  where,
-} from './modelsHelper.js';
+import { insert, upsert, selectFirst, update, where } from './modelsHelper.js';
 import { comparePass } from '../../lib/auth/auth.js';
 
 export const findUser = (column, value) => {
@@ -22,7 +16,7 @@ export const registerOrUpdateToken = async (reqData) => {
       macthedUsers.confirm_user = reqData.confirm_user;
       message.data = macthedUsers;
       /*Update confirmUser token*/
-      await onConflict('users', reqData, 'email', 'confirm_user');
+      await upsert('users', reqData, 'email', 'confirm_user');
     } else {
       //if active user
       message.error = 'User already active';

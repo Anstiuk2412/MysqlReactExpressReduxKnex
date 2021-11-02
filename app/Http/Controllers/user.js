@@ -22,14 +22,14 @@ export const register = async (req, res) => {
   userData.password = await createHash(userData.password);
   // eslint-disable-next-line camelcase
   userData.confirm_user = await createHash(userData.confirm_user);
-  const some = async () => {
+  const save = async () => {
     if (!userData.id) {
       return await registerOrUpdateToken(userData);
     } else {
       return await updateUser(userData);
     }
   };
-  const { error, data } = await some();
+  const { error, data } = await save();
   if (error) {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(error));
