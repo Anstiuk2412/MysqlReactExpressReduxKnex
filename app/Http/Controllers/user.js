@@ -1,40 +1,42 @@
 import { createHash } from '../../../lib/auth/auth.js';
-import {
-  registerOrUpdateToken,
-  updateUser,
-  userLogin,
-} from '../../../database/models/user.js';
+import { saveUniqueUser, userLogin } from '../../../database/models/user.js';
+import { selectFirst } from '../../../database/models/modelsHelper.js';
 
-export const login = async (req, res) => {
+export const register = async (req, res) => {
   const insertValue = req.body;
-  const { error, data } = await userLogin(insertValue);
-  if (error) {
+  insertValue.password = await createHash(insertValue.password);
+  // eslint-disable-next-line camelcase
+  insertValue.confirm_user = await createHash(insertValue.confirm_user);
+  // eslint-disable-next-line camelcase
+  const activeUser = await selectFirst('users', {
+    email: insertValue.email,
+    is_active: 1,
+  });
+  if (activeUser) {
     res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(error));
+    res.end(JSON.stringify('User already active'));
   } else {
+    const message = await saveUniqueUser(insertValue);
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(data));
+    res.end(JSON.stringify(message));
   }
 };
 
-export const register = async (req, res) => {
-  const userData = req.body;
-  userData.password = await createHash(userData.password);
-  // eslint-disable-next-line camelcase
-  userData.confirm_user = await createHash(userData.confirm_user);
-  const some = async () => {
-    if (!userData.id) {
-      return await registerOrUpdateToken(userData);
+export const login = async (req, res) => {
+  const insertValue = req.body;
+  const authUser = await selectFirst('users', { email: insertValue.email });
+  if (authUser) {
+    // check password, generate token, successfully logged in
+    const valid = await userLogin(insertValue, authUser);
+    if (valid) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(authUser));
     } else {
-      return await updateUser(userData);
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify('Password wrong'));
     }
-  };
-  const { error, data } = await some();
-  if (error) {
-    res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(error));
   } else {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(data));
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify('User not registered'));
   }
 };

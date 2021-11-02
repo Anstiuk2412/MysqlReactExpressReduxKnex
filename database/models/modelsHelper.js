@@ -16,6 +16,18 @@ export const selectFirst = (table, conditions) => {
   return myKnex(table).select().where(conditions).first();
 };
 
-export const onConflict = (table, conditions, onConflict, merge) => {
-  return myKnex(table).insert(conditions).onConflict(onConflict).merge([merge]);
+export const selectAll = (table, conditions) => {
+  return myKnex(table).select().where(conditions);
+};
+
+export const upsert = (table, data, key, mergeValue) => {
+  return myKnex(table).insert(data).onConflict(key).merge([mergeValue]);
+};
+
+export const save = (table, conditions, key, mergeValue) => {
+  if (conditions.id) {
+    return update(table, conditions);
+  } else {
+    return upsert(table, conditions, key, mergeValue);
+  }
 };
