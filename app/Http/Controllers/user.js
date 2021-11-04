@@ -31,9 +31,8 @@ export const login = async (req, res) => {
       authUser.password,
     );
     if (accessUser) {
-      /*Create JWT token*/
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(authUser));
+      const token = user.createToken({ id: authUser.id });
+      res.status(200).json({ token: `Bearer ${token}` });
     } else {
       res.writeHead(404, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify('Password wrong'));
