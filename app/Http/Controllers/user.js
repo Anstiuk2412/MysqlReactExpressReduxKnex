@@ -1,5 +1,5 @@
 import { comparePass, createHash } from '../../../lib/auth/auth.js';
-import { saveUniqueUser, user } from '../../../database/models/user.js';
+import { user } from '../../../database/models/user.js';
 
 export const register = async (req, res) => {
   const insertValue = req.body;
@@ -15,9 +15,9 @@ export const register = async (req, res) => {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify('User already active'));
   } else {
-    const message = await saveUniqueUser(insertValue);
+    await user.save(insertValue);
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(message));
+    res.end(JSON.stringify(insertValue));
   }
 };
 
