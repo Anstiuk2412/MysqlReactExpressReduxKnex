@@ -1,4 +1,8 @@
-import { comparePass, createHash } from '../../../lib/auth/auth.js';
+import {
+  comparePass,
+  createHash,
+  createToken,
+} from '../../../lib/auth/auth.js';
 import { user } from '../../../database/models/user.js';
 
 export const register = async (req, res) => {
@@ -31,9 +35,8 @@ export const login = async (req, res) => {
       authUser.password,
     );
     if (accessUser) {
-      const token = user.createToken({ id: authUser.id });
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ token: `Bearer ${token}` }));
+      const token = createToken({ id: authUser.id });
+      res.status(200).json({ token: `Bearer ${token}` });
     } else {
       res.writeHead(404, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify('Password wrong'));
