@@ -32,7 +32,8 @@ export const login = async (req, res) => {
     );
     if (accessUser) {
       const token = user.createToken({ id: authUser.id });
-      res.status(200).json({ token: `Bearer ${token}` });
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ token: `Bearer ${token}` }));
     } else {
       res.writeHead(404, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify('Password wrong'));
