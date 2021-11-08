@@ -1,4 +1,5 @@
 {
  "PORT": 3000,
- "logLevel": "ALL"
+ "logLevel": "ALL",
+ "jwtSecret": "anastiuk"
 }

@@ -1,17 +1,17 @@
 import express from 'express';
 import config from 'config';
-import bodyParser from 'body-parser';
-import { login, register } from './app/Http/Controllers/user.js';
+import middleware from './app/middlewares/middleware.js';
+import { router as userRouter } from './app/routes/userRouter.js';
 
 const PORT = config.get('PORT');
 
 const app = express();
-app.use(bodyParser.json());
 
-/* Routers Auth */
-app.get('/user/login', login);
+/*Middleware*/
+middleware(app);
 
-app.post('/user/registration', register);
+/* Router*/
+app.use(userRouter);
 
 /* Listen port */
 app.listen(PORT, () => {
