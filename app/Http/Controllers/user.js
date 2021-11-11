@@ -37,8 +37,13 @@ export const login = async (req, res) => {
       authUser.password,
     );
     if (accessUser) {
-      const token = createToken({ id: authUser.id });
-      res.status(200).json({ token: `Bearer ${token}` });
+      const accessToken = createToken({ id: authUser.id });
+      res
+        .status(200)
+        .cookie('access_token', accessToken, {
+          httpOnly: true,
+        })
+        .json('Success login');
     } else {
       res.writeHead(404, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify('Password wrong'));
