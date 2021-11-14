@@ -1,7 +1,8 @@
 import dotenv from 'dotenv';
 import knex from 'knex';
+import { fileURLToPath } from 'url';
 
-const pathToEnv = new URL('../.env', import.meta.url).pathname;
+const pathToEnv = fileURLToPath(new URL('../.env', import.meta.url));
 dotenv.config({ path: pathToEnv });
 
 const config = {
