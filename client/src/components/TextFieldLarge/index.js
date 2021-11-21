@@ -7,6 +7,9 @@ const TextFieldLargest = styled(TextField)({
   '& .MuiInput-underline:after': {
     borderBottom: '2px solid #BDBDBD',
   },
+  input: {
+    color: '#FFFFFF',
+  },
 });
 export const TextFieldLarge = (props) => {
   return (

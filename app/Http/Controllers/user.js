@@ -7,6 +7,8 @@ import { user } from '../../../database/models/user.js';
 
 export const register = async (req, res) => {
   const obtainedUserData = req.body;
+  //delete password Confirm from object send DB
+  delete obtainedUserData.passwordConfirm;
   obtainedUserData.password = await createHash(obtainedUserData.password);
   // eslint-disable-next-line camelcase
   obtainedUserData.confirm_user = await createHash(

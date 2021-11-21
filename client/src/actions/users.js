@@ -1,21 +1,16 @@
 import axios from 'axios';
 import { API_URL } from '../config/config';
 
-export const registration = async (
-  name,
-  surname,
-  email,
-  password,
-  confirm_user,
-) => {
+export const registration = async (name, email, password, passwordConfirm) => {
   axios
     .post(`${API_URL}/user/registration`, {
       name: name,
-      surname: surname,
       email: email,
       password: password,
+      passwordConfirm: passwordConfirm,
       is_active: 0,
-      confirm_user: confirm_user,
+      /*Confirm user plug*/
+      confirm_user: 'sdadasdad',
     })
     .then((req) => {
       // handle success
