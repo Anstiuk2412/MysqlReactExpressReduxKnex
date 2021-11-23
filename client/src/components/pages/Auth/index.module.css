@@ -1,0 +1,22 @@
+.ChooseSignButtonBox{
+    position: absolute;
+    width: 650px;
+    height: 67px;
+    left: 400px;
+    top: 200px;
+
+    background: #212729;
+}
+.RectangleSingInChooseForm{
+    position: absolute;
+    width: 325px;
+    height: 67px;
+}
+
+
+.RectangleSingUpChooseForm{
+    position: absolute;
+    width: 325px;
+    height: 67px;
+    left: 325px;
+}

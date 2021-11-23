@@ -1,6 +1,5 @@
 .idea
 node_modules
-client/build
 log/accessingLog.txt
 .env
-client
+client/node_modules
