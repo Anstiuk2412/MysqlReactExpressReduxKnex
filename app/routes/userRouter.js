@@ -9,8 +9,8 @@ import {
 
 export const router = Router();
 
-router.get('/', passport.authenticate('jwt', { session: false }), (req, res) =>
+router.get('*', passport.authenticate('jwt', { session: false }), (req, res) =>
   res.send('HOME'),
 );
-router.get('/user/login', loginValidate, validate, login);
+router.post('/user/login', loginValidate, validate, login);
 router.post('/user/registration', registerValidate, validate, register);
