@@ -1,0 +1,62 @@
+.SingUpForm{
+    position: absolute;
+    width: 650px;
+    height: 485px;
+    left: 400px;
+    top: 267px;
+
+    background: #212729;
+}
+.inputName {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+
+    position: absolute;
+    left: 100px;
+    top: 64px;
+}
+
+.inputPasswordConfirm {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+
+    position: absolute;
+    left: 101px;
+    top: 268px;
+}
+.inputEmail{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+
+    position: absolute;
+    left: 100px;
+    top: 131px;
+
+}
+.inputPassword{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+
+    position: absolute;
+    left: 100px;
+    top: 198px;
+}
+.buttonSingUp{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+
+    position: absolute;
+    left: 326px;
+    top: 380px;
+}
