@@ -4,6 +4,9 @@ import {
   createToken,
 } from '../../../lib/auth/auth.js';
 import { user } from '../../../database/models/user.js';
+import { fileURLToPath } from 'url';
+
+const pathToReact = fileURLToPath(new URL('../../../client/build/index.html', import.meta.url));
 
 export const register = async (req, res) => {
   const obtainedUserData = req.body;
@@ -25,7 +28,7 @@ export const register = async (req, res) => {
   } else {
     await user.save(obtainedUserData);
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(obtainedUserData));
+    res.end(JSON.stringify('Success register'));
   }
 };
 
@@ -54,4 +57,13 @@ export const login = async (req, res) => {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify('User not registered'));
   }
+};
+
+export const sendFile = (req, res) => {
+  res.sendFile(pathToReact);
+};
+
+export const logout = (req, res) => {
+  res.clearCookie('access_token');
+  res.redirect('/signIn');
 };
