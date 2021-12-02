@@ -1,0 +1,46 @@
+.Alert {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 6px 16px;
+    position: absolute;
+    width: 375px;
+    height: 76px;
+    left: 1047px;
+    top: 930px;
+    /* Green 2 */
+    border-radius: 4px;
+}
+
+div.Alert {
+    font-weight: 300;
+    background-color: #27AE60;
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.alertTitle {
+    position: static;
+    width: 201px;
+    left: calc(50% - 201px / 2);
+    top: 12.5%;
+    bottom: 50%;
+    color: #FA4616;
+}
+
+.alertTypography {
+    position: static;
+    color: #FA4616;
+    font-weight: 300;
+    width: 201px;
+    left: calc(50% - 201px / 2);
+    top: 56.25%;
+    bottom: 12.5%;
+}
+
+.alertButton {
+    font-weight: 300;
+    position: static;
+    left: 260px;
+    bottom: 55px;
+}
+
