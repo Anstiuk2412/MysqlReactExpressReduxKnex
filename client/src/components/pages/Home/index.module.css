@@ -1,0 +1,22 @@
+
+.leftSideBOX{
+    position: absolute;
+    width: 288px;
+    height: 943px;
+    left: 2px;
+    top: 81px;
+}
+
+.middleSideBox{
+
+}
+.file{
+
+}
+.rightSideBox{
+    position: absolute;
+    width: 376px;
+    height: 943px;
+    left: 1069px;
+    top: 84px;
+}

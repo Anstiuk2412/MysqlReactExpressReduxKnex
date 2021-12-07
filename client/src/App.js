@@ -2,31 +2,32 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from 'components/Header';
 import AuthForm from 'components/pages/Auth';
 import NotFound from 'components/pages/NotFound';
+import Home from 'components/pages/Home';
 import { ThemeProvider } from '@emotion/react';
 import React from 'react';
 import { createTheme } from '@mui/material/styles';
 import './App.css';
 
-function App() {
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#FA4616',
-        light: '#7986CB',
-        dark: '#303F9F',
-      },
-      secondary: {
-        main: '#f44336',
-      },
+export const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#FA4616',
+      light: '#7986CB',
+      dark: '#303F9F',
     },
-  });
+    secondary: {
+      main: '#f44336',
+    },
+  },
+});
 
+function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <Header />
         <Routes>
-          <Route path="/" element={<h1>Hello User</h1>} />
+          <Route path="/" element={<Home />} />
           <Route path="/signIn" element={<AuthForm state={true} />} />
           <Route path="/signUp" element={<AuthForm state={false} />} />
           <Route path="*" element={<NotFound />} />

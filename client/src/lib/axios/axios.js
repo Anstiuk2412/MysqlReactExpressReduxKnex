@@ -5,11 +5,10 @@ export const postData = (url, data) => {
     .post(url, data, {
       withCredentials: true,
     })
-    .then()
     .then((res) => {
       // handle success
       alert(res.data.toString());
-      window.location = '/';
+      window.location = `/`;
     })
     .catch((error) => {
       // handle error

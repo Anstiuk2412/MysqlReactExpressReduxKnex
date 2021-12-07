@@ -1,7 +1,7 @@
 import './index.css';
 import React from 'react';
-import { Button } from '@material-ui/core';
-
+import { Logout as LogoutIcon } from '@mui/icons-material';
+import { IconButton } from '@material-ui/core';
 const Header = () => {
   return (
     <div className="Header">
@@ -75,11 +75,6 @@ const Header = () => {
           />
         </svg>
       </div>
-      {window.location.pathname === '/' ? (
-        <Button variant="contained" href="/logout">
-          Close
-        </Button>
-      ) : null}
       <svg
         className={'avatar'}
         width="40"
@@ -94,6 +89,11 @@ const Header = () => {
           fill="white"
         />
       </svg>
+      {window.location.pathname === '/' ? (
+        <IconButton aria-label="delete" href="/logout">
+          <LogoutIcon className={'LogoutIcon'} fontSize="inherit" />
+        </IconButton>
+      ) : null}
     </div>
   );
 };
