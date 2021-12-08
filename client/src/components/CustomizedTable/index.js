@@ -11,7 +11,6 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { tableCellClasses } from '@mui/material';
 import { InsertDriveFile as InsertDriveFileIcon } from '@mui/icons-material';
-
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
@@ -32,7 +31,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-export const CustomizedTable = ({ stations }) => {
+export const CustomizedTable = ({ amount }) => {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -44,20 +43,16 @@ export const CustomizedTable = ({ stations }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {stations.map((station) => (
-            <StyledTableRow key={station.id}>
+          {amount.map((file) => (
+            <StyledTableRow key={file.id}>
               <StyledTableCell>
                 <InsertDriveFileIcon />
               </StyledTableCell>
               <StyledTableCell component="th" scope="row">
-                {station.name}
+                {file.name}
               </StyledTableCell>
-              <StyledTableCell align="right">
-                {station.file_size}
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                {station.created_at}
-              </StyledTableCell>
+              <StyledTableCell align="right">{file.file_size}</StyledTableCell>
+              <StyledTableCell align="right">{file.created_at}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

@@ -90,7 +90,8 @@ const Header = () => {
           fill="white"
         />
       </svg>
-      {window.location.pathname !== ('/signIn' || '/signUp') ? (
+      {window.location.pathname !== '/signIn' &&
+      window.location.pathname !== '/signUp' ? (
         <IconButton aria-label="delete" href="/logout">
           <LogoutIcon className={'LogoutIcon'} fontSize="inherit" />
         </IconButton>

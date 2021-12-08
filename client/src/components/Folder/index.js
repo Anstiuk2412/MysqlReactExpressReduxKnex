@@ -17,13 +17,15 @@ export const Folder = (props) => {
   const navigate = useNavigate();
   return (
     <>
-      {props.stations.map((station) => (
+      {props.amount.map((folder) => (
         <FolderButton
           variant="outlined"
-          key={station.id}
-          onClick={() => navigate(`/folder/${station.id}`)}
+          key={folder.id}
+          onClick={() => {
+            navigate(`/folder/${folder.id}`);
+          }}
         >
-          {station.name}
+          {folder.name}
         </FolderButton>
       ))}
     </>

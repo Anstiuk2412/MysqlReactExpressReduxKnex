@@ -6,7 +6,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AuthForm = (props) => {
-  const state = props.state;
+  const signStatus = props.signStatus;
   const navigate = useNavigate();
 
   return (
@@ -14,7 +14,7 @@ const AuthForm = (props) => {
       <div className={styles.ChooseSignButtonBox}>
         <div className={styles.RectangleSingInChooseForm}>
           <ButtonBig
-            className={state ? 'active' : 'disable'}
+            className={signStatus ? 'active' : 'disable'}
             variant="text"
             onClick={() => navigate('/signIn')}
           >
@@ -23,7 +23,7 @@ const AuthForm = (props) => {
         </div>
         <div className={styles.RectangleSingUpChooseForm}>
           <ButtonBig
-            className={state ? 'disable' : 'active'}
+            className={signStatus ? 'disable' : 'active'}
             variant="text"
             onClick={() => navigate('/signUp')}
           >
@@ -31,7 +31,7 @@ const AuthForm = (props) => {
           </ButtonBig>
         </div>
       </div>
-      <div>{state ? <SignIn /> : <SignUp />}</div>
+      <div>{signStatus ? <SignIn /> : <SignUp />}</div>
     </div>
   );
 };
