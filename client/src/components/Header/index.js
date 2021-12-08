@@ -2,6 +2,7 @@ import './index.css';
 import React from 'react';
 import { Logout as LogoutIcon } from '@mui/icons-material';
 import { IconButton } from '@material-ui/core';
+
 const Header = () => {
   return (
     <div className="Header">
@@ -89,7 +90,7 @@ const Header = () => {
           fill="white"
         />
       </svg>
-      {window.location.pathname === '/' ? (
+      {window.location.pathname !== ('/signIn' || '/signUp') ? (
         <IconButton aria-label="delete" href="/logout">
           <LogoutIcon className={'LogoutIcon'} fontSize="inherit" />
         </IconButton>

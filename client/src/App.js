@@ -21,13 +21,14 @@ export const theme = createTheme({
   },
 });
 
-function App() {
+const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/folder/:id" element={<Home />} />
           <Route path="/signIn" element={<AuthForm state={true} />} />
           <Route path="/signUp" element={<AuthForm state={false} />} />
           <Route path="*" element={<NotFound />} />
@@ -35,6 +36,6 @@ function App() {
       </Router>
     </ThemeProvider>
   );
-}
+};
 
 export default App;
