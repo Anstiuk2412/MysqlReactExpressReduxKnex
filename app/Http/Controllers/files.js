@@ -19,8 +19,17 @@ export const filesAndFoldersAtFolder = async (req, res) => {
     // eslint-disable-next-line camelcase
     user_id: userId,
   });
-  if (userFiles) {
+  if (userFiles[0]) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ files: userFiles, folders: childFolders }));
+  } else {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(
+      JSON.stringify({
+        files: userFiles,
+        folders: childFolders,
+        message: 'The folder is empty',
+      }),
+    );
   }
 };
