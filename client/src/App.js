@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from 'components/Header';
 import AuthForm from 'components/pages/Auth';
 import NotFound from 'components/pages/NotFound';
@@ -26,13 +26,11 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Router>
         <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/folder/:id" element={<Home />} />
-          <Route path="/signIn" element={<AuthForm signStatus={true} />} />
-          <Route path="/signUp" element={<AuthForm signStatus={false} />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Switch>
+          <Route exact path={['/', '/folder/:id']} component={Home} />
+          <Route exact path={['/signIn', '/signUp']} component={AuthForm} />
+          <Route exact path="*" component={NotFound} />
+        </Switch>
       </Router>
     </ThemeProvider>
   );

@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import React from 'react';
 import styled from '@emotion/styled';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const FolderButton = styled(Button)({
   width: '302.37px',
@@ -14,7 +14,7 @@ const FolderButton = styled(Button)({
 });
 
 export const Folder = (props) => {
-  const navigate = useNavigate();
+  const history = useHistory();
   return (
     <>
       {props.amount.map((folder) => (
@@ -22,7 +22,7 @@ export const Folder = (props) => {
           variant="outlined"
           key={folder.id}
           onClick={() => {
-            navigate(`/folder/${folder.id}`);
+            history.push(`/folder/${folder.id}`);
           }}
         >
           {folder.name}

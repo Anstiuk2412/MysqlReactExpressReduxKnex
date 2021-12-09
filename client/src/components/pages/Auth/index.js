@@ -3,11 +3,11 @@ import { SignIn } from 'components/SignInForm';
 import { SignUp } from 'components/SignUpForm';
 import { ButtonBig } from 'components/ButtonBig';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-const AuthForm = (props) => {
-  const signStatus = props.signStatus;
-  const navigate = useNavigate();
+const AuthForm = () => {
+  const history = useHistory();
+  const signStatus = history.location.pathname === '/signIn';
 
   return (
     <div>
@@ -16,7 +16,7 @@ const AuthForm = (props) => {
           <ButtonBig
             className={signStatus ? 'active' : 'disable'}
             variant="text"
-            onClick={() => navigate('/signIn')}
+            onClick={() => history.push('/signIn')}
           >
             Sign In
           </ButtonBig>
@@ -25,7 +25,7 @@ const AuthForm = (props) => {
           <ButtonBig
             className={signStatus ? 'disable' : 'active'}
             variant="text"
-            onClick={() => navigate('/signUp')}
+            onClick={() => history.push('/signUp')}
           >
             Sign Up
           </ButtonBig>
@@ -35,5 +35,4 @@ const AuthForm = (props) => {
     </div>
   );
 };
-
 export default AuthForm;
