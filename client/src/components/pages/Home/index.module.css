@@ -1,0 +1,26 @@
+.leftSideBOX{
+    position: absolute;
+    width: 285px;
+    height: 943px;
+    left: 2px;
+    top: 81px;
+    border-right: 3px solid #FA4616;
+}
+
+.middleSideBox{
+    position: absolute;
+    width: 776px;
+    height: 943px;
+    left: 291px;
+}
+.foldersBox{
+    height: 225px;
+}
+
+.rightSideBox{
+    position: absolute;
+    width: 376px;
+    height: 943px;
+    left: 1069px;
+    top: 84px;
+}

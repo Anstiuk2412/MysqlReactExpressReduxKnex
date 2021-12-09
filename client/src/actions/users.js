@@ -2,7 +2,7 @@ import { API_URL } from '../config/config.js';
 import { postData } from '../lib/axios/axios';
 
 export const registration = async (name, email, password, passwordConfirm) => {
-  await postData(`${API_URL}/user/registration`, {
+  await postData(`${API_URL}/api/registration`, {
     name,
     email,
     password,
@@ -14,5 +14,5 @@ export const registration = async (name, email, password, passwordConfirm) => {
   });
 };
 export const login = async (email, password) => {
-  await postData(`${API_URL}/user/login`, { email, password });
+  await postData(`${API_URL}/api/login`, { email, password });
 };

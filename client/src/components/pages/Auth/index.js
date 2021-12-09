@@ -3,37 +3,36 @@ import { SignIn } from 'components/SignInForm';
 import { SignUp } from 'components/SignUpForm';
 import { ButtonBig } from 'components/ButtonBig';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-const AuthForm = (props) => {
-  const state = props.state;
-  const navigate = useNavigate();
+const AuthForm = () => {
+  const history = useHistory();
+  const signStatus = history.location.pathname === '/signIn';
 
   return (
     <div>
       <div className={styles.ChooseSignButtonBox}>
         <div className={styles.RectangleSingInChooseForm}>
           <ButtonBig
-            className={state ? 'active' : 'disable'}
+            className={signStatus ? 'active' : 'disable'}
             variant="text"
-            onClick={() => navigate('/signIn')}
+            onClick={() => history.push('/signIn')}
           >
             Sign In
           </ButtonBig>
         </div>
         <div className={styles.RectangleSingUpChooseForm}>
           <ButtonBig
-            className={state ? 'disable' : 'active'}
+            className={signStatus ? 'disable' : 'active'}
             variant="text"
-            onClick={() => navigate('/signUp')}
+            onClick={() => history.push('/signUp')}
           >
             Sign Up
           </ButtonBig>
         </div>
       </div>
-      <div>{state ? <SignIn /> : <SignUp />}</div>
+      <div>{signStatus ? <SignIn /> : <SignUp />}</div>
     </div>
   );
 };
-
 export default AuthForm;

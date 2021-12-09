@@ -4,6 +4,9 @@ import { registration } from 'actions/users.js';
 import styles from './index.module.css';
 import { useState } from 'react';
 import { TextFieldLarge } from 'components/TextFieldLarge';
+import { Email as EmailIcon } from '@mui/icons-material';
+import { Group as GroupIcon } from '@mui/icons-material';
+import { Password as PasswordIcon } from '@mui/icons-material';
 import React from 'react';
 
 export const SignUp = () => {
@@ -23,7 +26,7 @@ export const SignUp = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                {/*<GroupIcon color="primary" />*/}
+                <GroupIcon color="primary" />
               </InputAdornment>
             ),
           }}
@@ -39,7 +42,7 @@ export const SignUp = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                {/*<EmailIcon color="primary" />*/}
+                <EmailIcon color="primary" />
               </InputAdornment>
             ),
           }}
@@ -55,7 +58,7 @@ export const SignUp = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                {/*<PasswordIcon color="primary" />*/}
+                <PasswordIcon color="primary" />
               </InputAdornment>
             ),
           }}
@@ -71,7 +74,7 @@ export const SignUp = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                {/*<PasswordIcon color="primary" />*/}
+                <PasswordIcon color="primary" />
               </InputAdornment>
             ),
           }}

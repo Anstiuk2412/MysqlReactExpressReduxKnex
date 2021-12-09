@@ -4,8 +4,8 @@ import { useState } from 'react';
 import styles from './index.module.css';
 import { TextFieldLarge } from 'components/TextFieldLarge';
 import { login } from 'actions/users.js';
-//import PasswordIcon from '@mui/icons-material/Password';
-//import EmailIcon from '@mui/icons-material/Email';
+import { Password as PasswordIcon } from '@mui/icons-material';
+import { Email as EmailIcon } from '@mui/icons-material';
 import React from 'react';
 
 export const SignIn = () => {
@@ -24,7 +24,7 @@ export const SignIn = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                {/*<EmailIcon color='primary' />*/}
+                <EmailIcon color="primary" />
               </InputAdornment>
             ),
           }}
@@ -40,24 +40,19 @@ export const SignIn = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                {/*<PasswordIcon color='primary' />*/}
+                <PasswordIcon color="primary" />
               </InputAdornment>
             ),
           }}
         />
       </div>
-      <Link to={'/'} className={styles.forgotPassword} underline="none">
+      <Link to={'/password'} className={styles.forgotPassword} underline="none">
         FORGOT YOUR PASSWORD?
       </Link>
       <ButtonLarge
         className={styles.buttonSingIn}
         variant="outlined"
-        onClick={() =>
-          login(
-            email,
-            password /*setAlert,setAlertTypography,setAlertTitle,setAlertSeverity*/,
-          )
-        }
+        onClick={() => login(email, password)}
       >
         SIGN IN
       </ButtonLarge>
