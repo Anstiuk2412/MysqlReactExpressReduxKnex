@@ -1,0 +1,40 @@
+.checkBox svg {
+    color: #FA4616;
+}
+
+.tableFooter {
+    margin-top: 555px;
+    background: #212729;
+}
+
+.IconFile svg {
+    width: 40px;
+    height: 40px;
+    left: calc(50% - 40px / 2 + 17px);
+    top: calc(50% - 40px / 2);
+    /* Primary/Contrast */
+    background: #FA4616;
+    border-radius: 4px;
+    /* Inside Auto Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    margin: 0px 4px;
+}
+.tableHead{
+    width: 773px;
+    height: 56px;
+    background: #343C3D;
+}
+.tableTitle {
+    position: absolute;
+    left: 126px;
+}
+.tableFilesize {
+    position: absolute;
+    left: 372px;
+}
+.tableAdded {
+    position: absolute;
+    left: 580.5px;
+}

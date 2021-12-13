@@ -4,49 +4,70 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
-} from '@material-ui/core';
+} from '@mui/material';
 import React from 'react';
 import styled from '@emotion/styled';
 import { tableCellClasses } from '@mui/material';
 import { InsertDriveFile as InsertDriveFileIcon } from '@mui/icons-material';
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+import { Checkbox } from '@material-ui/core';
+import styles from './index.module.css';
+const StyledTableRow = styled(TableRow)(() => ({
   '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
+    backgroundColor: '#2A3234',
+    borderBottom: 'none',
+    color: '#FA4616',
   },
   // hide last border
   '&:last-child td, &:last-child th': {
-    border: 0,
+    background: '#0E1112',
+    border: 'none',
+    color: '#FFF',
   },
 }));
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
+    color: '#FA4616',
+    border: 'none',
+  }, // eslint-disable-line
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
+    border: 'none',
+    color: '#FFF',
   },
 }));
 
-export const CustomizedTable = ({ amount }) => {
+export const CustomizedTable = (props) => {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer
+      component={Paper}
+      className={props.className}
+      sx={{ borderRadius: '0%' }}
+    >
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
+        <TableHead className={styles.tableHead}>
           <TableRow>
-            <StyledTableCell>Title</StyledTableCell>
-            <StyledTableCell align="right">File size</StyledTableCell>
-            <StyledTableCell align="right">Added</StyledTableCell>
+            <StyledTableCell className={styles.tableTitle}>
+              Title
+            </StyledTableCell>
+            <StyledTableCell align="right" className={styles.tableFilesize}>
+              File size
+            </StyledTableCell>
+            <StyledTableCell align="right" className={styles.tableAdded}>
+              Added
+            </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {amount.map((file) => (
+          {props.amount.map((file) => (
             <StyledTableRow key={file.id}>
               <StyledTableCell>
-                <InsertDriveFileIcon />
+                <Checkbox className={styles.checkBox} />
+                <InsertDriveFileIcon className={styles.IconFile} />
               </StyledTableCell>
               <StyledTableCell component="th" scope="row">
                 {file.name}
@@ -56,6 +77,23 @@ export const CustomizedTable = ({ amount }) => {
             </StyledTableRow>
           ))}
         </TableBody>
+        <TableFooter className={styles.tableFooter}>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+              colSpan={3}
+              count={2}
+              rowsPerPage={10}
+              page={1}
+              SelectProps={{
+                inputProps: {
+                  'aria-label': 'rows per page',
+                },
+                native: true,
+              }}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
   );

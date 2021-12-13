@@ -8,20 +8,19 @@ import React from 'react';
 import { createTheme } from '@mui/material/styles';
 import './App.css';
 
-export const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#FA4616',
-      light: '#7986CB',
-      dark: '#303F9F',
-    },
-    secondary: {
-      main: '#f44336',
-    },
-  },
-});
-
 const App = () => {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#FA4616',
+        light: '#7986CB',
+        dark: '#303F9F',
+      },
+      secondary: {
+        main: '#f44336',
+      },
+    },
+  });
   return (
     <ThemeProvider theme={theme}>
       <Router>

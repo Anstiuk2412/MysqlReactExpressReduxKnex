@@ -81,7 +81,7 @@ export const SignUp = () => {
         />
       </div>
       <ButtonLarge
-        className={styles.buttonSingUp}
+        className={`classicHover ${styles.buttonSingUp}`}
         variant="outlined"
         onClick={() => registration(name, email, password, passwordConfirm)}
       >

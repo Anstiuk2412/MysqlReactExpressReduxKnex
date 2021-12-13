@@ -50,7 +50,7 @@ export const SignIn = () => {
         FORGOT YOUR PASSWORD?
       </Link>
       <ButtonLarge
-        className={styles.buttonSingIn}
+        className={`classicHover ${styles.buttonSingIn}`}
         variant="outlined"
         onClick={() => login(email, password)}
       >
