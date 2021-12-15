@@ -5,7 +5,7 @@ import { ButtonBig } from 'components/ButtonBig';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-const AuthForm = () => {
+const AuthForm = (props) => {
   const history = useHistory();
   const signStatus = history.location.pathname === '/signIn';
 
@@ -31,7 +31,19 @@ const AuthForm = () => {
           </ButtonBig>
         </div>
       </div>
-      <div>{signStatus ? <SignIn /> : <SignUp />}</div>
+      <div>
+        {signStatus ? (
+          <SignIn
+            setAlerts={props.setAlerts}
+            setAlertsValues={props.setAlertsValues}
+          />
+        ) : (
+          <SignUp
+            setAlerts={props.setAlerts}
+            setAlertsValues={props.setAlertsValues}
+          />
+        )}
+      </div>
     </div>
   );
 };

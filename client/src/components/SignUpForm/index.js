@@ -9,7 +9,7 @@ import { Group as GroupIcon } from '@mui/icons-material';
 import { Password as PasswordIcon } from '@mui/icons-material';
 import React from 'react';
 
-export const SignUp = () => {
+export const SignUp = (props) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -83,7 +83,16 @@ export const SignUp = () => {
       <ButtonLarge
         className={`classicHover ${styles.buttonSingUp}`}
         variant="outlined"
-        onClick={() => registration(name, email, password, passwordConfirm)}
+        onClick={() =>
+          registration(
+            name,
+            email,
+            password,
+            passwordConfirm,
+            props.setAlertsValues,
+            props.setAlerts,
+          )
+        }
       >
         CREATE ACCOUNT
       </ButtonLarge>

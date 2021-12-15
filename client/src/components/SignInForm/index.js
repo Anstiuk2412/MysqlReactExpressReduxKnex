@@ -8,7 +8,7 @@ import { Password as PasswordIcon } from '@mui/icons-material';
 import { Email as EmailIcon } from '@mui/icons-material';
 import React from 'react';
 
-export const SignIn = () => {
+export const SignIn = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -52,7 +52,9 @@ export const SignIn = () => {
       <ButtonLarge
         className={`classicHover ${styles.buttonSingIn}`}
         variant="outlined"
-        onClick={() => login(email, password)}
+        onClick={() =>
+          login(email, password, props.setAlertsValues, props.setAlerts)
+        }
       >
         SIGN IN
       </ButtonLarge>

@@ -1,17 +1,25 @@
 import axios from 'axios';
 
-export const postData = (url, data) => {
-  axios
+export const postData = async (url, data, setAlertsValues, setAlerts) => {
+  await axios
     .post(url, data, {
       withCredentials: true,
     })
     .then((res) => {
-      // handle success
-      alert(res.data.toString());
-      window.location = '/';
+      setAlertsValues({
+        typography: [res.data],
+        title: 'Success',
+        severity: 'success',
+      });
+      setAlerts(true);
+      if (window.location.pathname === '/signIn') window.location = '/';
     })
     .catch((error) => {
-      // handle error
-      alert(error.response.data);
+      setAlertsValues({
+        typography: error.response.data,
+        title: 'Error',
+        severity: 'error',
+      });
+      setAlerts(true);
     });
 };
