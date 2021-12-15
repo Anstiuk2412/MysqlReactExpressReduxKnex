@@ -6,7 +6,9 @@ import {
 import { user } from '../../../database/models/user.js';
 import { fileURLToPath } from 'url';
 
-const pathToReact = fileURLToPath(new URL('../../../client/build/index.html', import.meta.url));
+const pathToReact = fileURLToPath(
+  new URL('../../../client/build/index.html', import.meta.url),
+);
 
 export const register = async (req, res) => {
   const obtainedUserData = req.body;
@@ -41,21 +43,26 @@ export const login = async (req, res) => {
       obtainedUserData.password,
       authUser.password,
     );
-    if (accessUser) {
-      const accessToken = createToken({ id: authUser.id });
-      res
-        .status(200)
-        .cookie('access_token', accessToken, {
-          httpOnly: true,
-        })
-        .json('Success login');
+    if (authUser.is_active === 1) {
+      if (accessUser) {
+        const accessToken = createToken({ id: authUser.id });
+        res
+          .status(200)
+          .cookie('access_token', accessToken, {
+            httpOnly: true,
+          })
+          .json('Success login');
+      } else {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify('Password wrong'));
+      }
     } else {
       res.writeHead(404, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify('Password wrong'));
+      res.end(JSON.stringify([`Account didn't active`]));
     }
   } else {
     res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify('User not registered'));
+    res.end(JSON.stringify(['User not registered']));
   }
 };
 
