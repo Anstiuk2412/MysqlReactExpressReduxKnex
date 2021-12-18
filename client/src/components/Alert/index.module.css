@@ -1,14 +1,8 @@
 .Alert {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
     padding: 6px 16px;
     margin-top: 18px;
     width: 375px;
     height: 76px;
-    left: 1047px;
-    top: 846px;
     /* Green 2 */
     border-radius: 4px;
 }

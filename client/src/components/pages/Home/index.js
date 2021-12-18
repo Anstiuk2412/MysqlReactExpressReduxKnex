@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { openFolder } from '../../../actions/files.js';
 import { CustomizedTable } from '../../CustomizedTable';
 import { Folder } from '../../Folder';
-import { useParams } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import { TextBold } from '../../TextBold';
 import { ButtonLarge } from '../../ButtonLarge';
 import { Delete as DeleteIcon } from '@mui/icons-material';
@@ -17,14 +17,21 @@ import { FolderOpen as FolderOpenIcon } from '@mui/icons-material';
 const Home = () => {
   const [files, setFiles] = useState([]);
   const [folders, setFolder] = useState([]);
+  const [redirect, setRedirect] = useState(false);
   let folderId = useParams();
 
   useEffect(async () => {
     const foldersAndFiles = await openFolder(folderId.id);
+    if (foldersAndFiles.redirect) {
+      setRedirect(foldersAndFiles.redirect);
+    }
     setFolder(foldersAndFiles.folders);
     setFiles(foldersAndFiles.files);
   }, [folderId]);
 
+  if (redirect === true) {
+    return <Redirect exact to={'/signIn'} />;
+  }
   return (
     <div>
       <div className={styles.leftSideBOX}>

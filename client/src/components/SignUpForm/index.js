@@ -2,18 +2,32 @@ import { InputAdornment } from '@mui/material';
 import { ButtonLarge } from 'components/ButtonLarge';
 import { registration } from 'actions/users.js';
 import styles from './index.module.css';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { TextFieldLarge } from 'components/TextFieldLarge';
 import { Email as EmailIcon } from '@mui/icons-material';
 import { Group as GroupIcon } from '@mui/icons-material';
 import { Password as PasswordIcon } from '@mui/icons-material';
 import React from 'react';
+import { CustomAlert } from '../Alert';
 
-export const SignUp = (props) => {
+export const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [alerts, setAlerts] = useState([]);
+
+  const sendRequest = useCallback(async () => {
+    const values = await registration(name, email, password, passwordConfirm);
+    setAlerts(values);
+  }, [name, email, password, passwordConfirm]);
+
+  const deleteAlert = (deletedAlertValue) => {
+    const updatedAlerts = alerts.filter(
+      (alert) => alert.message !== deletedAlertValue,
+    );
+    setAlerts(updatedAlerts);
+  };
   return (
     <div className={styles.SingUpForm}>
       <div className={styles.inputName}>
@@ -83,19 +97,21 @@ export const SignUp = (props) => {
       <ButtonLarge
         className={`classicHover ${styles.buttonSingUp}`}
         variant="outlined"
-        onClick={() =>
-          registration(
-            name,
-            email,
-            password,
-            passwordConfirm,
-            props.setAlertsValues,
-            props.setAlerts,
-          )
-        }
+        onClick={sendRequest}
       >
         CREATE ACCOUNT
       </ButtonLarge>
+      <div className={styles.alertBox}>
+        {alerts.map((alert) => (
+          <CustomAlert
+            key={alert.message}
+            message={alert.message}
+            onClick={() => deleteAlert(alert.message)}
+            severity={alert.severity}
+            title={alert.title}
+          />
+        ))}
+      </div>
     </div>
   );
 };

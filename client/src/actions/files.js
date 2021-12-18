@@ -1,8 +1,5 @@
-import axios from 'axios';
-import { API_URL } from '../config/config.js';
+import { getData } from '../lib/API/axios';
 
 export const openFolder = async (folderId) => {
-  return await axios.get(`${API_URL}/api/files/${folderId}`).then((res) => {
-    return res.data;
-  });
+  return await getData(`/api/files/${folderId}`);
 };
