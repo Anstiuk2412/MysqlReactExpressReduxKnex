@@ -30,7 +30,11 @@ export const register = async (req, res) => {
   } else {
     await user.save(obtainedUserData);
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify('Success register'));
+    res.end(
+      JSON.stringify([
+        { message: 'Success login', severity: 'success', title: 'SUCCESS' },
+      ]),
+    );
   }
 };
 
@@ -51,7 +55,14 @@ export const login = async (req, res) => {
           .cookie('access_token', accessToken, {
             httpOnly: true,
           })
-          .json('Success login');
+          .json([
+            {
+              message: 'Success login',
+              severity: 'success',
+              title: 'SUCCESS',
+              redirect: true,
+            },
+          ]);
       } else {
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify('Password wrong'));
