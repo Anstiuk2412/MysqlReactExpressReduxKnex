@@ -9,7 +9,7 @@ export const CustomAlert = (props) => {
       variant="filled"
       severity={props.severity}
       onClose={props.onClick}
-      className={styles.Alert}
+      className={`${styles.Alert} styles.${props.severity}`}
     >
       <AlertTitle className={styles.alertTitle}>{props.title}</AlertTitle>
       <Typography className={styles.alertTypography}>

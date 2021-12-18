@@ -8,9 +8,17 @@
 }
 
 div.Alert {
+    color: rgba(0, 0, 0, 0.54);
+}
+
+div.Alert success{
     font-weight: 300;
     background-color: #27AE60;
-    color: rgba(0, 0, 0, 0.54);
+}
+
+div.Alert error{
+    font-weight: 300;
+    background-color: #FA4616;
 }
 
 .alertTitle {
