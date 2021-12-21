@@ -15,12 +15,7 @@ export const postData = async (url, data) => {
 };
 
 export const getData = async (url) => {
-  return await axios
-    .get(`${API_URL}${url}`)
-    .then((res) => {
-      return res.data;
-    })
-    .catch(() => {
-      return { redirect: true };
-    });
+  return await axios.get(`${API_URL}${url}`).then((res) => {
+    return res.data;
+  });
 };
