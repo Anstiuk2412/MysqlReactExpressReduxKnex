@@ -22,6 +22,9 @@ const Home = () => {
 
   useEffect(async () => {
     const foldersAndFiles = await openFolder(folderId.id);
+    if (foldersAndFiles.name === 'Error') {
+      setRedirect(true);
+    }
     if (foldersAndFiles.redirect) {
       setRedirect(foldersAndFiles.redirect);
     }
