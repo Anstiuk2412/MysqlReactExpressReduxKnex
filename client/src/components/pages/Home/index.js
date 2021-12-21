@@ -22,7 +22,7 @@ const Home = () => {
 
   useEffect(async () => {
     const foldersAndFiles = await openFolder(folderId.id);
-    if (foldersAndFiles.name === 'Error') {
+    if (foldersAndFiles === 'Unauthorized') {
       setRedirect(true);
     }
     if (foldersAndFiles.redirect) {

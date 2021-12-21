@@ -21,6 +21,6 @@ export const getData = async (url) => {
       return res.data;
     })
     .catch((error) => {
-      return error;
+      return error.response.data;
     });
 };
