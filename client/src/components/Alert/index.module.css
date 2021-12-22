@@ -1,21 +1,24 @@
 .Alert {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
     padding: 6px 16px;
-    position: absolute;
+    margin-top: 18px;
     width: 375px;
     height: 76px;
-    left: 1047px;
-    top: 930px;
     /* Green 2 */
     border-radius: 4px;
 }
 
 div.Alert {
+    color: rgba(0, 0, 0, 0.54);
+}
+
+div.Alert success{
     font-weight: 300;
     background-color: #27AE60;
-    color: rgba(0, 0, 0, 0.54);
+}
+
+div.Alert error{
+    font-weight: 300;
+    background-color: #FA4616;
 }
 
 .alertTitle {

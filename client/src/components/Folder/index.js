@@ -25,7 +25,7 @@ export const Folder = (props) => {
   const history = useHistory();
   return (
     <FolderButton
-      className={styles.folder}
+      className={props.className}
       variant="outlined"
       onClick={() => {
         history.push(`/folder/${props.amount.id}`);

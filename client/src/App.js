@@ -21,13 +21,18 @@ const App = () => {
       },
     },
   });
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <Header />
         <Switch>
           <Route exact path={['/', '/folder/:id']} component={Home} />
-          <Route exact path={['/signIn', '/signUp']} component={AuthForm} />
+          <Route
+            exact
+            path={['/signIn', '/signUp']}
+            render={() => <AuthForm />}
+          />
           <Route exact path="*" component={NotFound} />
         </Switch>
       </Router>
