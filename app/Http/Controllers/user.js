@@ -6,7 +6,9 @@ import {
 import { user } from '../../../database/models/user.js';
 import { fileURLToPath } from 'url';
 
-const pathToReact = fileURLToPath(new URL('../../../client/build/index.html', import.meta.url));
+const pathToReact = fileURLToPath(
+  new URL('../../../client/build/index.html', import.meta.url),
+);
 
 export const register = async (req, res) => {
   const obtainedUserData = req.body;
@@ -24,11 +26,27 @@ export const register = async (req, res) => {
   });
   if (activeUser) {
     res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify('User already active'));
+    res.end(
+      JSON.stringify([
+        {
+          message: 'User already active',
+          severity: 'error',
+          title: 'ERROR',
+        },
+      ]),
+    );
   } else {
     await user.save(obtainedUserData);
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify('Success register'));
+    res.end(
+      JSON.stringify([
+        {
+          message: 'Success login',
+          severity: 'success',
+          title: 'SUCCESS',
+        },
+      ]),
+    );
   }
 };
 
@@ -41,21 +59,60 @@ export const login = async (req, res) => {
       obtainedUserData.password,
       authUser.password,
     );
-    if (accessUser) {
-      const accessToken = createToken({ id: authUser.id });
-      res
-        .status(200)
-        .cookie('access_token', accessToken, {
-          httpOnly: true,
-        })
-        .json('Success login');
+    if (authUser.is_active === 1) {
+      if (accessUser) {
+        const accessToken = createToken({ id: authUser.id });
+        res
+          .status(200)
+          .cookie('access_token', accessToken, {
+            httpOnly: true,
+          })
+          .json([
+            {
+              message: 'Success login',
+              severity: 'success',
+              title: 'SUCCESS',
+              redirect: true,
+            },
+          ]);
+      } else {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(
+          JSON.stringify([
+            {
+              message: 'Password wrong',
+              severity: 'error',
+              title: 'ERROR',
+              redirect: false,
+            },
+          ]),
+        );
+      }
     } else {
       res.writeHead(404, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify('Password wrong'));
+      res.end(
+        JSON.stringify([
+          {
+            message: "Account didn't active",
+            severity: 'error',
+            title: 'ERROR',
+            redirect: false,
+          },
+        ]),
+      );
     }
   } else {
     res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify('User not registered'));
+    res.end(
+      JSON.stringify([
+        {
+          message: 'User not registered',
+          severity: 'error',
+          title: 'ERROR',
+          redirect: false,
+        },
+      ]),
+    );
   }
 };
 
