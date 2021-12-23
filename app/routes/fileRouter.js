@@ -78,5 +78,14 @@ router.get(
  *           - folder_id
  *     responses:
  *       '200':
- *         description: User files and folder
+ *         description: Users files and folders
+ *         schema:
+ *           type: object
+ *           properties:
+ *             files:
+ *               type: object
+ *             folders:
+ *               type: object
+ *             message:
+ *               type: string
  */

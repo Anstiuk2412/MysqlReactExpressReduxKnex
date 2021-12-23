@@ -70,8 +70,34 @@ router.get('*', sendFile);
  *     responses:
  *       '200':
  *         description: Success login
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *               severity:
+ *                 type: string
+ *               title:
+ *                 type: string
+ *               redirect:
+ *                 type: boolean
  *       '404':
- *         description: Bad username, not found in db, wrong password
+ *         description: User already login, Error validation, User didnt active, User didnt registered
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *               severity:
+ *                 type: string
+ *               title:
+ *                 type: string
+ *               redirect:
+ *                 type: boolean
  */
 
 /**
@@ -115,6 +141,32 @@ router.get('*', sendFile);
  *     responses:
  *       '200':
  *         description: Success registration
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *               severity:
+ *                 type: string
+ *               title:
+ *                 type: string
+ *               redirect:
+ *                 type: boolean
  *       '404':
  *         description: User already registered, validation false
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *               severity:
+ *                 type: string
+ *               title:
+ *                 type: string
+ *               redirect:
+ *                 type: boolean
  */

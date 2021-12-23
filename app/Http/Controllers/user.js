@@ -32,6 +32,7 @@ export const register = async (req, res) => {
           message: 'User already active',
           severity: 'error',
           title: 'ERROR',
+          redirect: false,
         },
       ]),
     );
@@ -44,6 +45,7 @@ export const register = async (req, res) => {
           message: 'Success login',
           severity: 'success',
           title: 'SUCCESS',
+          redirect: false,
         },
       ]),
     );

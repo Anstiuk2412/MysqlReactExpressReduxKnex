@@ -21,7 +21,9 @@ export const filesAndFoldersAtFolder = async (req, res) => {
   });
   if (userFiles[0]) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ files: userFiles, folders: childFolders }));
+    res.end(
+      JSON.stringify({ files: userFiles, folders: childFolders, message: '' }),
+    );
   } else {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(
