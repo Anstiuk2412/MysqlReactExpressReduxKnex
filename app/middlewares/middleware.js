@@ -4,9 +4,15 @@ import { jwtStrategy } from '../../lib/passport/passport.js';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import { fileURLToPath } from 'url';
-const pathToReactjs = fileURLToPath(new URL('../../client/build', import.meta.url));
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from '../../lib/swagger/index.js';
+
+const pathToReactjs = fileURLToPath(
+  new URL('../../client/build', import.meta.url),
+);
 
 export default (app) => {
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   app.use(bodyParser.json());
   app.use(
     bodyParser.urlencoded({

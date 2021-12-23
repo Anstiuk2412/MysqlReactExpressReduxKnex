@@ -12,3 +12,71 @@ router.get(
   }),
   filesAndFoldersAtFolder,
 );
+
+/**
+ * @swagger
+ * definitions:
+ *   Files:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: integer
+ *       user_id:
+ *         type: integer
+ *       name:
+ *         type: string
+ *       folder_id:
+ *         type: integer
+ *       file_size:
+ *         type: float
+ *       created_at:
+ *         type: timestamp
+ *       updated_at:
+ *         type: timestamp
+ */
+
+/**
+ * @swagger
+ * definitions:
+ *   Folder:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: integer
+ *       name:
+ *         type: string
+ *       user_id:
+ *         type: int
+ *       parent_id:
+ *         type: integer
+ *       created_at:
+ *         type: timestamp
+ *       updated_at:
+ *         type: timestamp
+ */
+
+/**
+ * @swagger
+ * /api/files/{folder_id}:
+ *   get:
+ *     tags:
+ *       - Files
+ *     name: Get users files and folder
+ *     summary: Get users files and folder
+ *     security:
+ *       - jwtAuth: []
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - in : path
+ *         name: folder_id
+ *         schema:
+ *           type: integer
+ *         required:
+ *           - folder_id
+ *     responses:
+ *       '200':
+ *         description: User files and folder
+ */
