@@ -82,10 +82,13 @@ router.get(
  *         schema:
  *           type: object
  *           properties:
- *             files:
+ *             data:
  *               type: object
- *             folders:
- *               type: object
- *             message:
- *               type: string
+ *               properties:
+ *                 files:
+ *                   type: object
+ *                 folders:
+ *                   type: object
+ *                 message:
+ *                   type: string
  */

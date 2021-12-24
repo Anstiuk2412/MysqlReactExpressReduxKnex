@@ -75,12 +75,18 @@ router.get('*', sendFile);
  *           items:
  *             type: object
  *             properties:
- *               message:
- *                 type: string
- *               severity:
- *                 type: string
- *               title:
- *                 type: string
+ *               data:
+ *                 type: object
+ *                 properties:
+ *                   message:
+ *                     type: object
+ *                     properties:
+ *                       message:
+ *                         type: string
+ *                       severity:
+ *                         type: string
+ *                       title:
+ *                         type: string
  *               redirect:
  *                 type: boolean
  *       '404':
@@ -90,12 +96,18 @@ router.get('*', sendFile);
  *           items:
  *             type: object
  *             properties:
- *               message:
- *                 type: string
- *               severity:
- *                 type: string
- *               title:
- *                 type: string
+ *               data:
+ *                 type: object
+ *                 properties:
+ *                   message:
+ *                     type: object
+ *                     properties:
+ *                       message:
+ *                         type: string
+ *                       severity:
+ *                         type: string
+ *                       title:
+ *                         type: string
  *               redirect:
  *                 type: boolean
  */
@@ -146,12 +158,18 @@ router.get('*', sendFile);
  *           items:
  *             type: object
  *             properties:
- *               message:
- *                 type: string
- *               severity:
- *                 type: string
- *               title:
- *                 type: string
+ *               data:
+ *                 type: object
+ *                 properties:
+ *                   message:
+ *                     type: object
+ *                     properties:
+ *                       message:
+ *                         type: string
+ *                       severity:
+ *                         type: string
+ *                       title:
+ *                         type: string
  *               redirect:
  *                 type: boolean
  *       '404':
@@ -161,12 +179,18 @@ router.get('*', sendFile);
  *           items:
  *             type: object
  *             properties:
- *               message:
- *                 type: string
- *               severity:
- *                 type: string
- *               title:
- *                 type: string
+ *               data:
+ *                 type: object
+ *                 properties:
+ *                   message:
+ *                     type: object
+ *                     properties:
+ *                       message:
+ *                         type: string
+ *                       severity:
+ *                         type: string
+ *                       title:
+ *                         type: string
  *               redirect:
  *                 type: boolean
  */
