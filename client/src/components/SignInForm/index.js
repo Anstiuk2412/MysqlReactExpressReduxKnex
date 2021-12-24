@@ -18,10 +18,12 @@ export const SignIn = () => {
 
   const sendRequest = useCallback(async () => {
     const values = await login(email, password);
-    setAlerts(values);
-    if (values[0].redirect) {
-      setRedirect(values[0].redirect);
+    if (Array.isArray(values.data.message)) {
+      setAlerts(values.data.message);
+    } else {
+      setAlerts([values.data.message]);
     }
+    setRedirect(values.redirect);
   }, [email, password]);
 
   const deleteAlert = (deletedAlertValue) => {
