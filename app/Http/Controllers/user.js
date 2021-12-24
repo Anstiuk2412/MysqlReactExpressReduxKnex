@@ -92,7 +92,6 @@ export const login = async (req, res) => {
                 message: 'Password wrong',
                 severity: 'error',
                 title: 'ERROR',
-                redirect: false,
               },
             },
             redirect: false,
