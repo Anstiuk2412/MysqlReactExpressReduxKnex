@@ -18,11 +18,7 @@ export const SignIn = () => {
 
   const sendRequest = useCallback(async () => {
     const values = await login(email, password);
-    if (Array.isArray(values.data.message)) {
-      setAlerts(values.data.message);
-    } else {
-      setAlerts([values.data.message]);
-    }
+    setAlerts(values.data.message);
     setRedirect(values.redirect);
   }, [email, password]);
 

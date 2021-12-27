@@ -19,11 +19,7 @@ export const SignUp = () => {
 
   const sendRequest = useCallback(async () => {
     const values = await registration(name, email, password, passwordConfirm);
-    if (Array.isArray(values.data.message)) {
-      setAlerts(values.data.message);
-    } else {
-      setAlerts([values.data.message]);
-    }
+    setAlerts(values.data.message);
   }, [name, email, password, passwordConfirm]);
 
   const deleteAlert = (deletedAlertValue) => {
