@@ -31,7 +31,7 @@ export const filesAndFoldersAtFolder = async (req, res) => {
         data: {
           files: userFiles,
           folders: childFolders,
-          message: 'The folder is empty',
+          message: ['The folder is empty'],
         },
       }),
     );

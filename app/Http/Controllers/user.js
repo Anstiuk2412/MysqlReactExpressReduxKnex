@@ -29,11 +29,13 @@ export const register = async (req, res) => {
     res.end(
       JSON.stringify({
         data: {
-          message: {
-            message: 'User already active',
-            severity: 'error',
-            title: 'ERROR',
-          },
+          message: [
+            {
+              message: 'User already active',
+              severity: 'error',
+              title: 'ERROR',
+            },
+          ],
         },
         redirect: false,
       }),
@@ -44,11 +46,13 @@ export const register = async (req, res) => {
     res.end(
       JSON.stringify({
         data: {
-          message: {
-            message: 'Success login',
-            severity: 'success',
-            title: 'SUCCESS',
-          },
+          message: [
+            {
+              message: 'Success login',
+              severity: 'success',
+              title: 'SUCCESS',
+            },
+          ],
         },
         redirect: false,
       }),
@@ -75,11 +79,13 @@ export const login = async (req, res) => {
           })
           .json({
             data: {
-              message: {
-                message: 'Success login',
-                severity: 'success',
-                title: 'SUCCESS',
-              },
+              message: [
+                {
+                  message: 'Success login',
+                  severity: 'success',
+                  title: 'SUCCESS',
+                },
+              ],
             },
             redirect: true,
           });
@@ -88,11 +94,13 @@ export const login = async (req, res) => {
         res.end(
           JSON.stringify({
             data: {
-              message: {
-                message: 'Password wrong',
-                severity: 'error',
-                title: 'ERROR',
-              },
+              message: [
+                {
+                  message: 'Password wrong',
+                  severity: 'error',
+                  title: 'ERROR',
+                },
+              ],
             },
             redirect: false,
           }),
@@ -103,11 +111,13 @@ export const login = async (req, res) => {
       res.end(
         JSON.stringify({
           data: {
-            message: {
-              message: "Account didn't active",
-              severity: 'error',
-              title: 'ERROR',
-            },
+            message: [
+              {
+                message: "Account didn't active",
+                severity: 'error',
+                title: 'ERROR',
+              },
+            ],
           },
           redirect: false,
         }),
@@ -118,11 +128,13 @@ export const login = async (req, res) => {
     res.end(
       JSON.stringify({
         data: {
-          message: {
-            message: 'User not registered',
-            severity: 'error',
-            title: 'ERROR',
-          },
+          message: [
+            {
+              message: 'User not registered',
+              severity: 'error',
+              title: 'ERROR',
+            },
+          ],
         },
         redirect: false,
       }),
