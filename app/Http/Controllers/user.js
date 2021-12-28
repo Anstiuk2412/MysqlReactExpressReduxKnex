@@ -58,9 +58,7 @@ export const login = async (req, res) => {
       .cookie('access_token', accessToken, {
         httpOnly: true,
       })
-      .end(
-        JSON.stringify(userMessageResponse('Success login', 'success', true)),
-      );
+      .end(JSON.stringify({ redirect: true }));
   };
   const wrongPassword = () => {
     res
