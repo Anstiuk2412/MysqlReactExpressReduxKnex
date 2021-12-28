@@ -18,8 +18,8 @@ export const SignIn = () => {
 
   const sendRequest = useCallback(async () => {
     const values = await login(email, password);
-    setAlerts(values.data.message);
     setRedirect(values.redirect);
+    setAlerts(values.data.message);
   }, [email, password]);
 
   const deleteAlert = (deletedAlertValue) => {
