@@ -5,6 +5,7 @@ import {
 } from '../../../lib/auth/auth.js';
 import { user } from '../../../database/models/user.js';
 import { fileURLToPath } from 'url';
+import { userMessageResponse } from '../../../lib/helper/castomResponse.js';
 
 const pathToReact = fileURLToPath(
   new URL('../../../client/build/index.html', import.meta.url),
@@ -24,122 +25,74 @@ export const register = async (req, res) => {
     email: obtainedUserData.email,
     is_active: 1,
   });
-  if (activeUser) {
+  const userAlreadyExists = () => {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(
-      JSON.stringify({
-        data: {
-          message: [
-            {
-              message: 'User already active',
-              severity: 'error',
-              title: 'ERROR',
-            },
-          ],
-        },
-        redirect: false,
-      }),
+      JSON.stringify(
+        userMessageResponse('User already active', 'error', false),
+      ),
     );
-  } else {
+  };
+  const successRegister = async () => {
     await user.save(obtainedUserData);
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(
-      JSON.stringify({
-        data: {
-          message: [
-            {
-              message: 'Success login',
-              severity: 'success',
-              title: 'SUCCESS',
-            },
-          ],
-        },
-        redirect: false,
-      }),
+      JSON.stringify(
+        userMessageResponse('Success registration', 'success', false),
+      ),
     );
-  }
+  };
+  activeUser ? userAlreadyExists() : await successRegister();
 };
 
 export const login = async (req, res) => {
   const obtainedUserData = req.body;
   const authUser = await user.selectFirst({ email: obtainedUserData.email });
-  if (authUser) {
-    // check password, generate token, successfully logged in
-    const accessUser = await comparePass(
-      obtainedUserData.password,
-      authUser.password,
-    );
-    if (authUser.is_active === 1) {
-      if (accessUser) {
-        const accessToken = createToken({ id: authUser.id });
-        res
-          .status(200)
-          .cookie('access_token', accessToken, {
-            httpOnly: true,
-          })
-          .json({
-            data: {
-              message: [
-                {
-                  message: 'Success login',
-                  severity: 'success',
-                  title: 'SUCCESS',
-                },
-              ],
-            },
-            redirect: true,
-          });
-      } else {
-        res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(
-          JSON.stringify({
-            data: {
-              message: [
-                {
-                  message: 'Password wrong',
-                  severity: 'error',
-                  title: 'ERROR',
-                },
-              ],
-            },
-            redirect: false,
-          }),
-        );
-      }
-    } else {
-      res.writeHead(404, { 'Content-Type': 'application/json' });
-      res.end(
-        JSON.stringify({
-          data: {
-            message: [
-              {
-                message: "Account didn't active",
-                severity: 'error',
-                title: 'ERROR',
-              },
-            ],
-          },
-          redirect: false,
-        }),
+  const accessUser = async () => {
+    return await comparePass(obtainedUserData.password, authUser.password);
+  };
+  const successLogin = () => {
+    const accessToken = createToken({ id: authUser.id });
+    res
+      .status(200)
+      .cookie('access_token', accessToken, {
+        httpOnly: true,
+      })
+      .end(
+        JSON.stringify(userMessageResponse('Success login', 'success', true)),
       );
-    }
-  } else {
+  };
+  const wrongPassword = () => {
+    res
+      .writeHead(404, { 'Content-Type': 'application/json' })
+      .end(
+        JSON.stringify(userMessageResponse('Password wrong', 'error', false)),
+      );
+  };
+  const userNotActive = () => {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(
-      JSON.stringify({
-        data: {
-          message: [
-            {
-              message: 'User not registered',
-              severity: 'error',
-              title: 'ERROR',
-            },
-          ],
-        },
-        redirect: false,
-      }),
+      JSON.stringify(
+        userMessageResponse("Account didn't active", 'error', false),
+      ),
     );
-  }
+  };
+  const userNotRegister = () => {
+    res
+      .writeHead(404, { 'Content-Type': 'application/json' })
+      .end(
+        JSON.stringify(
+          userMessageResponse('User not registered', 'error', false),
+        ),
+      );
+  };
+  return authUser
+    ? authUser.is_active === 1
+      ? (await accessUser())
+        ? successLogin()
+        : wrongPassword()
+      : userNotActive()
+    : userNotRegister();
 };
 
 export const sendFile = (req, res) => {
