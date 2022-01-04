@@ -1,16 +1,21 @@
-import {
-  openFolder,
-  openHomeFolder,
-} from '../../../lib/helper/workWithFilesAndFolders/openFolder.js';
+import { openFolder } from '../../../lib/helper/workWithFilesAndFolders/openFolder.js';
+import { folders } from '../../../database/models/folder.js';
 
 export const filesAndFoldersAtFolder = async (req, res) => {
   // * get User id
-  const userId = req.user._statements[0].value;
+  const userId = req.user.user_id;
   // * get folder id
   const folderId = req.params.folder_id;
   if (folderId === 'undefined') {
     // * If user at Home folder
-    const { userFiles, childFolders } = await openHomeFolder(userId);
+    const homeFolderId = await folders.selectFirst({
+      user_id: userId,
+      parent_id: null,
+    });
+    const { userFiles, childFolders } = await openFolder(
+      userId,
+      homeFolderId.id,
+    );
     if (userFiles[0]) {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(

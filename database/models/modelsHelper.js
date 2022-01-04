@@ -13,7 +13,7 @@ export const update = (table, conditions) => {
 };
 
 export const selectFirst = (table, conditions) => {
-  return myKnex(table).select().where(conditions).first();
+  return myKnex(table).select().where(conditions).first().then();
 };
 
 export const selectAll = (table, conditions) => {
