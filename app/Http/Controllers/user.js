@@ -5,6 +5,7 @@ import {
 } from '../../../lib/auth/auth.js';
 import { user } from '../../../database/models/user.js';
 import { fileURLToPath } from 'url';
+import { userMessageResponse } from '../../../lib/helper/castomResponse.js';
 
 const pathToReact = fileURLToPath(
   new URL('../../../client/build/index.html', import.meta.url),
@@ -27,93 +28,65 @@ export const register = async (req, res) => {
   if (activeUser) {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(
-      JSON.stringify([
-        {
-          message: 'User already active',
-          severity: 'error',
-          title: 'ERROR',
-        },
-      ]),
+      JSON.stringify(
+        userMessageResponse('User already active', 'error', false),
+      ),
     );
-  } else {
-    await user.save(obtainedUserData);
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(
-      JSON.stringify([
-        {
-          message: 'Success login',
-          severity: 'success',
-          title: 'SUCCESS',
-        },
-      ]),
-    );
+    return;
   }
+  //Success
+  await user.save(obtainedUserData);
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(
+    JSON.stringify(
+      userMessageResponse('Success registration', 'success', false),
+    ),
+  );
 };
 
 export const login = async (req, res) => {
   const obtainedUserData = req.body;
   const authUser = await user.selectFirst({ email: obtainedUserData.email });
-  if (authUser) {
-    // check password, generate token, successfully logged in
-    const accessUser = await comparePass(
-      obtainedUserData.password,
-      authUser.password,
-    );
-    if (authUser.is_active === 1) {
-      if (accessUser) {
-        const accessToken = createToken({ id: authUser.id });
-        res
-          .status(200)
-          .cookie('access_token', accessToken, {
-            httpOnly: true,
-          })
-          .json([
-            {
-              message: 'Success login',
-              severity: 'success',
-              title: 'SUCCESS',
-              redirect: true,
-            },
-          ]);
-      } else {
-        res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(
-          JSON.stringify([
-            {
-              message: 'Password wrong',
-              severity: 'error',
-              title: 'ERROR',
-              redirect: false,
-            },
-          ]),
-        );
-      }
-    } else {
-      res.writeHead(404, { 'Content-Type': 'application/json' });
-      res.end(
-        JSON.stringify([
-          {
-            message: "Account didn't active",
-            severity: 'error',
-            title: 'ERROR',
-            redirect: false,
-          },
-        ]),
-      );
-    }
-  } else {
+
+  // check password, generate token, successfully logged in
+  const accessUser = async () =>
+    await comparePass(obtainedUserData.password, authUser.password);
+  //If user not register
+  if (!authUser) {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(
-      JSON.stringify([
-        {
-          message: 'User not registered',
-          severity: 'error',
-          title: 'ERROR',
-          redirect: false,
-        },
-      ]),
+      JSON.stringify(
+        userMessageResponse('User not registered', 'error', false),
+      ),
     );
+    return;
   }
+  //If password wrong
+  if (!(await accessUser())) {
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(
+      JSON.stringify(userMessageResponse('Password wrong', 'error', false)),
+    );
+    return;
+  }
+  //If user not active
+  if (!authUser.is_active) {
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(
+      JSON.stringify(
+        userMessageResponse("Account didn't active", 'error', false),
+      ),
+    );
+    return;
+  }
+  //Success
+  const accessToken = createToken({ id: authUser.id });
+  res
+    .status(200)
+    .cookie('access_token', accessToken, {
+      httpOnly: true,
+    })
+    .end(JSON.stringify({ redirect: true }));
 };
 
 export const sendFile = (req, res) => {
