@@ -75,7 +75,7 @@ export const login = async (req, res) => {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(
       JSON.stringify(
-        userMessageResponse("Account didn't active", 'error', false),
+        userMessageResponse('Account didn\'t active', 'error', false),
       ),
     );
     return;
