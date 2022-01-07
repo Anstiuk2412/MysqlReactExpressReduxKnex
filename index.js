@@ -3,6 +3,7 @@ import config from 'config';
 import middleware from './app/middlewares/middleware.js';
 import { router as userRouter } from './app/routes/userRouter.js';
 import { router as fileRouter } from './app/routes/fileRouter.js';
+import { router as swaggerRouter } from './app/routes/swaggerRouter.js';
 
 const PORT = config.get('PORT');
 
@@ -14,6 +15,7 @@ middleware(app);
 /* Router*/
 app.use(fileRouter);
 app.use(userRouter);
+app.use(swaggerRouter);
 
 /* Listen port */
 app.listen(PORT, () => {
