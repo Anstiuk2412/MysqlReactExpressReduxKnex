@@ -89,7 +89,7 @@ router.get('*', sendFile);
  *                         type: string
  *               redirect:
  *                 type: boolean
- *       '404':
+ *       '200':
  *         description: User already login, Error validation, User didnt active, User didnt registered
  *         schema:
  *           type: array
@@ -172,7 +172,7 @@ router.get('*', sendFile);
  *                         type: string
  *               redirect:
  *                 type: boolean
- *       '404':
+ *       '200':
  *         description: User already registered, validation false
  *         schema:
  *           type: array
