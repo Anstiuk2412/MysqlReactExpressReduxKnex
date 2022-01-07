@@ -1,9 +1,9 @@
 import styles from './index.module.css';
 import React, { useEffect, useState } from 'react';
-import { openFolder } from '../../../actions/files.js';
+import { getBreadcrumbs, openFolder } from '../../../actions/files.js';
 import { CustomizedTable } from '../../CustomizedTable';
 import { Folder } from '../../Folder';
-import { Redirect, useParams } from 'react-router-dom';
+import { Link, Redirect, useParams } from 'react-router-dom';
 import { TextBold } from '../../TextBold';
 import { ButtonLarge } from '../../ButtonLarge';
 import { Delete as DeleteIcon } from '@mui/icons-material';
@@ -11,15 +11,16 @@ import { Share as ShareIcon } from '@mui/icons-material';
 import { Upload as UploadIcon } from '@mui/icons-material';
 import { CreateNewFolder as CreateNewFolderIcon } from '@mui/icons-material';
 import { UploadFile as UploadFileIcon } from '@mui/icons-material';
-import { Checkbox, Typography } from '@material-ui/core';
+import { Breadcrumbs, Checkbox, Typography } from '@material-ui/core';
 import { FolderOpen as FolderOpenIcon } from '@mui/icons-material';
 
 const Home = () => {
   const [files, setFiles] = useState([]);
   const [folders, setFolder] = useState([]);
   const [redirect, setRedirect] = useState(false);
+  const [breadcrumbs, setBreadcrumbs] = useState([]);
   let folderId = useParams();
-
+  // * useEffect for files and folders
   useEffect(async () => {
     const foldersAndFiles = await openFolder(folderId.id);
     if (foldersAndFiles === 'Unauthorized') {
@@ -31,12 +32,44 @@ const Home = () => {
     setFolder(foldersAndFiles.data.folders);
     setFiles(foldersAndFiles.data.files);
   }, [folderId]);
+  // * useEffect for breadCrumbs
+  useEffect(async () => {
+    if (folderId.id) {
+      const { data } = await getBreadcrumbs(folderId.id);
+      setBreadcrumbs(data.breadcrumbs);
+      return;
+    }
+    setBreadcrumbs([]);
+  }, [folderId]);
 
   if (redirect === true) {
     return <Redirect exact to={'/signIn'} />;
   }
   return (
     <div>
+      <div className={styles.breadcrumbBox}>
+        <Breadcrumbs separator="›" aria-label="breadcrumb">
+          <Typography
+            variant="h6"
+            className={styles.breadcrumb}
+            component={Link}
+            to={'/'}
+          >
+            Home
+          </Typography>
+          {breadcrumbs.map((breadcrumb) => (
+            <Typography
+              variant="h6"
+              className={styles.breadcrumb}
+              key={breadcrumb.id}
+              component={Link}
+              to={`${breadcrumb.id}`}
+            >
+              {breadcrumb.name}
+            </Typography>
+          ))}
+        </Breadcrumbs>
+      </div>
       <div className={styles.leftSideBOX}>
         <TextBold className={styles.textActionMenu}>ACTIONS MENU</TextBold>
         <div className={styles.actionMenu}>
