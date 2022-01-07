@@ -55,3 +55,40 @@ export const filesAndFoldersAtFolder = async (req, res) => {
     );
   }
 };
+
+export const generatorBreadcrumbs = async (req, res) => {
+  // * get user Id
+  const userId = req.user.user_id;
+  // * get folder id
+  const folderId = req.params.folder_id;
+  // * breadcrumbs
+  const breadcrumbs = [];
+  // * folderInfo helped to get main folder parent_id
+  let folderInfo = await folders.selectFirst({
+    // eslint-disable-next-line camelcase
+    user_id: userId,
+    id: folderId,
+  });
+  breadcrumbs.push(folderInfo);
+  // * while folder have parent_id add to breadcrumb
+  while (folderInfo.parent_id) {
+    const progenitorFolderId = await folders.selectFirst({
+      // eslint-disable-next-line camelcase
+      user_id: userId,
+      id: folderInfo.parent_id,
+    });
+    breadcrumbs.push(progenitorFolderId);
+    folderInfo = progenitorFolderId;
+  }
+  // * revers to get array from parent folder.
+  // * deleted last element because it is home folder.
+  breadcrumbs.reverse().shift();
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(
+    JSON.stringify({
+      data: {
+        breadcrumbs: breadcrumbs,
+      },
+    }),
+  );
+};
