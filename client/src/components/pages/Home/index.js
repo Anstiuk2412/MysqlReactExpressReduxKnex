@@ -1,9 +1,9 @@
 import styles from './index.module.css';
 import React, { useEffect, useState } from 'react';
-import { openFolder } from '../../../actions/files.js';
+import { openFolder, getPathToParentFolder } from '../../../actions/files.js';
 import { CustomizedTable } from '../../CustomizedTable';
 import { Folder } from '../../Folder';
-import { Redirect, useParams } from 'react-router-dom';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { TextBold } from '../../TextBold';
 import { ButtonLarge } from '../../ButtonLarge';
 import { Delete as DeleteIcon } from '@mui/icons-material';
@@ -13,12 +13,23 @@ import { CreateNewFolder as CreateNewFolderIcon } from '@mui/icons-material';
 import { UploadFile as UploadFileIcon } from '@mui/icons-material';
 import { Checkbox, Typography } from '@material-ui/core';
 import { FolderOpen as FolderOpenIcon } from '@mui/icons-material';
+import { ArrowBack as ArrowBackIcon } from '@mui/icons-material';
 
 const Home = () => {
   const [files, setFiles] = useState([]);
   const [folders, setFolder] = useState([]);
   const [redirect, setRedirect] = useState(false);
   let folderId = useParams();
+  //* Button to previous folder
+  const history = useHistory();
+  const previousFolder = async () => {
+    if (!folderId.id) {
+      history.push('/');
+    } else {
+      const { data } = await getPathToParentFolder(folderId.id);
+      history.push(data.path);
+    }
+  };
 
   useEffect(async () => {
     const foldersAndFiles = await openFolder(folderId.id);
@@ -67,6 +78,14 @@ const Home = () => {
             startIcon={<DeleteIcon />}
           >
             DELETE SELECTED
+          </ButtonLarge>
+          <ButtonLarge
+            variant="outlined"
+            className={`dark ${styles.buttonPreviousFolder}`}
+            startIcon={<ArrowBackIcon />}
+            onClick={previousFolder}
+          >
+            Open parent folder
           </ButtonLarge>
         </div>
         <TextBold className={styles.textYourSpace}>YOUR SPACE</TextBold>
