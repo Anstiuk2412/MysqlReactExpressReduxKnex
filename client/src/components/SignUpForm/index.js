@@ -18,8 +18,8 @@ export const SignUp = () => {
   const [alerts, setAlerts] = useState([]);
 
   const sendRequest = useCallback(async () => {
-    const values = await registration(name, email, password, passwordConfirm);
-    setAlerts(values);
+    const { data } = await registration(name, email, password, passwordConfirm);
+    setAlerts(data.message);
   }, [name, email, password, passwordConfirm]);
 
   const deleteAlert = (deletedAlertValue) => {

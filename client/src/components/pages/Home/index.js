@@ -28,8 +28,8 @@ const Home = () => {
     if (foldersAndFiles.redirect) {
       setRedirect(foldersAndFiles.redirect);
     }
-    setFolder(foldersAndFiles.folders);
-    setFiles(foldersAndFiles.files);
+    setFolder(foldersAndFiles.data.folders);
+    setFiles(foldersAndFiles.data.files);
   }, [folderId]);
 
   if (redirect === true) {
