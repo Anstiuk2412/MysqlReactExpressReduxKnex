@@ -1,6 +1,6 @@
 import styles from './index.module.css';
 import React, { useEffect, useState } from 'react';
-import { openFolder, getPathToParentFolder } from '../../../actions/files.js';
+import { openFolder } from '../../../actions/files.js';
 import { CustomizedTable } from '../../CustomizedTable';
 import { Folder } from '../../Folder';
 import { Redirect, useHistory, useParams } from 'react-router-dom';
@@ -19,15 +19,15 @@ const Home = () => {
   const [files, setFiles] = useState([]);
   const [folders, setFolder] = useState([]);
   const [redirect, setRedirect] = useState(false);
+  const [parentFolderId, setParentFolderId] = useState();
   let folderId = useParams();
   //* Button to previous folder
   const history = useHistory();
   const previousFolder = async () => {
-    if (!folderId.id) {
+    if (!parentFolderId) {
       history.push('/');
     } else {
-      const { data } = await getPathToParentFolder(folderId.id);
-      history.push(data.path);
+      history.push(`${parentFolderId}`);
     }
   };
 
@@ -41,6 +41,7 @@ const Home = () => {
     }
     setFolder(foldersAndFiles.data.folders);
     setFiles(foldersAndFiles.data.files);
+    setParentFolderId(foldersAndFiles.data.parent_id);
   }, [folderId]);
 
   if (redirect === true) {
