@@ -1,9 +1,6 @@
 import { Router } from 'express';
 import passport from 'passport';
-import {
-  filesAndFoldersAtFolder,
-  getPathToParentFolder,
-} from '../Http/Controllers/files.js';
+import { filesAndFoldersAtFolder } from '../Http/Controllers/files.js';
 
 export const router = Router();
 
@@ -14,13 +11,4 @@ router.get(
     session: false,
   }),
   filesAndFoldersAtFolder,
-);
-
-/*Button previous folder*/
-router.get(
-  '/api/getPathToParentFolder/:folder_id',
-  passport.authenticate('jwt', {
-    session: false,
-  }),
-  getPathToParentFolder,
 );
