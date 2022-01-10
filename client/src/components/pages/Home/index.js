@@ -16,18 +16,21 @@ import { FolderOpen as FolderOpenIcon } from '@mui/icons-material';
 import { ArrowBack as ArrowBackIcon } from '@mui/icons-material';
 
 const Home = () => {
-  const [files, setFiles] = useState([]);
-  const [folders, setFolder] = useState([]);
+  const [FilesAndFoldersInfo, setFilesAndFoldersInfo] = useState({
+    files: [],
+    folders: [],
+    parent_id: null,
+  });
   const [redirect, setRedirect] = useState(false);
-  const [parentFolderId, setParentFolderId] = useState();
+
   let folderId = useParams();
   //* Button to previous folder
   const history = useHistory();
   const previousFolder = async () => {
-    if (!parentFolderId) {
+    if (!FilesAndFoldersInfo.parent_id) {
       history.push('/');
     } else {
-      history.push(`${parentFolderId}`);
+      history.push(`${FilesAndFoldersInfo.parent_id}`);
     }
   };
 
@@ -39,9 +42,7 @@ const Home = () => {
     if (foldersAndFiles.redirect) {
       setRedirect(foldersAndFiles.redirect);
     }
-    setFolder(foldersAndFiles.data.folders);
-    setFiles(foldersAndFiles.data.files);
-    setParentFolderId(foldersAndFiles.data.parent_id);
+    setFilesAndFoldersInfo(foldersAndFiles.data);
   }, [folderId]);
 
   if (redirect === true) {
@@ -104,7 +105,7 @@ const Home = () => {
             sx={{ fontSize: 27 }}
           />
           <TextBold className={styles.textFolderBox}>NEW FOLDERS</TextBold>
-          {folders.map((folder) => (
+          {FilesAndFoldersInfo.folders.map((folder) => (
             <Folder key={folder.id} amount={folder} />
           ))}
         </div>
@@ -119,7 +120,10 @@ const Home = () => {
             Shared Only
           </Typography>
         </div>
-        <CustomizedTable amount={files} className={styles.customizedTable} />
+        <CustomizedTable
+          amount={FilesAndFoldersInfo.files}
+          className={styles.customizedTable}
+        />
       </div>
       <div className={styles.rightSideBox}>
         <TextBold className={styles.titleHeaderDetails}>DETAILS</TextBold>
