@@ -10,34 +10,12 @@ export const filesAndFoldersAtFolder = async (req, res) => {
     user_id: userId,
     id: req.params.folder_id,
   });
+  // * If user at Home folder
   if (!mainFolder) {
-    // * If user at Home folder
-    const homeFolderId = await folders.selectFirst({
+    mainFolder = await folders.selectFirst({
       user_id: userId,
       parent_id: null,
     });
-    const { userFiles, childFolders } = await openFolder(
-      userId,
-      homeFolderId.id,
-    );
-    if (userFiles[0]) {
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(
-        JSON.stringify({ data: { files: userFiles, folders: childFolders } }),
-      );
-    } else {
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(
-        JSON.stringify({
-          data: {
-            files: userFiles,
-            folders: childFolders,
-            message: ['The folder is empty'],
-          },
-        }),
-      );
-    }
-    return;
   }
   // ! This query solves the problem with URL.
   // ! If the user goes back to the home folder he should see this '/'
@@ -49,7 +27,6 @@ export const filesAndFoldersAtFolder = async (req, res) => {
   if (parentFolder && !parentFolder.parent_id) {
     mainFolder.parent_id = null;
   }
-  // * If user not at Home folder get all Files
   const { userFiles, childFolders } = await openFolder(userId, mainFolder.id);
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(
