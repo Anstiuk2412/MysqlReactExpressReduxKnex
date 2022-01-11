@@ -2,21 +2,22 @@ import { openFolder } from '../../../lib/helper/workWithFilesAndFolders/openFold
 import { folders } from '../../../database/models/folder.js';
 
 export const filesAndFoldersAtFolder = async (req, res) => {
-  // * get User id
+  // * Get User id
   const userId = req.user.user_id;
-  // * get folder id
-  let mainFolder = await folders.selectFirst({
-    // eslint-disable-next-line camelcase
-    user_id: userId,
-    id: req.params.folder_id,
-  });
-  // * If user at Home folder
-  if (!mainFolder) {
-    mainFolder = await folders.selectFirst({
-      user_id: userId,
-      parent_id: null,
-    });
-  }
+  // * Get values of main folder
+  let mainFolder = await folders.selectFirst(
+    req.params.folder_id === 'undefined'
+      ? {
+          // * If it's main folder
+          user_id: userId,
+          parent_id: null,
+        }
+      : {
+          // * If it's child folder
+          user_id: userId,
+          id: req.params.folder_id,
+        },
+  );
   // ! This query solves the problem with URL.
   // ! If the user goes back to the home folder he should see this '/'
   // ! and not this '/folder/${folder_id}'
