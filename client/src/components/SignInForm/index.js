@@ -19,7 +19,9 @@ export const SignIn = () => {
   const sendRequest = useCallback(async () => {
     const { redirect, data } = await login(email, password);
     setRedirect(redirect);
-    setAlerts(data.message);
+    if (data) {
+      setAlerts(data.message);
+    }
   }, [email, password]);
 
   const deleteAlert = (deletedAlertValue) => {
