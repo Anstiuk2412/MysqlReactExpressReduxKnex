@@ -1,7 +1,7 @@
 import { myKnex } from '../knexfile.js';
 
 export const where = (table, query) => {
-  return myKnex(table).select().where(query).then();
+  return myKnex(table).select().where(query);
 };
 
 export const insert = (table, conditions) => {
