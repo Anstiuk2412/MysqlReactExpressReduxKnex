@@ -4,6 +4,10 @@ export const where = (table, query) => {
   return myKnex(table).select().where(query);
 };
 
+export const orWhere = (table, query, secondWhere) => {
+  return myKnex(table).select().where(query).orWhere(secondWhere).first();
+};
+
 export const insert = (table, conditions) => {
   return myKnex(table).insert(conditions);
 };

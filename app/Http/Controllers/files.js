@@ -5,18 +5,17 @@ export const filesAndFoldersAtFolder = async (req, res) => {
   // * Get User id
   const userId = req.user.user_id;
   // * Get values of main folder
-  let mainFolder = await folders.selectFirst(
-    req.params.folder_id === 'undefined'
-      ? {
-          // * If it's main folder
-          user_id: userId,
-          parent_id: null,
-        }
-      : {
-          // * If it's child folder
-          user_id: userId,
-          id: req.params.folder_id,
-        },
+  let mainFolder = await folders.selectTwoWhere(
+    {
+      // * If it's main folder
+      user_id: userId,
+      parent_id: null,
+    },
+    {
+      // * If it's child folder
+      user_id: userId,
+      id: req.params.folder_id,
+    },
   );
   // ! This query solves the problem with URL.
   // ! If the user goes back to the home folder he should see this '/'
