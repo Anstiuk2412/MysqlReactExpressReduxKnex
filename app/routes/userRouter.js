@@ -89,8 +89,29 @@ router.get('*', sendFile);
  *                         type: string
  *               redirect:
  *                 type: boolean
- *       '200':
- *         description: User already login, Error validation, User didnt active, User didnt registered
+ *       '200 ':
+ *         description: Error validation
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               data:
+ *                 type: object
+ *                 properties:
+ *                   message:
+ *                     type: object
+ *                     properties:
+ *                       message:
+ *                         type: string
+ *                       severity:
+ *                         type: string
+ *                       title:
+ *                         type: string
+ *               redirect:
+ *                 type: boolean
+ *       '400':
+ *         description: User already login, User didnt active, User didnt registered
  *         schema:
  *           type: array
  *           items:
@@ -172,8 +193,29 @@ router.get('*', sendFile);
  *                         type: string
  *               redirect:
  *                 type: boolean
- *       '200':
- *         description: User already registered, validation false
+ *       '200 ':
+ *         description: Validation false
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               data:
+ *                 type: object
+ *                 properties:
+ *                   message:
+ *                     type: object
+ *                     properties:
+ *                       message:
+ *                         type: string
+ *                       severity:
+ *                         type: string
+ *                       title:
+ *                         type: string
+ *               redirect:
+ *                 type: boolean
+ *       '400':
+ *         description: User already active
  *         schema:
  *           type: array
  *           items:
