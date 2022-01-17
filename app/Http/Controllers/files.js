@@ -17,23 +17,16 @@ export const filesAndFoldersAtFolder = (req, res) => {
   folders.selectFirst(getFolderConds).then((mainFolder) => {
     // * get files at mainFolder and folder at mainFolder
     openFolder(userId, mainFolder.id).then(({ userFiles, childFolders }) => {
-      if (userFiles[0]) {
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(
-          JSON.stringify({ data: { files: userFiles, folders: childFolders } }),
-        );
-      } else {
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(
-          JSON.stringify({
-            data: {
-              files: userFiles,
-              folders: childFolders,
-              parent_id: mainFolder.parent_id,
-            },
-          }),
-        );
-      }
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(
+        JSON.stringify({
+          data: {
+            files: userFiles,
+            folders: childFolders,
+            parent_id: mainFolder.parent_id,
+          },
+        }),
+      );
     });
   });
 };
