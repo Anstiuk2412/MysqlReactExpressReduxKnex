@@ -1,7 +1,7 @@
 import { openFolder } from '../../../lib/helper/workWithFilesAndFolders/openFolder.js';
 import { folders } from '../../../database/models/folder.js';
 
-export const filesAndFoldersAtFolder = (req, res) => {
+export const filesAndFoldersAtFolder = async (req, res) => {
   // * get User id
   const userId = req.user.user_id;
   // * get folder id
@@ -14,19 +14,17 @@ export const filesAndFoldersAtFolder = (req, res) => {
     ...folderId,
   };
   // * get Folder info
-  folders.selectFirst(getFolderConds).then((mainFolder) => {
-    // * get files at mainFolder and folder at mainFolder
-    openFolder(userId, mainFolder.id).then(({ userFiles, childFolders }) => {
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(
-        JSON.stringify({
-          data: {
-            files: userFiles,
-            folders: childFolders,
-            parent_id: mainFolder.parent_id,
-          },
-        }),
-      );
-    });
-  });
+  const mainFolder = await folders.selectFirst(getFolderConds);
+  // * get files at mainFolder and folder at mainFolder
+  const { userFiles, childFolders } = await openFolder(userId, mainFolder.id);
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(
+    JSON.stringify({
+      data: {
+        files: userFiles,
+        folders: childFolders,
+        parent_id: mainFolder.parent_id,
+      },
+    }),
+  );
 };
