@@ -17,14 +17,14 @@ export const filesAndFoldersAtFolder = async (req, res) => {
   const { id: mainFolderId, parent_id: mainFolderParentId } =
     await folders.selectFirst(getFolderConds);
   // * get files at mainFolder and folder at mainFolder
-  const { userFiles, childFolders } = await openFolder(userId, mainFolderId);
+  const filesAndFolders = await openFolder(userId, mainFolderId);
+  // * add parent_id to filesAndFolders
+  filesAndFolders.mainFolderParentId = mainFolderParentId;
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(
     JSON.stringify({
       data: {
-        files: userFiles,
-        folders: childFolders,
-        parent_id: mainFolderParentId,
+        filesAndFolders,
       },
     }),
   );
