@@ -20,7 +20,7 @@ export const filesAndFoldersAtFolder = async (req, res) => {
   // * get files at mainFolder and folder at mainFolder
   const filesAndFolders = await openFolder(userId, folderId);
   // * add parent_id to filesAndFolders
-  filesAndFolders.FolderParentId = folderParentId;
+  filesAndFolders.folderParentId = folderParentId;
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(
     JSON.stringify({
