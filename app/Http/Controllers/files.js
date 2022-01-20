@@ -5,21 +5,22 @@ export const filesAndFoldersAtFolder = async (req, res) => {
   // * get User id
   const userId = req.user.user_id;
   // * get folder id
-  const folderId =
+  const folderIdFromRequest =
     req.params.folder_id === 'undefined'
       ? { parent_id: null }
       : { id: req.params.folder_id };
   const getFolderConds = {
     user_id: userId, // * always exists
-    ...folderId,
+    ...folderIdFromRequest,
   };
   // * get Folder info
-  const { id: mainFolderId, parent_id: mainFolderParentId } =
-    await folders.selectFirst(getFolderConds);
+  const { id: folderId, parent_id: folderParentId } = await folders.selectFirst(
+    getFolderConds,
+  );
   // * get files at mainFolder and folder at mainFolder
-  const filesAndFolders = await openFolder(userId, mainFolderId);
+  const filesAndFolders = await openFolder(userId, folderId);
   // * add parent_id to filesAndFolders
-  filesAndFolders.mainFolderParentId = mainFolderParentId;
+  filesAndFolders.FolderParentId = folderParentId;
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(
     JSON.stringify({
