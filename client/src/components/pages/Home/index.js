@@ -18,8 +18,8 @@ import { ArrowBack as ArrowBackIcon } from '@mui/icons-material';
 const Home = () => {
   const [FilesAndFoldersInfo, setFilesAndFoldersInfo] = useState({
     files: [],
-    folders: [],
-    parent_id: null,
+    subFolders: [],
+    FolderParentId: null,
   });
   const [redirect, setRedirect] = useState(false);
 
@@ -27,10 +27,10 @@ const Home = () => {
   //* Button to previous folder
   const history = useHistory();
   const previousFolder = async () => {
-    if (!FilesAndFoldersInfo.parent_id) {
+    if (!FilesAndFoldersInfo.FolderParentId) {
       history.push('/');
     } else {
-      history.push(`${FilesAndFoldersInfo.parent_id}`);
+      history.push(`${FilesAndFoldersInfo.FolderParentId}`);
     }
   };
 
@@ -42,7 +42,7 @@ const Home = () => {
     if (foldersAndFiles.redirect) {
       setRedirect(foldersAndFiles.redirect);
     }
-    setFilesAndFoldersInfo(foldersAndFiles.data);
+    setFilesAndFoldersInfo(foldersAndFiles.data.filesAndFolders);
   }, [folderId]);
 
   if (redirect === true) {
@@ -105,7 +105,7 @@ const Home = () => {
             sx={{ fontSize: 27 }}
           />
           <TextBold className={styles.textFolderBox}>NEW FOLDERS</TextBold>
-          {FilesAndFoldersInfo.folders.map((folder) => (
+          {FilesAndFoldersInfo.subFolders.map((folder) => (
             <Folder key={folder.id} amount={folder} />
           ))}
         </div>
