@@ -8,7 +8,7 @@ describe('Folders model test', () => {
   afterEach(() => {
     sinon.verifyAndRestore();
   });
-  it('Test user method selectFirst', async () => {
+  it('Test folder method selectFirst', async () => {
     const mResponse = { id: 1 };
     const selectStub = sinon.stub().returnsThis();
     const whereStub = sinon.stub().returnsThis();
@@ -26,7 +26,7 @@ describe('Folders model test', () => {
     const actual = await folders.selectFirst();
     expect(actual).to.be.deep.eq(mResponse);
   });
-  it('Test user method selectAll', async () => {
+  it('Test folder method selectAll', async () => {
     const mResponse = { id: 1 };
     const selectStub = sinon.stub().returnsThis();
     const whereStub = sinon.stub().returnsThis();
@@ -41,7 +41,7 @@ describe('Folders model test', () => {
     const actual = await folders.selectAll();
     expect(actual).to.be.deep.eq(mResponse);
   });
-  it('Test user method create', async () => {
+  it('Test folder method create', async () => {
     const mResponse = [1];
     const insertStub = sinon.stub().returnsThis();
     const thenStub = sinon.stub().resolves(mResponse);
@@ -55,11 +55,12 @@ describe('Folders model test', () => {
     expect(actual).to.be.deep.eq(mResponse);
   });
 });
+
 describe('Test folder helper', () => {
   it('Test openFolder', async () => {
     const mResponse = {
-      files: {},
-      subFolders: {},
+      userFiles: {},
+      childFolders: {},
     };
     const selectStub = sinon.stub().returnsThis();
     const whereStub = sinon.stub().returnsThis();
