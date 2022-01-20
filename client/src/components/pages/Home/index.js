@@ -16,10 +16,10 @@ import { FolderOpen as FolderOpenIcon } from '@mui/icons-material';
 import { ArrowBack as ArrowBackIcon } from '@mui/icons-material';
 
 const Home = () => {
-  const [FilesAndFoldersInfo, setFilesAndFoldersInfo] = useState({
+  const [filesAndFoldersInfo, setFilesAndFoldersInfo] = useState({
     files: [],
     subFolders: [],
-    FolderParentId: null,
+    folderParentId: null,
   });
   const [redirect, setRedirect] = useState(false);
 
@@ -27,10 +27,10 @@ const Home = () => {
   //* Button to previous folder
   const history = useHistory();
   const previousFolder = async () => {
-    if (!FilesAndFoldersInfo.FolderParentId) {
+    if (!filesAndFoldersInfo.folderParentId) {
       history.push('/');
     } else {
-      history.push(`${FilesAndFoldersInfo.FolderParentId}`);
+      history.push(`${filesAndFoldersInfo.folderParentId}`);
     }
   };
 
@@ -105,7 +105,7 @@ const Home = () => {
             sx={{ fontSize: 27 }}
           />
           <TextBold className={styles.textFolderBox}>NEW FOLDERS</TextBold>
-          {FilesAndFoldersInfo.subFolders.map((folder) => (
+          {filesAndFoldersInfo.subFolders.map((folder) => (
             <Folder key={folder.id} amount={folder} />
           ))}
         </div>
@@ -121,7 +121,7 @@ const Home = () => {
           </Typography>
         </div>
         <CustomizedTable
-          amount={FilesAndFoldersInfo.files}
+          amount={filesAndFoldersInfo.files}
           className={styles.customizedTable}
         />
       </div>
