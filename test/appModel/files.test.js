@@ -7,7 +7,7 @@ describe('File model test', () => {
   afterEach(() => {
     sinon.verifyAndRestore();
   });
-  it('Test files method selectFirst', async () => {
+  it('Test files method selectAll', async () => {
     const mResponse = { id: 1 };
     const selectStub = sinon.stub().returnsThis();
     const whereStub = sinon.stub().returnsThis();

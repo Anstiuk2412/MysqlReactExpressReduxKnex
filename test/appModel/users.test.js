@@ -25,7 +25,7 @@ describe('User model test', () => {
     const actual = await user.selectFirst();
     expect(actual).to.be.deep.eq(mResponse);
   });
-  it('Test users method selectFirst', async () => {
+  it('Test users method save', async () => {
     const mResponse = [1];
     const insertStub = sinon.stub().returnsThis();
     const whereStub = sinon.stub().returnsThis();
