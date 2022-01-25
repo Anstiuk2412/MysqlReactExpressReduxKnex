@@ -5,53 +5,28 @@ export const filesAndFoldersAtFolder = async (req, res) => {
   // * get User id
   const userId = req.user.user_id;
   // * get folder id
-  const folderId = req.params.folder_id;
-  if (folderId === 'undefined') {
-    // * If user at Home folder
-    const homeFolderId = await folders.selectFirst({
-      user_id: userId,
-      parent_id: null,
-    });
-    const { userFiles, childFolders } = await openFolder(
-      userId,
-      homeFolderId.id,
-    );
-    if (userFiles[0]) {
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(
-        JSON.stringify({ data: { files: userFiles, folders: childFolders } }),
-      );
-    } else {
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(
-        JSON.stringify({
-          data: {
-            files: userFiles,
-            folders: childFolders,
-            message: ['The folder is empty'],
-          },
-        }),
-      );
-    }
-    return;
-  }
-  // * If user not at Home folder get all Files
-  const { userFiles, childFolders } = await openFolder(userId, folderId);
-  if (userFiles[0]) {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(
-      JSON.stringify({ data: { files: userFiles, folders: childFolders } }),
-    );
-  } else {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(
-      JSON.stringify({
-        data: {
-          files: userFiles,
-          folders: childFolders,
-          message: ['The folder is empty'],
-        },
-      }),
-    );
-  }
+  const folderIdFromRequest =
+    req.params.folder_id === 'undefined'
+      ? { parent_id: null }
+      : { id: req.params.folder_id };
+  const getFolderConds = {
+    user_id: userId, // * always exists
+    ...folderIdFromRequest,
+  };
+  // * get Folder info
+  const { id: folderId, parent_id: folderParentId } = await folders.selectFirst(
+    getFolderConds,
+  );
+  // * get files at mainFolder and folder at mainFolder
+  const filesAndFolders = await openFolder(userId, folderId);
+  // * add parent_id to filesAndFolders
+  filesAndFolders.folderParentId = folderParentId;
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(
+    JSON.stringify({
+      data: {
+        filesAndFolders,
+      },
+    }),
+  );
 };

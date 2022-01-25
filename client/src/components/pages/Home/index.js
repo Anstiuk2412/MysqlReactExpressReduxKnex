@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { openFolder } from '../../../actions/files.js';
 import { CustomizedTable } from '../../CustomizedTable';
 import { Folder } from '../../Folder';
-import { Redirect, useParams } from 'react-router-dom';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { TextBold } from '../../TextBold';
 import { ButtonLarge } from '../../ButtonLarge';
 import { Delete as DeleteIcon } from '@mui/icons-material';
@@ -13,12 +13,26 @@ import { CreateNewFolder as CreateNewFolderIcon } from '@mui/icons-material';
 import { UploadFile as UploadFileIcon } from '@mui/icons-material';
 import { Checkbox, Typography } from '@material-ui/core';
 import { FolderOpen as FolderOpenIcon } from '@mui/icons-material';
+import { ArrowBack as ArrowBackIcon } from '@mui/icons-material';
 
 const Home = () => {
-  const [files, setFiles] = useState([]);
-  const [folders, setFolder] = useState([]);
+  const [filesAndFoldersInfo, setFilesAndFoldersInfo] = useState({
+    files: [],
+    subFolders: [],
+    folderParentId: null,
+  });
   const [redirect, setRedirect] = useState(false);
+
   let folderId = useParams();
+  //* Button to previous folder
+  const history = useHistory();
+  const previousFolder = async () => {
+    if (!filesAndFoldersInfo.folderParentId) {
+      history.push('/');
+    } else {
+      history.push(`${filesAndFoldersInfo.folderParentId}`);
+    }
+  };
 
   useEffect(async () => {
     const foldersAndFiles = await openFolder(folderId.id);
@@ -28,8 +42,7 @@ const Home = () => {
     if (foldersAndFiles.redirect) {
       setRedirect(foldersAndFiles.redirect);
     }
-    setFolder(foldersAndFiles.data.folders);
-    setFiles(foldersAndFiles.data.files);
+    setFilesAndFoldersInfo(foldersAndFiles.data.filesAndFolders);
   }, [folderId]);
 
   if (redirect === true) {
@@ -68,6 +81,14 @@ const Home = () => {
           >
             DELETE SELECTED
           </ButtonLarge>
+          <ButtonLarge
+            variant="outlined"
+            className={`dark ${styles.buttonPreviousFolder}`}
+            startIcon={<ArrowBackIcon />}
+            onClick={previousFolder}
+          >
+            Open parent folder
+          </ButtonLarge>
         </div>
         <TextBold className={styles.textYourSpace}>YOUR SPACE</TextBold>
         <div className={styles.spaceBox}>
@@ -84,7 +105,7 @@ const Home = () => {
             sx={{ fontSize: 27 }}
           />
           <TextBold className={styles.textFolderBox}>NEW FOLDERS</TextBold>
-          {folders.map((folder) => (
+          {filesAndFoldersInfo.subFolders.map((folder) => (
             <Folder key={folder.id} amount={folder} />
           ))}
         </div>
@@ -99,7 +120,10 @@ const Home = () => {
             Shared Only
           </Typography>
         </div>
-        <CustomizedTable amount={files} className={styles.customizedTable} />
+        <CustomizedTable
+          amount={filesAndFoldersInfo.files}
+          className={styles.customizedTable}
+        />
       </div>
       <div className={styles.rightSideBox}>
         <TextBold className={styles.titleHeaderDetails}>DETAILS</TextBold>
