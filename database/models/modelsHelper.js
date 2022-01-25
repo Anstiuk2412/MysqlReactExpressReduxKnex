@@ -1,27 +1,32 @@
 import { myKnex } from '../knexfile.js';
 
 export const where = (table, query) => {
-  return myKnex(table).select().where(query);
+  return myKnex.from(table).select().where(query).then();
 };
 
 export const insert = (table, conditions) => {
-  return myKnex(table).insert(conditions);
+  return myKnex.from(table).insert(conditions).then();
 };
 
 export const update = (table, conditions) => {
-  return myKnex(table).where({ id: conditions.id }).update(conditions);
+  return myKnex
+    .from(table)
+    .where({ id: conditions.id })
+    .update(conditions)
+    .then();
 };
 
 export const selectFirst = (table, conditions) => {
-  return myKnex(table).select().where(conditions).first().then();
-};
-
-export const selectAll = (table, conditions) => {
-  return myKnex(table).select().where(conditions);
+  return myKnex.from(table).select().where(conditions).first().then();
 };
 
 export const upsert = (table, data, key, mergeValue) => {
-  return myKnex(table).insert(data).onConflict(key).merge([mergeValue]);
+  return myKnex
+    .from(table)
+    .insert(data)
+    .onConflict(key)
+    .merge([mergeValue])
+    .then();
 };
 
 export const save = (table, conditions, key, mergeValue) => {
