@@ -1,7 +1,9 @@
 import styles from './index.module.css';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { openFolder } from '../../../actions/files.js';
 import { CustomizedTable } from '../../CustomizedTable';
 import { Folder } from '../../Folder';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { TextBold } from '../../TextBold';
 import { ButtonLarge } from '../../ButtonLarge';
 import { Delete as DeleteIcon } from '@mui/icons-material';
@@ -12,10 +14,40 @@ import { UploadFile as UploadFileIcon } from '@mui/icons-material';
 import { Checkbox, Typography } from '@material-ui/core';
 import { FolderOpen as FolderOpenIcon } from '@mui/icons-material';
 import { ArrowBack as ArrowBackIcon } from '@mui/icons-material';
-import withFiles from '../../../lib/decorators/withFiles.js';
 
-const Home = (props) => {
-  console.log(props);
+const Home = () => {
+  const [filesAndFoldersInfo, setFilesAndFoldersInfo] = useState({
+    files: [],
+    subFolders: [],
+    folderParentId: null,
+  });
+  const [redirect, setRedirect] = useState(false);
+
+  let folderId = useParams();
+  //* Button to previous folder
+  const history = useHistory();
+  const previousFolder = async () => {
+    if (!filesAndFoldersInfo.folderParentId) {
+      history.push('/');
+    } else {
+      history.push(`${filesAndFoldersInfo.folderParentId}`);
+    }
+  };
+
+  useEffect(async () => {
+    const foldersAndFiles = await openFolder(folderId.id);
+    if (foldersAndFiles === 'Unauthorized') {
+      setRedirect(true);
+    }
+    if (foldersAndFiles.redirect) {
+      setRedirect(foldersAndFiles.redirect);
+    }
+    setFilesAndFoldersInfo(foldersAndFiles.data.filesAndFolders);
+  }, [folderId]);
+
+  if (redirect === true) {
+    return <Redirect exact to={'/signIn'} />;
+  }
   return (
     <div>
       <div className={styles.leftSideBOX}>
@@ -53,7 +85,7 @@ const Home = (props) => {
             variant="outlined"
             className={`dark ${styles.buttonPreviousFolder}`}
             startIcon={<ArrowBackIcon />}
-            onClick={props.previousFolder}
+            onClick={previousFolder}
           >
             Open parent folder
           </ButtonLarge>
@@ -73,7 +105,7 @@ const Home = (props) => {
             sx={{ fontSize: 27 }}
           />
           <TextBold className={styles.textFolderBox}>NEW FOLDERS</TextBold>
-          {props.filesAndFoldersInfo.subFolders.map((folder) => (
+          {filesAndFoldersInfo.subFolders.map((folder) => (
             <Folder key={folder.id} amount={folder} />
           ))}
         </div>
@@ -89,7 +121,7 @@ const Home = (props) => {
           </Typography>
         </div>
         <CustomizedTable
-          amount={props.filesAndFoldersInfo.files}
+          amount={filesAndFoldersInfo.files}
           className={styles.customizedTable}
         />
       </div>
@@ -100,4 +132,4 @@ const Home = (props) => {
   );
 };
 
-export default withFiles(Home);
+export default Home;
