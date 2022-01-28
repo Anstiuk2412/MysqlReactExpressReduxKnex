@@ -13,8 +13,20 @@ import { Checkbox, Typography } from '@material-ui/core';
 import { FolderOpen as FolderOpenIcon } from '@mui/icons-material';
 import { ArrowBack as ArrowBackIcon } from '@mui/icons-material';
 import withFiles from '../../../lib/decorators/withFiles.js';
+import { Redirect, useHistory } from 'react-router-dom';
 
 const Home = (props) => {
+  const history = useHistory();
+  const previousFolder = async () => {
+    if (!props.filesAndFoldersInfo.folderParentId) {
+      history.push('/');
+    } else {
+      history.push(`${props.filesAndFoldersInfo.folderParentId}`);
+    }
+  };
+  if (props.redirect) {
+    return <Redirect exact to={'/signIn'} />;
+  }
   return (
     <div>
       <div className={styles.leftSideBOX}>
@@ -52,7 +64,7 @@ const Home = (props) => {
             variant="outlined"
             className={`dark ${styles.buttonPreviousFolder}`}
             startIcon={<ArrowBackIcon />}
-            onClick={props.previousFolder}
+            onClick={() => previousFolder()}
           >
             Open parent folder
           </ButtonLarge>
