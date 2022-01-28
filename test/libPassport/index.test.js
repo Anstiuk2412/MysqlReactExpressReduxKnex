@@ -1,26 +1,51 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { user } from '../../database/models/user.js';
 import { verify } from '../../lib/passport/passport.js';
+import { myKnex } from '../../database/knexfile.js';
 
 describe('User db passport tests', () => {
   const done = (val, value) => {
     return value;
   };
   afterEach(() => {
-    sinon.restore();
+    sinon.verifyAndRestore();
   });
+  it('Should return user', async () => {
+    const payload = {
+      id: 1,
+    };
+    const selectStub = sinon.stub().returnsThis();
+    const whereStub = sinon.stub().returnsThis();
+    const firstStub = sinon.stub().returnsThis();
+    const thenStub = sinon.stub().resolves({ id: 1 });
+
+    sinon.stub(myKnex, 'from').callsFake(() => {
+      return {
+        select: selectStub,
+        where: whereStub,
+        first: firstStub,
+        then: thenStub,
+      };
+    });
+    const check = await verify(payload, done);
+    expect(check).to.be.deep.equal({ user_id: 1 });
+  });
+
   it('Should return non-existed user', async () => {
-    sinon.stub(user, 'selectFirst').resolves(false);
+    const selectStub = sinon.stub().returnsThis();
+    const whereStub = sinon.stub().returnsThis();
+    const firstStub = sinon.stub().returnsThis();
+    const thenStub = sinon.stub().resolves();
+
+    sinon.stub(myKnex, 'from').callsFake(() => {
+      return {
+        select: selectStub,
+        where: whereStub,
+        first: firstStub,
+        then: thenStub,
+      };
+    });
     const check = await verify('', done);
     expect(check).to.be.false;
-  });
-
-  it('Should return existed user', async () => {
-    const fakeUser = { id: 1 };
-    sinon.stub(user, 'selectFirst').resolves(fakeUser);
-
-    const check = await verify('', done);
-    expect(check).to.be.deep.equal({ id: 1 });
   });
 });
