@@ -4,7 +4,7 @@ import { openFolder } from '../../actions/files.js';
 
 export default (Component) => {
   // eslint-disable-next-line react/display-name
-  return (props) => {
+  return () => {
     const [filesAndFoldersInfo, setFilesAndFoldersInfo] = useState({
       files: [],
       subFolders: [],
@@ -24,6 +24,6 @@ export default (Component) => {
       setFilesAndFoldersInfo(filesAndFolders);
     }, [folderId]);
 
-    return <Component {...{ props, redirect, filesAndFoldersInfo }} />;
+    return <Component {...{ redirect, filesAndFoldersInfo }} />;
   };
 };
