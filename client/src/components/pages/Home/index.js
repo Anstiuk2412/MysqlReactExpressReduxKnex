@@ -15,16 +15,16 @@ import { ArrowBack as ArrowBackIcon } from '@mui/icons-material';
 import withFiles from '../../../lib/decorators/withFiles.js';
 import { Redirect, useHistory } from 'react-router-dom';
 
-const Home = (props) => {
+const Home = ({ redirect, filesAndFoldersInfo }) => {
   const history = useHistory();
   const previousFolder = async () => {
-    if (!props.filesAndFoldersInfo.folderParentId) {
+    if (!filesAndFoldersInfo.folderParentId) {
       history.push('/');
     } else {
-      history.push(`${props.filesAndFoldersInfo.folderParentId}`);
+      history.push(`${filesAndFoldersInfo.folderParentId}`);
     }
   };
-  if (props.redirect) {
+  if (redirect) {
     return <Redirect exact to={'/signIn'} />;
   }
   return (
@@ -84,7 +84,7 @@ const Home = (props) => {
             sx={{ fontSize: 27 }}
           />
           <TextBold className={styles.textFolderBox}>NEW FOLDERS</TextBold>
-          {props.filesAndFoldersInfo.subFolders.map((folder) => (
+          {filesAndFoldersInfo.subFolders.map((folder) => (
             <Folder key={folder.id} amount={folder} />
           ))}
         </div>
@@ -100,7 +100,7 @@ const Home = (props) => {
           </Typography>
         </div>
         <CustomizedTable
-          amount={props.filesAndFoldersInfo.files}
+          amount={filesAndFoldersInfo.files}
           className={styles.customizedTable}
         />
       </div>
