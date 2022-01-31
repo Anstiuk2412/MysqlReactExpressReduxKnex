@@ -59,6 +59,13 @@
     top: 258px;
 }
 
+.buttonAvailableFile {
+    width: 225px;
+    height: 40px;
+    left: 36px;
+    top: 316px;
+}
+
 .textYourSpace {
     width: 88px;
     height: 26px;
@@ -193,4 +200,184 @@
 .titleHeaderDetails {
     left: 165px;
     top: 4px;
+}
+
+.detailsBox {
+    position: absolute;
+    border-top: 3px solid #FA4616;
+    height: 907px;
+    width: 376px;
+    top: 118px;
+    left: 1069px;
+}
+
+.fileIcon {
+    position: absolute;
+    width: 295px;
+    height: 338px;
+    left: 38px;
+    top: 31px;
+
+    border: 3px solid #FA4616;
+    box-sizing: border-box;
+    border-radius: 8px;
+}
+
+.descriptionFileName {
+    position: absolute;
+    width: 288px;
+    height: 35px;
+    left: 38px;
+    top: 407px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 26px;
+    /* or 186% */
+
+    letter-spacing: 0.46px;
+    border-bottom: 1px solid #FA4616;
+    color: #FFFFFF;
+}
+
+.descriptionFileWeight {
+    position: absolute;
+    width: 288px;
+    height: 35px;
+    left: 38px;
+    top: 447px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 26px;
+    /* or 217% */
+
+    letter-spacing: 0.46px;
+
+    color: #FFFFFF;
+}
+
+.descriptionFileTimeStamp{
+    position: absolute;
+    width: 109px;
+    height: 35px;
+    left: 38px;
+    top: 487px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 26px;
+    /* or 186% */
+
+    letter-spacing: 0.46px;
+
+    color: #FFFFFF;
+}
+
+.descriptionSharedWithText{
+    position: absolute;
+    width: 98px;
+    height: 26px;
+    left: 33px;
+    top: 586px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 26px;
+    /* identical to box height, or 186% */
+
+    letter-spacing: 0.46px;
+    text-transform: uppercase;
+
+    color: #FFFFFF;
+}
+
+.descriptionFileShareWhum{
+    position: absolute;
+    width: 288px;
+    height: 35px;
+    left: 33px;
+    top: 623px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 26px;
+    /* or 217% */
+
+    letter-spacing: 0.46px;
+
+    color: #FFFFFF;
+}
+
+.descriptionSharedLinkText{
+    position: absolute;
+    width: 93px;
+    height: 26px;
+    left: 38px;
+    top: 682px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 26px;
+    /* identical to box height, or 186% */
+
+    letter-spacing: 0.46px;
+    text-transform: uppercase;
+
+    color: #FFFFFF;
+}
+
+.descriptionButtonLink{
+    position: absolute;
+    width: 293px;
+    height: 45px;
+    left: 38px;
+    top: 719px;
+
+    border: 3px solid #FA4616;
+    box-sizing: border-box;
+    border-radius: 8px;
+    overflow-x:hidden
+}
+
+.buttonDeleteSheredFile{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+
+    position: absolute;
+    width: 119px;
+    height: 40px;
+    left: 43px;
+    top: 830px;
+
+    /* Primary/Contrast */
+
+    border: 2px solid #FA4616;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.alertBox{
+    position: absolute;
+    display: flex;
+    flex-direction: column-reverse;
+    flex-wrap: nowrap;
+    left: 1036px;
+    top: 944px;
+    width: 375px;
 }

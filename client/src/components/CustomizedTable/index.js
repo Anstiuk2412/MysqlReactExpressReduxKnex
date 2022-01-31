@@ -15,6 +15,14 @@ import { tableCellClasses } from '@mui/material';
 import { InsertDriveFile as InsertDriveFileIcon } from '@mui/icons-material';
 import { Checkbox } from '@material-ui/core';
 import styles from './index.module.css';
+import { useDispatch } from 'react-redux';
+import {
+  addFileForSharedByEmail,
+  removeFileForSharedByEmail,
+} from '../../store/fileSlice.js';
+import { genaretePath } from '../../actions/files.js';
+import { addFileDetails, addFileLink } from '../../store/fileSlice.js';
+
 const StyledTableRow = styled(TableRow)(() => ({
   '&:nth-of-type(odd)': {
     backgroundColor: '#2A3234',
@@ -28,7 +36,6 @@ const StyledTableRow = styled(TableRow)(() => ({
     color: '#FFF',
   },
 }));
-
 const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
     color: '#FA4616',
@@ -42,6 +49,13 @@ const StyledTableCell = styled(TableCell)(() => ({
 }));
 
 export const CustomizedTable = (props) => {
+  const dispatch = useDispatch();
+  const getFileDetails = async (file) => {
+    dispatch(addFileDetails(file));
+    const { data } = await genaretePath(file.id);
+    const path = data.path;
+    dispatch(addFileLink(path));
+  };
   return (
     <TableContainer
       component={Paper}
@@ -64,9 +78,17 @@ export const CustomizedTable = (props) => {
         </TableHead>
         <TableBody>
           {props.amount.map((file) => (
-            <StyledTableRow key={file.id}>
+            <StyledTableRow key={file.id} onClick={() => getFileDetails(file)}>
               <StyledTableCell>
-                <Checkbox className={styles.checkBox} />
+                <Checkbox
+                  className={styles.checkBox}
+                  value={file.id}
+                  onChange={(e) => {
+                    e.target.checked
+                      ? dispatch(addFileForSharedByEmail(file.id))
+                      : dispatch(removeFileForSharedByEmail(file.id));
+                  }}
+                />
                 <InsertDriveFileIcon className={styles.IconFile} />
               </StyledTableCell>
               <StyledTableCell component="th" scope="row">
