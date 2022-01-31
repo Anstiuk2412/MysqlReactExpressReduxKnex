@@ -3,6 +3,8 @@ import { folders } from '../../../database/models/folder.js';
 import { user } from '../../../database/models/user.js';
 import { files } from '../../../database/models/file.js';
 import crypto from 'crypto';
+import { sharedFiles } from '../../../database/models/sharedFiles.js';
+import { fileLinks } from '../../../database/models/fileLink.js';
 
 export const filesAndFoldersAtFolder = async (req, res) => {
   // * get User id
@@ -76,7 +78,7 @@ export const filesShare = async (req, res) => {
   }
   // * check for resending or exist
   for (const fileId of filesId) {
-    const checkResending = await files.selectFirstAvailable({
+    const checkResending = await sharedFiles.selectFirst({
       // eslint-disable-next-line camelcase
       file_id: fileId,
       // eslint-disable-next-line camelcase
@@ -106,14 +108,16 @@ export const filesShare = async (req, res) => {
     return;
   }
   // * share files to DB
+  const shareFilesObjects = [];
   for (const fileId of filesId) {
     // eslint-disable-next-line camelcase
-    await files.shareFile({
+    shareFilesObjects.push({
       file_id: fileId,
       user_id: userId,
       to_user_id: userToShare.id,
     });
   }
+  await sharedFiles.shareFile(shareFilesObjects);
   // * response success message
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(
@@ -133,7 +137,7 @@ export const filesShare = async (req, res) => {
 
 export const getAvailableFiles = async (req, res) => {
   const userId = req.user.user_id;
-  const availableFilesData = await files.selectAllAvailable({
+  const availableFilesData = await sharedFiles.selectAll({
     to_user_id: userId,
   });
   const availableFilesId = [];
@@ -169,7 +173,7 @@ export const createLinkForShareFile = (req, res) => {
   // * created hash for link
   const tokenConfirm = crypto.randomBytes(20).toString('hex');
   // * response path
-  files.createFileLink({
+  fileLinks.createFileLink({
     user_id: userId,
     file_id: fileId,
     tokken_confirm: tokenConfirm,
@@ -187,11 +191,8 @@ export const createLinkForShareFile = (req, res) => {
 export const addSharedFilesByLink = async (req, res) => {
   const { token } = req.body;
   const { user_id: userToShareId } = req.user;
-  // * checked is this link exist
-  const selectedFileLinks = await files.selectFirstFileLinks({
-    tokken_confirm: token,
-  });
-  if (!selectedFileLinks) {
+  const fileLink = await fileLinks.selectFirst({ tokken_confirm: token });
+  if (!fileLink) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(
       JSON.stringify({
@@ -208,7 +209,7 @@ export const addSharedFilesByLink = async (req, res) => {
     );
     return;
   }
-  const { file_id: fileId, user_id: ownerId } = selectedFileLinks;
+  const { file_id: fileId, user_id: ownerId } = fileLink;
   if (userToShareId === ownerId) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(
@@ -224,7 +225,7 @@ export const addSharedFilesByLink = async (req, res) => {
     );
     return;
   }
-  const fileExist = await files.selectFirstAvailable({
+  const fileExist = await sharedFiles.selectFirst({
     file_id: fileId,
     user_id: ownerId,
     to_user_id: userToShareId,
@@ -246,7 +247,7 @@ export const addSharedFilesByLink = async (req, res) => {
     );
     return;
   }
-  await files.shareFile({
+  await sharedFiles.shareFile({
     file_id: fileId,
     user_id: ownerId,
     to_user_id: userToShareId,
