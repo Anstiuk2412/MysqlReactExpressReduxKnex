@@ -15,13 +15,16 @@ import { ArrowBack as ArrowBackIcon } from '@mui/icons-material';
 import withFiles from '../../../lib/decorators/withFiles.js';
 import { Redirect, useHistory } from 'react-router-dom';
 
-const Home = ({ redirect, filesAndFoldersInfo }) => {
+const Home = ({
+  redirect,
+  filesAndFoldersInfo: { folderParentId, subFolders, files },
+}) => {
   const history = useHistory();
   const previousFolder = async () => {
-    if (!filesAndFoldersInfo.folderParentId) {
+    if (!folderParentId) {
       history.push('/');
     } else {
-      history.push(`${filesAndFoldersInfo.folderParentId}`);
+      history.push(`${folderParentId}`);
     }
   };
   if (redirect) {
@@ -84,7 +87,7 @@ const Home = ({ redirect, filesAndFoldersInfo }) => {
             sx={{ fontSize: 27 }}
           />
           <TextBold className={styles.textFolderBox}>NEW FOLDERS</TextBold>
-          {filesAndFoldersInfo.subFolders.map((folder) => (
+          {subFolders.map((folder) => (
             <Folder key={folder.id} amount={folder} />
           ))}
         </div>
@@ -99,10 +102,7 @@ const Home = ({ redirect, filesAndFoldersInfo }) => {
             Shared Only
           </Typography>
         </div>
-        <CustomizedTable
-          amount={filesAndFoldersInfo.files}
-          className={styles.customizedTable}
-        />
+        <CustomizedTable amount={files} className={styles.customizedTable} />
       </div>
       <div className={styles.rightSideBox}>
         <TextBold className={styles.titleHeaderDetails}>DETAILS</TextBold>
