@@ -10,4 +10,8 @@ export const folders = {
       user_id: userId,
       parent_id: folderParentId,
     }),
+  shareFile: (conditions) => insert('shared_folders', conditions),
+  selectFirstAvailable: (conditions) =>
+    selectFirst('shared_folders', conditions),
+  selectAllAvailable: (query) => where('shared_folders', query),
 };

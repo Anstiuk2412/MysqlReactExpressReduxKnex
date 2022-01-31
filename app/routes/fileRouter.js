@@ -1,6 +1,12 @@
 import { Router } from 'express';
 import passport from 'passport';
-import { filesAndFoldersAtFolder } from '../Http/Controllers/files.js';
+import {
+  addSharedFilesByLink,
+  createLinkForShareFile,
+  filesAndFoldersAtFolder,
+  filesShare,
+  getAvailableFiles,
+} from '../Http/Controllers/files.js';
 
 export const router = Router();
 
@@ -12,7 +18,38 @@ router.get(
   }),
   filesAndFoldersAtFolder,
 );
-
+// * share files by Email
+router.post(
+  '/api/filesShare',
+  passport.authenticate('jwt', {
+    session: false,
+  }),
+  filesShare,
+);
+// * get share files
+router.get(
+  '/api/availableFiles',
+  passport.authenticate('jwt', {
+    session: false,
+  }),
+  getAvailableFiles,
+);
+// * generate path for share file
+router.post(
+  '/api/generatePathShareFile',
+  passport.authenticate('jwt', {
+    session: false,
+  }),
+  createLinkForShareFile,
+);
+// * add share files by link
+router.post(
+  '/api/addSharedFilesByLink',
+  passport.authenticate('jwt', {
+    session: false,
+  }),
+  addSharedFilesByLink,
+);
 /**
  * @swagger
  * definitions:

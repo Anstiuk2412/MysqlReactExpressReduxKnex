@@ -1,5 +1,8 @@
 import { openFolder } from '../../../lib/helper/workWithFilesAndFolders/openFolder.js';
 import { folders } from '../../../database/models/folder.js';
+import { user } from '../../../database/models/user.js';
+import { files } from '../../../database/models/file.js';
+import crypto from 'crypto';
 
 export const filesAndFoldersAtFolder = async (req, res) => {
   // * get User id
@@ -26,6 +29,239 @@ export const filesAndFoldersAtFolder = async (req, res) => {
     JSON.stringify({
       data: {
         filesAndFolders,
+      },
+    }),
+  );
+};
+
+export const filesShare = async (req, res) => {
+  const userId = req.user.user_id;
+  let { filesId, email } = req.body;
+  const userToShare = await user.selectFirst({ email: email });
+  // * if user trying to send oneself
+  if (userId === userToShare.id) {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(
+      JSON.stringify({
+        data: {
+          message: [
+            {
+              message: 'You are trying to send yourself',
+              severity: 'error',
+              title: 'ERROR',
+            },
+          ],
+        },
+      }),
+    );
+    return;
+  }
+  // * if user not exist
+  if (!userToShare) {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(
+      JSON.stringify({
+        data: {
+          message: [
+            {
+              message: 'Email address not found',
+              severity: 'error',
+              title: 'ERROR',
+            },
+          ],
+        },
+      }),
+    );
+    return;
+  }
+  // * check for resending or exist
+  for (const fileId of filesId) {
+    const checkResending = await files.selectFirstAvailable({
+      // eslint-disable-next-line camelcase
+      file_id: fileId,
+      // eslint-disable-next-line camelcase
+      user_id: userId,
+      // eslint-disable-next-line camelcase
+      to_user_id: userToShare.id,
+    });
+    if (checkResending) {
+      filesId = filesId.filter((item) => item !== fileId);
+    }
+  }
+  if (filesId.length < 1) {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(
+      JSON.stringify({
+        data: {
+          message: [
+            {
+              message: 'Everyone has already been shared',
+              severity: 'success',
+              title: 'SUCCESS',
+            },
+          ],
+        },
+      }),
+    );
+    return;
+  }
+  // * share files to DB
+  for (const fileId of filesId) {
+    // eslint-disable-next-line camelcase
+    await files.shareFile({
+      file_id: fileId,
+      user_id: userId,
+      to_user_id: userToShare.id,
+    });
+  }
+  // * response success message
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(
+    JSON.stringify({
+      data: {
+        message: [
+          {
+            message: 'Success shared files',
+            severity: 'success',
+            title: 'SUCCESS',
+          },
+        ],
+      },
+    }),
+  );
+};
+
+export const getAvailableFiles = async (req, res) => {
+  const userId = req.user.user_id;
+  const availableFilesData = await files.selectAllAvailable({
+    to_user_id: userId,
+  });
+  const availableFilesId = [];
+  // * get methods value from objects at array file_id
+  for (const availableFileData of availableFilesData) {
+    availableFilesId.push(availableFileData.file_id);
+  }
+  const availableFiles = await files.selectAllWhereIn('id', availableFilesId);
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(
+    JSON.stringify({
+      data: {
+        message: [
+          {
+            message: 'Success shared files',
+            severity: 'success',
+            title: 'SUCCESS',
+          },
+        ],
+        filesAndFolders: {
+          files: availableFiles,
+          subFolders: [],
+          folderParentId: null,
+        },
+      },
+    }),
+  );
+};
+
+export const createLinkForShareFile = (req, res) => {
+  const userId = req.user.user_id;
+  const fileId = req.body.fileId;
+  // * created hash for link
+  const tokenConfirm = crypto.randomBytes(20).toString('hex');
+  // * response path
+  files.createFileLink({
+    user_id: userId,
+    file_id: fileId,
+    tokken_confirm: tokenConfirm,
+  });
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(
+    JSON.stringify({
+      data: {
+        path: 'http://localhost:3000/addFileByPath/' + tokenConfirm,
+      },
+    }),
+  );
+};
+
+export const addSharedFilesByLink = async (req, res) => {
+  const { token } = req.body;
+  const { user_id: userToShareId } = req.user;
+  // * checked is this link exist
+  const selectedFileLinks = await files.selectFirstFileLinks({
+    tokken_confirm: token,
+  });
+  if (!selectedFileLinks) {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(
+      JSON.stringify({
+        data: {
+          message: [
+            {
+              message: 'Path incorrect',
+              severity: 'error',
+              title: 'Error',
+            },
+          ],
+        },
+      }),
+    );
+    return;
+  }
+  const { file_id: fileId, user_id: ownerId } = selectedFileLinks;
+  if (userToShareId === ownerId) {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(
+      JSON.stringify({
+        data: {
+          message: {
+            message: 'Its your file',
+            severity: 'success',
+            title: 'SUCCESS',
+          },
+        },
+      }),
+    );
+    return;
+  }
+  const fileExist = await files.selectFirstAvailable({
+    file_id: fileId,
+    user_id: ownerId,
+    to_user_id: userToShareId,
+  });
+  if (fileExist) {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(
+      JSON.stringify({
+        data: {
+          message: [
+            {
+              message: 'File already available',
+              severity: 'success',
+              title: 'SUCCESS',
+            },
+          ],
+        },
+      }),
+    );
+    return;
+  }
+  await files.shareFile({
+    file_id: fileId,
+    user_id: ownerId,
+    to_user_id: userToShareId,
+  });
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(
+    JSON.stringify({
+      data: {
+        message: [
+          {
+            message: 'You get file successfully',
+            severity: 'success',
+            title: 'SUCCESS',
+          },
+        ],
       },
     }),
   );
