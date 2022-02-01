@@ -5,9 +5,9 @@ export const files = {
   selectFirst: (conditions) => selectFirst('files', conditions),
   selectAllSharedFiles: (
     rightTable,
-    conditions,
     columnLeftTable,
     columnRightTable,
+    conditions,
   ) =>
     selectAll(
       'files',
