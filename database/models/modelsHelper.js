@@ -1,26 +1,17 @@
 import { myKnex } from '../knexfile.js';
 
-export const selectAll = (
-  table,
-  conditions,
-  argument,
-  rightTable,
-  columnLeftTable,
-  columnRightTable,
-) => {
-  if (argument === 'leftJoin') {
+export const selectAll = (table, conditions, join) => {
+  if (!join) {
+    return myKnex.from(table).select().where(conditions).then();
+  }
+  if (join.type === 'left') {
     return myKnex
       .from(table)
       .select()
-      .leftJoin(
-        rightTable,
-        `${rightTable}.${columnRightTable}`,
-        `${table}.${columnLeftTable}`,
-      )
       .where(conditions)
+      .leftJoin(...join.on)
       .then();
   }
-  return myKnex.from(table).select().where(conditions).then();
 };
 
 export const whereIn = (table, columnName, array) => {

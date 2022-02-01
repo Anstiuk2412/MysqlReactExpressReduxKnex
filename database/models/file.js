@@ -9,12 +9,12 @@ export const files = {
     columnRightTable,
     conditions,
   ) =>
-    selectAll(
-      'files',
-      conditions,
-      'leftJoin',
-      rightTable,
-      columnLeftTable,
-      columnRightTable,
-    ),
+    selectAll('files', conditions, {
+      type: 'left',
+      on: [
+        rightTable,
+        `files.${columnLeftTable}`,
+        `${rightTable}.${columnRightTable}`,
+      ],
+    }),
 };
