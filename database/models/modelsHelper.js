@@ -1,30 +1,30 @@
 import { myKnex } from '../knexfile.js';
 
-export const where = (table, query) => {
-  return myKnex.from(table).select().where(query).then();
+export const selectAll = (
+  table,
+  conditions,
+  argument,
+  rightTable,
+  columnLeftTable,
+  columnRightTable,
+) => {
+  if (argument === 'leftJoin') {
+    return myKnex
+      .from(table)
+      .select()
+      .leftJoin(
+        rightTable,
+        `${rightTable}.${columnRightTable}`,
+        `${table}.${columnLeftTable}`,
+      )
+      .where(conditions)
+      .then();
+  }
+  return myKnex.from(table).select().where(conditions).then();
 };
 
 export const whereIn = (table, columnName, array) => {
   return myKnex.from(table).select().whereIn(columnName, array).then();
-};
-
-export const leftJoinWhere = (
-  leftTable,
-  rightTable,
-  columnLeftTable,
-  columnRightTable,
-  conditions,
-) => {
-  return myKnex
-    .from(leftTable)
-    .select()
-    .leftJoin(
-      rightTable,
-      `${rightTable}.${columnRightTable}`,
-      `${leftTable}.${columnLeftTable}`,
-    )
-    .where(conditions)
-    .then();
 };
 
 export const insert = (table, conditions) => {

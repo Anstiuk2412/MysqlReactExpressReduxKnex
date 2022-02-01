@@ -1,8 +1,8 @@
-import { save, selectFirst, where } from './modelsHelper.js';
+import { save, selectFirst, selectAll } from './modelsHelper.js';
 
 export const sharedFiles = {
-  shareFile: (conditions) =>
-    save('shared_files', conditions, ['file_id', 'to_user_id'], 'user_id'),
+  shareFile: (files) =>
+    save('shared_files', files, ['file_id', 'to_user_id'], 'user_id'),
   selectFirst: (conditions) => selectFirst('shared_files', conditions),
-  selectAll: (query) => where('shared_files', query),
+  selectAll: (conditions) => selectAll('shared_files', conditions),
 };

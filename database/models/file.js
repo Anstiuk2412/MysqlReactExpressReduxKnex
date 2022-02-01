@@ -1,19 +1,20 @@
-import { leftJoinWhere, selectFirst, where } from './modelsHelper.js';
+import { selectAll, selectFirst } from './modelsHelper.js';
 
 export const files = {
-  selectAll: (query) => where('files', query),
+  selectAll: (conditions) => selectAll('files', conditions),
   selectFirst: (conditions) => selectFirst('files', conditions),
-  selectAllLeftJoinWhere: (
+  selectAllSharedFiles: (
     rightTable,
+    conditions,
     columnLeftTable,
     columnRightTable,
-    conditions,
   ) =>
-    leftJoinWhere(
+    selectAll(
       'files',
+      conditions,
+      'leftJoin',
       rightTable,
       columnLeftTable,
       columnRightTable,
-      conditions,
     ),
 };

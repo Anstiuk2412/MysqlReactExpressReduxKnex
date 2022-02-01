@@ -1,7 +1,7 @@
-import { insert, selectFirst, where } from './modelsHelper.js';
+import { insert, selectFirst, selectAll } from './modelsHelper.js';
 
 export const folders = {
-  selectAll: (query) => where('folders', query),
+  selectAll: (conditions) => selectAll('folders', conditions),
   selectFirst: (conditions) => selectFirst('folders', conditions),
   // eslint-disable-next-line camelcase
   create: (name, userId, folderParentId) =>

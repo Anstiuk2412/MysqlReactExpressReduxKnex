@@ -106,11 +106,11 @@ export const filesShare = async (req, res) => {
 
 export const getAvailableFiles = async (req, res) => {
   const userId = req.user.user_id;
-  const availableFiles = await files.selectAllLeftJoinWhere(
+  const availableFiles = await files.selectAllSharedFiles(
     'shared_files',
+    { to_user_id: userId },
     'id',
     'file_id',
-    { to_user_id: userId },
   );
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(
