@@ -76,37 +76,6 @@ export const filesShare = async (req, res) => {
     );
     return;
   }
-  // * check for resending or exist
-  for (const fileId of filesId) {
-    const checkResending = await sharedFiles.selectFirst({
-      // eslint-disable-next-line camelcase
-      file_id: fileId,
-      // eslint-disable-next-line camelcase
-      user_id: userId,
-      // eslint-disable-next-line camelcase
-      to_user_id: userToShare.id,
-    });
-    if (checkResending) {
-      filesId = filesId.filter((item) => item !== fileId);
-    }
-  }
-  if (filesId.length < 1) {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(
-      JSON.stringify({
-        data: {
-          message: [
-            {
-              message: 'Everyone has already been shared',
-              severity: 'success',
-              title: 'SUCCESS',
-            },
-          ],
-        },
-      }),
-    );
-    return;
-  }
   // * share files to DB
   const shareFilesObjects = [];
   for (const fileId of filesId) {
@@ -137,15 +106,12 @@ export const filesShare = async (req, res) => {
 
 export const getAvailableFiles = async (req, res) => {
   const userId = req.user.user_id;
-  const availableFilesData = await sharedFiles.selectAll({
-    to_user_id: userId,
-  });
-  const availableFilesId = [];
-  // * get methods value from objects at array file_id
-  for (const availableFileData of availableFilesData) {
-    availableFilesId.push(availableFileData.file_id);
-  }
-  const availableFiles = await files.selectAllWhereIn('id', availableFilesId);
+  const availableFiles = await files.selectAllLeftJoinWhere(
+    'shared_files',
+    'id',
+    'file_id',
+    { to_user_id: userId },
+  );
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(
     JSON.stringify({
@@ -220,28 +186,6 @@ export const addSharedFilesByLink = async (req, res) => {
             severity: 'success',
             title: 'SUCCESS',
           },
-        },
-      }),
-    );
-    return;
-  }
-  const fileExist = await sharedFiles.selectFirst({
-    file_id: fileId,
-    user_id: ownerId,
-    to_user_id: userToShareId,
-  });
-  if (fileExist) {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(
-      JSON.stringify({
-        data: {
-          message: [
-            {
-              message: 'File already available',
-              severity: 'success',
-              title: 'SUCCESS',
-            },
-          ],
         },
       }),
     );

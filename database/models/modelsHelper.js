@@ -8,6 +8,25 @@ export const whereIn = (table, columnName, array) => {
   return myKnex.from(table).select().whereIn(columnName, array).then();
 };
 
+export const leftJoinWhere = (
+  leftTable,
+  rightTable,
+  columnLeftTable,
+  columnRightTable,
+  conditions,
+) => {
+  return myKnex
+    .from(leftTable)
+    .select()
+    .leftJoin(
+      rightTable,
+      `${rightTable}.${columnRightTable}`,
+      `${leftTable}.${columnLeftTable}`,
+    )
+    .where(conditions)
+    .then();
+};
+
 export const insert = (table, conditions) => {
   return myKnex.from(table).insert(conditions).then();
 };
