@@ -1,7 +1,6 @@
 import { openFolder } from '../../../lib/helper/workWithFilesAndFolders/openFolder.js';
 import { folders } from '../../../database/models/folder.js';
 import { user } from '../../../database/models/user.js';
-import { files } from '../../../database/models/file.js';
 import crypto from 'crypto';
 import { sharedFiles } from '../../../database/models/sharedFiles.js';
 import { fileLinks } from '../../../database/models/fileLink.js';
@@ -106,11 +105,12 @@ export const filesShare = async (req, res) => {
 
 export const getAvailableFiles = async (req, res) => {
   const userId = req.user.user_id;
-  const availableFiles = await files.selectAllSharedFiles(
-    'shared_files',
-    'id',
-    'file_id',
+  const availableFiles = await sharedFiles.selectAll(
     { to_user_id: userId },
+    {
+      type: '',
+      on: ['files', 'files.id', 'shared_files.file_id'],
+    },
   );
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(

@@ -12,6 +12,14 @@ export const selectAll = (table, conditions, join) => {
       .leftJoin(...join.on)
       .then();
   }
+  if (join.type === '') {
+    return myKnex
+      .from(table)
+      .select()
+      .where(conditions)
+      .join(...join.on)
+      .then();
+  }
 };
 
 export const whereIn = (table, columnName, array) => {
