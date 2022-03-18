@@ -8,7 +8,6 @@ import { Box, Button, ButtonGroup, Container } from '@mui/material';
 const AuthForm = () => {
   const history = useHistory();
   const signStatus = history.location.pathname === '/signIn';
-
   return (
     <Container maxWidth="sm">
       <Box sx={{ bgcolor: '#252525', height: '70vh', marginTop: '10vh' }}>
