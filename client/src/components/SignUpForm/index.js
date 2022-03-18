@@ -29,8 +29,8 @@ export const SignUp = () => {
     setAlerts(updatedAlerts);
   };
   return (
-    <div className={styles.SingUpForm}>
-      <div className={styles.inputName}>
+    <div>
+      <div>
         <TextFieldLarge
           id="name"
           variant="standard"

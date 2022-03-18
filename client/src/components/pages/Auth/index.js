@@ -1,38 +1,39 @@
 import styles from './index.module.css';
 import { SignIn } from 'components/SignInForm';
 import { SignUp } from 'components/SignUpForm';
-import { ButtonBig } from 'components/ButtonBig';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { Box, Button, ButtonGroup, Container } from '@mui/material';
 
 const AuthForm = () => {
   const history = useHistory();
   const signStatus = history.location.pathname === '/signIn';
 
   return (
-    <div>
-      <div className={styles.ChooseSignButtonBox}>
-        <div className={styles.RectangleSingInChooseForm}>
-          <ButtonBig
-            className={signStatus ? 'active' : 'disable'}
-            variant="text"
+    <Container maxWidth="sm">
+      <Box sx={{ bgcolor: '#252525', height: '70vh', marginTop: '10vh' }}>
+        <ButtonGroup
+          variant="contained"
+          aria-label="outlined primary button group"
+        >
+          <Button
             onClick={() => history.push('/signIn')}
+            sx={{ fontSize: 'h3.fontSize' }}
+            className={styles.buttonSign}
           >
-            Sign In
-          </ButtonBig>
-        </div>
-        <div className={styles.RectangleSingUpChooseForm}>
-          <ButtonBig
-            className={signStatus ? 'disable' : 'active'}
-            variant="text"
+            SignIn
+          </Button>
+          <Button
             onClick={() => history.push('/signUp')}
+            sx={{ fontSize: 'h3.fontSize' }}
+            className={styles.buttonSign}
           >
-            Sign Up
-          </ButtonBig>
-        </div>
-      </div>
-      <div>{signStatus ? <SignIn /> : <SignUp />}</div>
-    </div>
+            SignUp
+          </Button>
+        </ButtonGroup>
+        <div>{signStatus ? <SignIn /> : <SignUp />}</div>
+      </Box>
+    </Container>
   );
 };
 export default AuthForm;

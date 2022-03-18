@@ -36,8 +36,8 @@ export const SignIn = () => {
   }
 
   return (
-    <div className={styles.SingInForm}>
-      <div className={styles.inputEmail}>
+    <div>
+      <div>
         <TextFieldLarge
           id="email"
           variant="standard"
@@ -53,7 +53,7 @@ export const SignIn = () => {
           }}
         />
       </div>
-      <div className={styles.inputPassword}>
+      <div>
         <TextFieldLarge
           id="password"
           variant="standard"
